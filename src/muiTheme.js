@@ -47,7 +47,7 @@ export const muiTheme = createTheme({
       // lineHeight: "3rem",
     },
     h2: {
-      fontSize: "clamp(1.8rem, 8vw, 2.7rem)",
+      fontSize: "clamp(1.8rem, 2vw, 2.7rem)",
       fontWeight: 700,
     },
     h3: {

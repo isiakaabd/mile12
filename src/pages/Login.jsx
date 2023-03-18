@@ -10,8 +10,10 @@ import {
 import CustomButton from "components/CustomButton";
 import { Form, Formik } from "formik/dist";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
+import { loginAction } from "redux/reducers/authReducer";
 import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
 
@@ -21,12 +23,15 @@ const loginValidation = Yup.object({
 });
 const Login = () => {
   const theme = useTheme();
+  const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-
+  const handleSubmit = (values) => {
+    dispatch(loginAction(true));
+  };
   return (
     <Grid item md={10} xs={12} sx={{ margin: "auto", height: "100%" }}>
       <Grid
@@ -46,6 +51,7 @@ const Login = () => {
         <Grid item container sx={{ mt: 3 }}>
           <Formik
             validationSchema={loginValidation}
+            onSubmit={handleSubmit}
             initialValues={{ em: "", psd: "", rememberMe: false }}
           >
             <Form style={{ width: "100%" }}>
@@ -96,7 +102,7 @@ const Login = () => {
                   </Typography>
                 </Grid>
                 <Grid item container>
-                  <CustomButton title={"Sign Up"} />
+                  <CustomButton title={"Sign In"} />
                 </Grid>
                 <Grid item container>
                   <Button

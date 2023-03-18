@@ -7,8 +7,8 @@ import PrivateRoutes from "./PrivateRoutes";
 import { AuthPage } from "./AuthPage";
 
 const AppRoutes = () => {
-  const loginStatus = useSelector((state) => state.auth.token);
-  //    useSelector((state) => state.auth.token);
+  const loginStatus = useSelector((state) => state.auth.auth);
+
   return (
     <ThemeProvider theme={muiTheme}>
       <BrowserRouter>

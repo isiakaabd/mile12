@@ -1,12 +1,11 @@
 import { Outlet, Route, Routes } from "react-router-dom";
-
 import { Grid, Typography } from "@mui/material";
 import { ForgottenPassword, Login, Registration, ResetPassword } from "pages";
 import { useTheme } from "@emotion/react";
 
 const AuthLayout = () => {
   const theme = useTheme();
-  console.log(theme);
+
   return (
     <Grid item container flexWrap="nowrap">
       <Grid item flex={1}>
