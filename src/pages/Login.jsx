@@ -109,7 +109,7 @@ const Login = () => {
                     variant="outlined"
                     sx={{
                       width: "100%",
-                      height: "5.4rem",
+                      padding: ".5em 2em",
                       fontWeight: 400,
                       color: "#534C4C",
                       borderColor: "#CCCCCC",

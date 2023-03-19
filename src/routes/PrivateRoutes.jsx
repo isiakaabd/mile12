@@ -1,5 +1,5 @@
 import MiniDrawer from "components/MiniDrawer";
-import { Home } from "pages";
+import { CartsList, Home, MyOrders, SingleOrder, Checkout } from "pages";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 const PrivateRoutes = () => {
@@ -7,6 +7,11 @@ const PrivateRoutes = () => {
     <Routes>
       <Route element={<MiniDrawer />}>
         <Route path="auth/*" element={<Navigate to="/dashboard" />} />
+        <Route path="dashboard" element={<Home />} />
+        <Route path="carts" element={<CartsList />} />
+        <Route path="my-orders" element={<MyOrders />} />
+        <Route path="my-orders/:id" element={<SingleOrder />} />
+        <Route path="checkout" element={<Checkout />} />
         <Route index element={<Home />} />
         {/* <Route path="*" element={<Navigate to="/error/404" />} /> */}
       </Route>

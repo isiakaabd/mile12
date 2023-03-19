@@ -6,11 +6,16 @@ const green = "#008A00";
 const yellow = "#F47500";
 const darkBlack = "#0D0D0D";
 const lightBlack = "#7D7878";
+const lightBlue = "#0147FF";
+const fadedWhite = "#F2F2F2";
+const lighterBlack = "#A1A1A1";
 export const muiTheme = createTheme({
   palette: {
     common: {
       darkBlack,
       lightBlack,
+      fadedWhite,
+      lighterBlack,
     },
     primary: {
       main: purple,
@@ -32,9 +37,9 @@ export const muiTheme = createTheme({
     warning: {
       main: yellow,
     },
-    // disabled: {
-    //   main: disable,
-    // },
+    info: {
+      main: lightBlue,
+    },
   },
   typography: {
     fontFamily: ["Lexend", "sans-serif"].join(", "),
@@ -51,15 +56,15 @@ export const muiTheme = createTheme({
       fontWeight: 700,
     },
     h3: {
-      fontSize: "clamp(1.8rem, 8vw,2.25rem)",
+      fontSize: "clamp(1.8rem, 2vw,2.25rem)",
       fontWeight: 500,
     },
     h4: {
-      fontSize: "clamp(1.4rem,8vw,2rem)",
+      fontSize: "clamp(1.4rem,2vw,2rem)",
       fontWeight: 500,
     },
     h5: {
-      fontSize: "clamp(1.3rem,8vw,1.5rem)",
+      fontSize: "clamp(1.3rem,2vw,1.6rem)",
       fontWeight: 500,
     },
 
@@ -100,6 +105,12 @@ export const muiTheme = createTheme({
     borderRadius: 5,
   },
   components: {
+    MuiChip: {
+      styleOverrides: {
+        backgroundColor: "#E4E4E4",
+        borderRadius: ".4rem",
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         boxShadow:
@@ -108,14 +119,12 @@ export const muiTheme = createTheme({
     },
     MuiAvatar: {
       styleOverrides: {
-        root: {
-          fontSize: "2rem",
-          fontWeight: 500,
-          "& .MuiAvatar-img": {
-            objectFit: "contain",
-          },
-          // backgroundColor: "#FF9B04",
+        fontSize: "2rem",
+        fontWeight: 500,
+        "& .MuiAvatar-img": {
+          objectFit: "contain",
         },
+        // backgroundColor: "#FF9B04",
       },
     },
     MuiTooltip: {

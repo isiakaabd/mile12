@@ -13,6 +13,8 @@ import { ShoppingCartOutlined } from "@mui/icons-material";
 import { Button, ButtonBase, Grid } from "@mui/material";
 import BoxIcon from "assets/svg/BoxIcon";
 import { useTheme } from "@emotion/react";
+import { Link, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -20,7 +22,6 @@ const Search = styled("div")(({ theme }) => ({
   display: "flex",
   alignItems: "center",
   flex: 1,
-  // borderRadius: theme.shape.borderRadius,
   border: "1px solid #DFDFDF",
   backgroundColor: alpha(theme.palette.common.white, 0.15),
   "&:hover": {
@@ -31,7 +32,6 @@ const Search = styled("div")(({ theme }) => ({
   width: "auto",
   height: "4rem",
   [theme.breakpoints.up("sm")]: {
-    // marginLeft: theme.spacing(3),
     width: "auto",
   },
 }));
@@ -73,7 +73,8 @@ const SearchButton = styled(ButtonBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const theme = useTheme();
-  console.log(theme.transitions);
+  const carts = useSelector((state) => state.carts.carts);
+
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
@@ -98,7 +99,14 @@ export default function PrimarySearchAppBar() {
             }}
           >
             <Grid item sx={{ mr: { xs: "auto", md: 3 } }}>
-              <Typography variant="h2" color="secondary" noWrap component="div">
+              <Typography
+                component={Link}
+                variant="h2"
+                color="secondary"
+                // noWrap
+                to="/dashboard"
+                sx={{ textDecoration: "none" }}
+              >
                 MILE 12
               </Typography>
             </Grid>
@@ -139,6 +147,8 @@ export default function PrimarySearchAppBar() {
                 disableFocusRipple
                 disableRipple
                 disableTouchRipple
+                component={Link}
+                to="my-orders"
                 sx={{
                   border: "none",
                   "&:hover": { border: "none" },
@@ -153,10 +163,12 @@ export default function PrimarySearchAppBar() {
             <Box>
               <IconButton
                 size="large"
-                aria-label="show 4 new mails"
+                aria-label={`show ${carts?.length} cart item`}
                 color="inherit"
+                component={Link}
+                to="/carts"
               >
-                <Badge badgeContent={4} color="error">
+                <Badge badgeContent={carts?.length} color="error">
                   <ShoppingCartOutlined
                     color="secondary"
                     sx={{ fontSize: "2rem" }}
@@ -167,6 +179,9 @@ export default function PrimarySearchAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
+      <Grid item container>
+        <Outlet />
+      </Grid>
     </Box>
   );
 }
