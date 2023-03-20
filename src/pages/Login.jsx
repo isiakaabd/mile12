@@ -9,11 +9,13 @@ import {
 } from "@mui/material";
 import CustomButton from "components/CustomButton";
 import { Form, Formik } from "formik/dist";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
 import { Link } from "react-router-dom";
-import { loginAction } from "redux/reducers/authReducer";
+import { toast } from "react-toastify";
+import { checkAdmin, loginAction } from "redux/reducers/authReducer";
+import { useLoginMutation } from "redux/slices/authSlice";
 import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
 
@@ -28,9 +30,23 @@ const Login = () => {
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
+  const [loginUser, { isLoading, error, data }] = useLoginMutation();
+
+  useEffect(() => {
+    if (data) {
+      toast.success(data.message);
+      dispatch(loginAction(data?.body));
+    }
+    if (data?.body?.role === "admin") {
+      dispatch(checkAdmin(data?.body?.role));
+    }
+    if (error) toast.error(error);
+    //eslint-disable-next-line
+  }, [error, data]);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleSubmit = (values) => {
-    dispatch(loginAction(true));
+  const handleSubmit = async (values) => {
+    const { em, psd } = values;
+    await loginUser({ email: em, password: psd });
   };
   return (
     <Grid item md={10} xs={12} sx={{ margin: "auto", height: "100%" }}>
@@ -102,7 +118,7 @@ const Login = () => {
                   </Typography>
                 </Grid>
                 <Grid item container>
-                  <CustomButton title={"Sign In"} />
+                  <CustomButton title={"Sign In"} isSubmitting={isLoading} />
                 </Grid>
                 <Grid item container>
                   <Button

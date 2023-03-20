@@ -9,13 +9,18 @@ import {
 } from "@mui/material";
 import CustomButton from "components/CustomButton";
 import { Form, Formik } from "formik/dist";
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useRegisterMutation } from "redux/slices/authSlice";
 import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
 const Registration = () => {
   const theme = useTheme();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [register, { isLoading, data, error }] = useRegisterMutation();
+
   const handleMouseDownPassword = (event) => {
     event.preventDefault();
   };
@@ -33,6 +38,22 @@ const Registration = () => {
       .matches(/^(?=.*[0-9])/, "Must contain at least one number")
       .matches(/^(?=.*[!@#%&])/, "Must contain at least one special character"),
   });
+  useEffect(() => {
+    if (data) {
+      toast.success(data.message);
+      navigate("/auth/login");
+    }
+
+    if (error) toast.error(error);
+    //eslint-disable-next-line
+  }, [error, data]);
+  const handleSubmit = async (values) => {
+    const { em, psd } = values;
+    await register({
+      email: em,
+      password: psd,
+    });
+  };
   return (
     <Grid item md={10} xs={12} sx={{ margin: "auto", height: "100%" }}>
       <Grid
@@ -52,7 +73,8 @@ const Registration = () => {
         <Grid item container sx={{ mt: 3 }}>
           <Formik
             validationSchema={validationSchema}
-            initialValues={{ em: "", psd: "", rememberMe: false }}
+            onSubmit={handleSubmit}
+            initialValues={{ em: "", psd: "" }}
           >
             <Form style={{ width: "100%" }}>
               <Grid item container flexDirection="column" gap={3}>
@@ -79,7 +101,7 @@ const Registration = () => {
                   />
                 </Grid>
                 <Grid item container sx={{ mt: 2 }}>
-                  <CustomButton title={"Sign Up"} />
+                  <CustomButton title={"Sign Up"} isSubmitting={isLoading} />
                 </Grid>
                 <Grid item container>
                   <Button

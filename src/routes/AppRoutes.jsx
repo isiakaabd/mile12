@@ -9,7 +9,7 @@ import { AuthPage } from "./AuthPage";
 
 const AppRoutes = () => {
   const loginStatus = useSelector((state) => state.auth.auth);
-  const admin = true;
+  const admin = false;
   return (
     <ThemeProvider theme={muiTheme}>
       <BrowserRouter>

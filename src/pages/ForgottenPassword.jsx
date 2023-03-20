@@ -4,12 +4,24 @@ import { Button, Grid, Typography } from "@mui/material";
 import CustomButton from "components/CustomButton";
 import { Form, Formik } from "formik/dist";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useForgotPasswordMutation } from "redux/slices/authSlice";
 import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
 const validationSchema = Yup.object({
   em: Yup.string("Enter Email").email("Enter Valid Email").required("Required"),
 });
 const ForgottenPassword = () => {
+  const [resetPassword, { isLoading }] = useForgotPasswordMutation();
+
+  const handleSubmit = async (values) => {
+    const { data, error } = await resetPassword({ email: values.em });
+
+    if (data) {
+      toast.success(data);
+    }
+    if (error) toast.error(error);
+  };
   const theme = useTheme();
   return (
     <Grid item md={10} xs={12} sx={{ margin: "auto", height: "100%" }}>
@@ -32,6 +44,7 @@ const ForgottenPassword = () => {
           <Formik
             validationSchema={validationSchema}
             initialValues={{ em: "" }}
+            onSubmit={handleSubmit}
           >
             <Form style={{ width: "100%" }}>
               <Grid item container flexDirection="column" gap={3}>
@@ -40,7 +53,7 @@ const ForgottenPassword = () => {
                 </Grid>
 
                 <Grid item container>
-                  <CustomButton title={"Continue"} />
+                  <CustomButton title={"Continue"} isSubmitting={isLoading} />
                 </Grid>
                 <Grid item container>
                   <Button

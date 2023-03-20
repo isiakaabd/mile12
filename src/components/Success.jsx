@@ -1,7 +1,6 @@
 import { Grid, Typography } from "@mui/material";
 import Modals from "./Modal";
 import RocketIcon from "assets/svg/Emoji";
-import { Rocket } from "@mui/icons-material";
 import CustomButton from "./CustomButton";
 
 const Success = ({ handleClose, open }) => {

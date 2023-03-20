@@ -5,12 +5,12 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_URL,
   prepareHeaders: (headers, { getState, type, endpoint }) => {
     const token = getState().auth.token;
-    if (endpoint !== "userProfileUpdate") {
-      headers.set("Content-Type", "application/json");
-    }
-    if (endpoint === "createAds") {
-      headers.delete("Content-Type", "application/json");
-    }
+    // if (endpoint !== "userProfileUpdate") {
+    //   headers.set("Content-Type", "application/json");
+    // }
+    // if (endpoint === "createAds") {
+    //   headers.delete("Content-Type", "application/json");
+    // }
     if (token) {
       headers.set("AUTHORIZATION", `Bearer ${token}`);
     }
@@ -21,9 +21,7 @@ const baseQuery = fetchBaseQuery({
 const baseQuerywithAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
   const refreshToken = localStorage.getItem("refresh_token");
-  // const header = {
-  //   authorization: `bearer ${refreshToken}`,
-  // };
+
   if (result?.error?.status === 403) {
     const refreshResult = await baseQuery(
       {
@@ -52,14 +50,6 @@ const baseQuerywithAuth = async (args, api, extraOptions) => {
 export const api = createApi({
   // reducerPath: "api",
   baseQuery: baseQuerywithAuth,
-  tagTypes: [
-    "post",
-    "comment",
-    "admin",
-    "announcement",
-    "user",
-    "ads",
-    "quote",
-  ],
+  tagTypes: [],
   endpoints: () => ({}),
 });

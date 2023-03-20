@@ -74,18 +74,14 @@ const CartItem = ({ item, index }) => {
             sx={{ maxHeight: "100%", height: "100%", width: "100%" }}
           />
         </Grid>
-        <Typography color="secondary" nowrap>
-          {name + index}
-        </Typography>
+        <Typography color="secondary">{name + index}</Typography>
         <Rating
           name="customized-10"
           precision={0.5}
           defaultValue={rating}
           max={5}
         />
-        <Typography color="secondary" nowrap>
-          NGN {price.toLocaleString()}
-        </Typography>
+        <Typography color="secondary">NGN {price.toLocaleString()}</Typography>
         <Button
           variant="outlined"
           sx={{ width: "100%" }}
