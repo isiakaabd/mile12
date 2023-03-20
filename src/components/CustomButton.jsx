@@ -16,8 +16,8 @@ const CustomButton = ({
         width: "100%",
         // height: "5.4rem",
         textTransform: "initial",
-        padding: ".5em 1.5em",
-        fontSize: fontSize ? fontSize : { md: "1.6rem", xs: "1.2rem" },
+        padding: ".5em 2em",
+        fontSize: fontSize ? fontSize : { md: "2rem", xs: "1.6rem" },
       }}
       disableElevation
       loading={isSubmitting}
