@@ -7,9 +7,11 @@ import CartsList from "./CartsList";
 import MyOrders from "./MyOrders";
 import SingleOrder from "./SingleOrder";
 import Checkout from "./Checkout";
+import AdminDashboard from "./AdminDashboard";
 
 export {
   Home,
+  AdminDashboard,
   ResetPassword,
   CartsList,
   Checkout,

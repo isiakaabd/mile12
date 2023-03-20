@@ -4,29 +4,29 @@ import { useDispatch } from "react-redux";
 import { addToCart } from "redux/reducers/cartReducer";
 
 const CartItems = () => {
-  const arr = [
-    {
-      price: 10000,
-      name: "Mama Gold 50kg Rice",
-      rating: 4,
-      number: 1,
-      id: 0,
-    },
-    {
-      price: 10000,
-      name: "Mama Gold 50kg Rice",
-      rating: 3,
-      number: 1,
-      id: 1,
-    },
-    {
-      price: 10000,
-      name: "Mama Gold Love",
-      rating: 3,
-      number: 1,
-      id: 2,
-    },
-  ];
+  // const arr = [
+  //   {
+  //     price: 10000,
+  //     name: "Mama Gold 50kg Rice",
+  //     rating: 4,
+  //     number: 1,
+  //     id: 0,
+  //   },
+  //   {
+  //     price: 10000,
+  //     name: "Mama Gold 50kg Rice",
+  //     rating: 3,
+  //     number: 1,
+  //     id: 1,
+  //   },
+  //   {
+  //     price: 10000,
+  //     name: "Mama Gold Love",
+  //     rating: 3,
+  //     number: 1,
+  //     id: 2,
+  //   },
+  // ];
   return (
     <Grid
       item
@@ -35,15 +35,14 @@ const CartItems = () => {
       gap={{ md: 2, xs: 1, sm: 2 }}
       sx={{ mt: 3 }}
     >
-      {arr
-        //   Array(200)
-        // .fill({
-        //   price: 10000,
-        //   name: "Mama Gold 50kg Rice",
-        //   rating: 4,
-        //   number: 1,
-        //   id:
-        // })
+      {Array(200)
+        .fill({
+          price: 10000,
+          name: "Mama Gold 50kg Rice",
+          rating: 4,
+          number: 1,
+          id: 100,
+        })
         .map((item, index) => (
           <CartItem key={index} index={index} item={item} />
         ))}

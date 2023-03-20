@@ -2,5 +2,6 @@ import Categories from "./Categories";
 import CustomButton from "./CustomButton";
 import MiniDrawer from "./MiniDrawer";
 import CartItems from "./CartItems";
+import AdminLayout from "./AdminLayout";
 
-export { CustomButton, CartItems, MiniDrawer, Categories };
+export { CustomButton, AdminLayout, CartItems, MiniDrawer, Categories };

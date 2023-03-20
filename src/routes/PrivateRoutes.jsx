@@ -1,5 +1,12 @@
 import MiniDrawer from "components/MiniDrawer";
-import { CartsList, Home, MyOrders, SingleOrder, Checkout } from "pages";
+import {
+  CartsList,
+  Home,
+  MyOrders,
+  AdminDashboard,
+  SingleOrder,
+  Checkout,
+} from "pages";
 import { Route, Routes, Navigate } from "react-router-dom";
 
 const PrivateRoutes = () => {
@@ -12,6 +19,7 @@ const PrivateRoutes = () => {
         <Route path="my-orders" element={<MyOrders />} />
         <Route path="my-orders/:id" element={<SingleOrder />} />
         <Route path="checkout" element={<Checkout />} />
+        <Route path="admin" element={<AdminDashboard />} />
         <Route index element={<Home />} />
         {/* <Route path="*" element={<Navigate to="/error/404" />} /> */}
       </Route>
