@@ -1,24 +1,12 @@
 import { styled, alpha } from "@mui/material/styles";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  Badge,
-  IconButton,
-  InputBase,
-} from "@mui/material";
+import { AppBar, Toolbar, InputBase } from "@mui/material";
 import SearchIcon from "assets/svg/Search";
-import { ShoppingCartOutlined } from "@mui/icons-material";
-import { Button, ButtonBase, Grid } from "@mui/material";
-import BoxIcon from "assets/svg/BoxIcon";
+import { ButtonBase, Grid } from "@mui/material";
+
 import { useTheme } from "@emotion/react";
-import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const AdminHeader = () => {
   const theme = useTheme();
-
-  const carts = useSelector((state) => state.carts.carts);
   const Search = styled("div")(({ theme }) => ({
     position: "relative",
     flexWrap: "nowrap",
@@ -89,7 +77,7 @@ const AdminHeader = () => {
         <Grid
           item
           container
-          flexWrap={"wrap"}
+          flexWrap={"nowrap"}
           alignItems="center"
           sx={{
             transition: theme.transitions.create("order"),
@@ -117,50 +105,6 @@ const AdminHeader = () => {
             </Search>
             <SearchButton>Search</SearchButton>
           </Grid>
-          <Grid
-            item
-            sx={{
-              flex: 1,
-              display: "flex",
-              justifyContent: { xs: "flex-end" },
-            }}
-          >
-            <Button
-              variant="outlined"
-              color="secondary"
-              disableElevation
-              disableFocusRipple
-              disableRipple
-              disableTouchRipple
-              component={Link}
-              to="my-orders"
-              sx={{
-                border: "none",
-                "&:hover": { border: "none" },
-                fontSize: { md: "1.5rem" },
-              }}
-              endIcon={<BoxIcon />}
-            >
-              My Orders
-            </Button>
-          </Grid>
-          {/* <Box  /> */}
-          <Box>
-            <IconButton
-              size="large"
-              aria-label={`show ${carts?.length} cart item`}
-              color="inherit"
-              component={Link}
-              to="/carts"
-            >
-              <Badge badgeContent={carts?.length} color="error">
-                <ShoppingCartOutlined
-                  color="secondary"
-                  sx={{ fontSize: "2rem" }}
-                />
-              </Badge>
-            </IconButton>
-          </Box>
         </Grid>
       </Toolbar>
     </AppBar>
