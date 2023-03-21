@@ -3,7 +3,7 @@ import { CartItems, Categories } from "components";
 
 const Home = () => {
   return (
-    <Grid item container sx={{ pt: 2, px: { md: 5, xs: 2 } }}>
+    <Grid item container>
       <Categories />
       <CartItems />
     </Grid>

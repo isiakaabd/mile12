@@ -6,6 +6,7 @@ import {
   AdminDashboard,
   SingleOrder,
   Checkout,
+  Item,
 } from "pages";
 import { Route, Routes, Navigate } from "react-router-dom";
 
@@ -15,6 +16,7 @@ const PrivateRoutes = () => {
       <Route element={<MiniDrawer />}>
         <Route path="auth/*" element={<Navigate to="/dashboard" />} />
         <Route path="dashboard" element={<Home />} />
+        <Route path="item/:id" element={<Item />} />
         <Route path="carts" element={<CartsList />} />
         <Route path="my-orders" element={<MyOrders />} />
         <Route path="my-orders/:id" element={<SingleOrder />} />

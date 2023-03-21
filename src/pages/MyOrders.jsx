@@ -20,13 +20,7 @@ const MyOrders = () => {
   const carts = useSelector((state) => state.carts.carts);
 
   return (
-    <Grid
-      item
-      container
-      gap={2}
-      sx={{ pt: 2, px: { md: 5, xs: 2 } }}
-      flexDirection={"column"}
-    >
+    <Grid item container gap={2} flexDirection={"column"}>
       <Typography color="secondary" variant="h3">
         My Orders
       </Typography>

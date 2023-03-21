@@ -1,7 +1,7 @@
 import { Grid } from "@mui/material";
 
 const AdminDashboard = () => {
-  return <Grid item container sx={{ pt: 2, px: { md: 5, xs: 2 } }}></Grid>;
+  return <Grid item container></Grid>;
 };
 
 export default AdminDashboard;

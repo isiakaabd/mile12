@@ -179,7 +179,7 @@ export default function PrimarySearchAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Grid item container>
+      <Grid item container sx={{ pt: 2, px: { md: 5, xs: 2 } }}>
         <Outlet />
       </Grid>
     </Box>
