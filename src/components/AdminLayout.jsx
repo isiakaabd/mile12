@@ -12,7 +12,11 @@ const AdminLayout = () => {
       <Grid item>
         <AdminHeader />
       </Grid>
+<<<<<<< HEAD
       <Box sx={{ width: "100%", p: 3 }}>
+=======
+      <Box>
+>>>>>>> 58db58da0214e45bb5bb14649c394a72f6502b31
         <Toolbar />
         <Outlet />
       </Box>
