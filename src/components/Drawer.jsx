@@ -102,7 +102,6 @@ const Drawers = () => {
               },
               display: "block",
               color: "#292D32",
-              transition: "color 1ms ease-in",
             }}
           >
             <ListItemButton

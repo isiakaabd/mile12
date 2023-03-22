@@ -5,6 +5,7 @@ import {
   Messages,
   Products,
   Order,
+  AddProduct,
 } from "pages/admin";
 import { Route, Routes, Navigate } from "react-router-dom";
 
@@ -15,6 +16,7 @@ const AdminRoutes = () => {
         <Route path="auth/*" element={<Navigate to="/admin" />} />
 
         <Route path="products" element={<Products />} />
+        <Route path="product/add" element={<AddProduct />} />
         <Route path="messages" element={<Messages />} />
         <Route path="history" element={<History />} />
         <Route path="admin/order/:id" element={<Order />} />

@@ -1,13 +1,11 @@
-import { ArrowBackOutlined } from "@mui/icons-material";
-import { Button, Grid, IconButton, Typography } from "@mui/material";
+import { Button, Grid, Typography } from "@mui/material";
+import { Backbutton } from "./components";
 
 const Order = () => {
   return (
     <Grid item container gap={2} flexDirection={"column"}>
       <Grid item>
-        <IconButton size="large" edge="start">
-          <ArrowBackOutlined sx={{ fontSize: "4rem" }} />
-        </IconButton>
+        <Backbutton />
       </Grid>
       <Grid item sx={{ ml: "auto" }}>
         <Grid item container alignItems={"center"} gap={4}>
