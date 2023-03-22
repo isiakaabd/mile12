@@ -50,7 +50,6 @@ const CartItems = () => {
         sm: "repeat(auto-fill, minmax(25rem, 1fr))",
         xs: "repeat(2,1fr)",
       }}
-      // gridTemplateColumns={{ md: "repeat(4,1fr)", xs: "1fr 1fr" }}
     >
       {Array(200)
         .fill({
