@@ -3,7 +3,7 @@ import { getUserDetails, logoutAction } from "redux/reducers/authReducer";
 
 const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_URL,
-  prepareHeaders: (headers, { getState, type, endpoint }) => {
+  prepareHeaders: (headers, { getState, endpoint }) => {
     const token = getState().auth.token;
 
     if (endpoint !== "createPoduct") {
