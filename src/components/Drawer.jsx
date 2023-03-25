@@ -14,11 +14,12 @@ import {
   HistoryOutlined,
   MessageOutlined,
 } from "@mui/icons-material";
-import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useLayoutEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 const Drawers = () => {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
+  const location = useLocation();
 
   const sidebarItem = [
     {
@@ -36,23 +37,31 @@ const Drawers = () => {
     },
 
     {
-      id: 3,
+      id: 2,
       name: "Messages",
       link: "/messages",
       icon: MessageOutlined,
     },
     {
-      id: 4,
+      id: 3,
       name: "History",
       link: "/history",
       icon: HistoryOutlined,
     },
   ];
+  useLayoutEffect(() => {
+    sidebarItem.map((item) => {
+      if (item.link === location.pathname) {
+        setId(item.id);
+      }
+      return null;
+    });
+    //eslint-disable-next-line
+  }, [location.pathname]);
+
   const drawerWidth = 260;
   const purple = "AE01FF";
-  // useEffect(() => {
-  //   setId();
-  // }, []);
+
   return (
     <Drawer
       sx={{
@@ -97,7 +106,7 @@ const Drawers = () => {
             sx={{
               mb: 2,
               "&:hover, & .Mui-selected": {
-                background: "#AE01FF",
+                backgroundColor: "#AE01FF ",
                 color: "#fff",
               },
               display: "block",
@@ -112,13 +121,17 @@ const Drawers = () => {
                   "&:hover": {
                     color: purple,
                   },
+                  "& .Mui-selected": {
+                    backgroundColor: "#AE01FF",
+                    color: "#fff",
+                  },
                 },
                 // minHeight: 48,
                 // justifyContent: open ? "initial" : "center",
                 px: 2.5,
-                "& .Mui-selected": {
+                "&.Mui-selected": {
                   color: "#fff",
-                  background: purple,
+                  backgroundColor: "#AE01FF",
                 },
               }}
               onClick={() => {
