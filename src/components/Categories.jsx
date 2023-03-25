@@ -2,42 +2,19 @@ import { useTheme } from "@emotion/react";
 import { AddOutlined } from "@mui/icons-material";
 import { Button, Chip, Grid, Typography } from "@mui/material";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
-const Categories = () => {
+const Categories = ({ categories, setCat }) => {
   const theme = useTheme();
-  const arr = [
-    {
-      id: 0,
-      name: "All",
-      action: "#",
-    },
-    {
-      id: 1,
-      name: "Yam",
-      action: "#",
-    },
-    {
-      id: 2,
-      name: "Beans",
-      action: "#",
-    },
-    {
-      id: 3,
-      name: "Rice",
-      action: "#",
-    },
-    {
-      id: 4,
-      name: "Chicken",
-      action: "#",
-    },
-  ];
-  const [state, setState] = useState(0);
-  const admin = true;
+  const [state, setState] = useState(1);
+  const { admin } = useSelector((state) => state.auth);
+
   return (
     <Grid item container flexDirection="column" gap={1} mt={2}>
-      <Typography sx={{ color: "#1E1E1E" }}>Categories</Typography>
+      <Typography variant="h3" gutterBottom sx={{ color: "#1E1E1E" }}>
+        Categories
+      </Typography>
       <Grid
         item
         container
@@ -46,9 +23,12 @@ const Categories = () => {
         flexWrap={"nowrap"}
       >
         <Grid item container gap={1}>
-          {arr.map((item, index) => (
+          {categories?.map((item, index) => (
             <Chip
-              onClick={() => setState(index)}
+              onClick={() => {
+                setCat(item.slug);
+                setState(index + 1);
+              }}
               key={index}
               label={item.name}
               sx={{

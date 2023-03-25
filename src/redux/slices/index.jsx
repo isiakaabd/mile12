@@ -5,12 +5,13 @@ const baseQuery = fetchBaseQuery({
   baseUrl: process.env.REACT_APP_BASE_URL,
   prepareHeaders: (headers, { getState, type, endpoint }) => {
     const token = getState().auth.token;
-    // if (endpoint !== "userProfileUpdate") {
-    //   headers.set("Content-Type", "application/json");
-    // }
-    // if (endpoint === "createAds") {
-    //   headers.delete("Content-Type", "application/json");
-    // }
+
+    if (endpoint !== "createPoduct") {
+      headers.set("Content-Type", "application/json");
+    }
+    if (endpoint === "editProduct") {
+      headers.delete("Content-Type", "application/json");
+    }
     if (token) {
       headers.set("AUTHORIZATION", `Bearer ${token}`);
     }
@@ -50,6 +51,6 @@ const baseQuerywithAuth = async (args, api, extraOptions) => {
 export const api = createApi({
   // reducerPath: "api",
   baseQuery: baseQuerywithAuth,
-  tagTypes: [],
+  tagTypes: ["admin", "product", "category"],
   endpoints: () => ({}),
 });

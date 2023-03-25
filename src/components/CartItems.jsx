@@ -7,89 +7,74 @@ import {
   CardMedia,
   Grid,
   Rating,
+  Skeleton,
   Typography,
 } from "@mui/material";
-import { rice } from "assets/images";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "redux/reducers/cartReducer";
+import { useLazyGetProductsQuery } from "redux/slices/productSlice";
+import Error from "./Error";
 
-const CartItems = () => {
-  // const arr = [
-  //   {
-  //     price: 10000,
-  //     name: "Mama Gold 50kg Rice",
-  //     rating: 4,
-  //     number: 1,
-  //     id: 0,
-  //   },
-  //   {
-  //     price: 10000,
-  //     name: "Mama Gold 50kg Rice",
-  //     rating: 3,
-  //     number: 1,
-  //     id: 1,
-  //   },
-  //   {
-  //     price: 10000,
-  //     name: "Mama Gold Love",
-  //     rating: 3,
-  //     number: 1,
-  //     id: 2,
-  //   },
-  // ];
+const CartItems = ({ cat }) => {
+  const [getProducts, { data: products, isFetching, isLoading, isError }] =
+    useLazyGetProductsQuery();
+  useEffect(() => {
+    getProducts({
+      category: cat,
+    });
+    //eslint-disable-next-line
+  }, [cat]);
+  if (isLoading || isFetching) return <Skeleton />;
+  if (isError) return <Error />;
   return (
-    <Grid
-      item
-      container
-      // justifyContent="space-between"
-      // gap={{ md: 2, xs: 1, sm: 2 }}
-      // sx={{ mt: 3 }}
-      display="grid"
-      gridTemplateColumns={{
-        sm: "repeat(auto-fill, minmax(25rem, 1fr))",
-        xs: "repeat(2,1fr)",
-      }}
-    >
-      {Array(200)
-        .fill({
-          price: 10000,
-          name: "Mama Gold 50kg Rice",
-          rating: 4,
-          number: 1,
-          id: 100,
-        })
-        .map((item, index) => (
-          <CartItem key={index} index={index} item={item} />
-        ))}
-    </Grid>
+    <>
+      {products?.length > 0 ? (
+        <Grid
+          item
+          container
+          display="grid"
+          gridTemplateColumns={{
+            sm: "repeat(auto-fill, minmax(25rem, 1fr))",
+            xs: "repeat(2,1fr)",
+          }}
+        >
+          {products?.map((item, index) => (
+            <CartItem key={item.id} item={item} />
+          ))}
+        </Grid>
+      ) : (
+        <Typography mt={4} gutterBottom variant="h2">
+          No Data Yet
+        </Typography>
+      )}
+    </>
   );
 };
 
 export default CartItems;
 
-const CartItem = ({ item, index }) => {
-  const { name, price, rating } = item;
+const CartItem = ({ item }) => {
+  const { name, price, slug, images } = item;
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const { admin } = useSelector((state) => state.auth);
   return (
     <Grid item sx={{ px: 1, py: 2 }}>
       <Card sx={{ width: "100%" }}>
-        <CardActionArea component={Link} to={`/item/${index} `}>
+        <CardActionArea component={Link} to={`/products/${slug} `}>
           <CardMedia
             component={"img"}
             sx={{ height: "20rem", width: "100%" }}
             // src={rice}
-            image={rice}
-            title="green iguana"
+            alt={name}
+            image={images[0]}
+            title={name}
           />
           <CardContent>
-            <Typography color="secondary">{name + index}</Typography>
-            <Rating
-              name="customized-10"
-              precision={0.5}
-              defaultValue={rating}
-              max={5}
-            />
+            <Typography color="secondary">{name}</Typography>
+            <Rating name={name} precision={0.5} defaultValue={4} max={5} />
             <Typography color="secondary">
               NGN {price.toLocaleString()}
             </Typography>
@@ -99,45 +84,16 @@ const CartItem = ({ item, index }) => {
           <Button
             variant="outlined"
             sx={{ width: "100%" }}
-            onClick={() => dispatch(addToCart(item))}
+            onClick={() =>
+              admin
+                ? navigate("/product/edit", { state: slug })
+                : dispatch(addToCart(item))
+            }
           >
-            Add to Cart
-          </Button>{" "}
+            {admin ? "Edit Product" : "Add to Cart"}
+          </Button>
         </CardActions>
       </Card>
-      {/* <Grid item container flexDirection={"column"}>
-        <Grid
-          item
-          sx={{
-            background: "#EFEFEF",
-            width: "100%",
-            height: "20rem",
-            borderRadius: "1rem",
-            p: 1,
-          }}
-        >
-          <Avatar
-            variant="square"
-            src={rice}
-            sx={{ maxHeight: "100%", height: "100%", width: "100%" }}
-          />
-        </Grid>
-        <Typography color="secondary">{name + index}</Typography>
-        <Rating
-          name="customized-10"
-          precision={0.5}
-          defaultValue={rating}
-          max={5}
-        />
-        <Typography color="secondary">NGN {price.toLocaleString()}</Typography>
-        <Button
-          variant="outlined"
-          sx={{ width: "100%" }}
-          onClick={() => dispatch(addToCart(item))}
-        >
-          Add to Cart
-        </Button>
-      </Grid> */}
     </Grid>
   );
 };

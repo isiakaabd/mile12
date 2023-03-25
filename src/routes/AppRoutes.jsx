@@ -8,20 +8,20 @@ import AdminRoutes from "./AdminRoutes";
 import { AuthPage } from "./AuthPage";
 
 const AppRoutes = () => {
-  const loginStatus = useSelector((state) => state.auth.auth);
-  const admin = true;
+  const { admin, token } = useSelector((state) => state.auth);
+
   return (
     <ThemeProvider theme={muiTheme}>
       <BrowserRouter>
         <div className="container">
           <Routes>
             <Route element={<App />}>
-              {loginStatus && !admin ? (
+              {token && !admin ? (
                 <>
                   <Route path="/*" element={<PrivateRoutes />} />
                   <Route index element={<Navigate to="/dashboard" />} />
                 </>
-              ) : loginStatus && admin ? (
+              ) : token && admin ? (
                 <>
                   <Route path="/*" element={<AdminRoutes />} />
                   <Route index element={<Navigate to="/admin" />} />

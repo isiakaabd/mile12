@@ -8,6 +8,7 @@ const CustomButton = ({
   background,
   fontSize,
   borderRadius,
+  type,
   ...rest
 }) => {
   return (
@@ -22,7 +23,7 @@ const CustomButton = ({
       disableElevation
       loading={isSubmitting}
       variant="contained"
-      type="submit"
+      type={type ? type : "submit"}
       {...rest}
     >
       <span>{title}</span>

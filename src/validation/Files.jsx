@@ -1,14 +1,51 @@
-import { UploadFileOutlined } from "@mui/icons-material";
 import { Grid, IconButton } from "@mui/material";
+import UploadIcon from "assets/svg/Upload";
 import { useFormikContext } from "formik/dist";
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect } from "react";
 export const UploadComponent = ({ name, multiple, ...rest }) => {
   const { setFieldValue } = useFormikContext();
+  const [file, setFile] = useState({
+    files: [],
+    preview: [],
+  });
   const ref = useRef();
+  useEffect(() => {
+    setFieldValue(name, {
+      file: file.files,
+      preview: file.preview,
+    });
+    //eslint-disable-next-line
+  }, [file, name]);
   const handleUpload = (file) => {
-    setFieldValue(name, file);
-  };
+    // if (!file.files) {
+    //   const objectUrl = URL.createObjectURL(file[0]);
+    //   setFile((prevState) => {
+    //     return {
+    //       files: file,
+    //       preview: [objectUrl],
+    //     };
+    //   });
+    // } else {
+    for (let i = 0; i <= file.length - 1; i++) {
+      const objectUrl = URL.createObjectURL(file[i]);
 
+      setFile((prevState) => {
+        return {
+          files: [...prevState?.files, ...file],
+          preview: [...prevState.preview, objectUrl],
+        };
+      });
+    }
+    // }
+  };
+  //   [preview, setFieldValue, name]
+  // );
+  //  useEffect(() => {
+  //    if (!selectedFile) {
+  //      setPreview(undefined);
+  //      return;
+  //    }
+  // b
   return (
     <Grid
       id="drop-area"
@@ -16,7 +53,7 @@ export const UploadComponent = ({ name, multiple, ...rest }) => {
       container
       justifyContent={"center"}
       alignItems={"center"}
-      sx={{ border: "1px solid #C4C4C4", minHeight: "15rem" }}
+      sx={{ border: "2px dashed #CD64FF", minHeight: "15rem" }}
     >
       <input
         type="file"
@@ -28,7 +65,7 @@ export const UploadComponent = ({ name, multiple, ...rest }) => {
         accept="image/*"
       />
       <IconButton size="large" onClick={() => ref?.current.click()}>
-        <UploadFileOutlined sx={{ fontSize: "5rem" }} />
+        <UploadIcon sx={{ fontSize: "5rem" }} />
       </IconButton>
     </Grid>
   );

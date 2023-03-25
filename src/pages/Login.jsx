@@ -37,8 +37,8 @@ const Login = () => {
       toast.success(data.message);
       dispatch(loginAction(data?.body));
     }
-    if (data?.body?.role === "admin") {
-      dispatch(checkAdmin(data?.body?.role));
+    if (data?.body?.user?.role === "admin") {
+      dispatch(checkAdmin(data?.body?.user?.role));
     }
     if (error) toast.error(error);
     //eslint-disable-next-line

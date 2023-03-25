@@ -1,12 +1,26 @@
-import { Avatar, Button, Chip, Grid, Rating, Typography } from "@mui/material";
-import { rice } from "assets/images";
+import {
+  Avatar,
+  Button,
+  Chip,
+  Grid,
+  Rating,
+  Skeleton,
+  Typography,
+} from "@mui/material";
+import { Error } from "components";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import { useGetProductQuery } from "redux/slices/productSlice";
 
 const Item = () => {
   //   const theme = useTheme();
+  const { id } = useParams();
   const [number] = useState(20); //setnumber
   const [active, setactive] = useState(0);
-
+  const { data: product, isLoading, isError } = useGetProductQuery(id);
+  if (isLoading) return <Skeleton />;
+  if (isError) return <Error />;
+  const { name, images, desc, price } = product;
   return (
     <Grid
       item
@@ -19,7 +33,7 @@ const Item = () => {
         <Grid item container gap={2} sx={{ p: 2 }}>
           <Grid item sx={{ border: "1rem solid #F6F6F6" }}>
             <Avatar
-              src={rice}
+              src={images[0]}
               sx={{ width: "100%", height: "100%", maxHeight: "100%" }}
             />
           </Grid>
@@ -32,27 +46,25 @@ const Item = () => {
               xs: "repeat(auto-fill, minmax(5rem, 1fr))",
             }}
           >
-            {Array(5)
-              .fill(undefined)
-              .map((item, idx) => (
-                <Grid
-                  key={idx}
-                  item
-                  sx={{
-                    p: 0.5,
-                    border: `.3rem solid ${
-                      idx === active ? "#EBC1FF" : "#F6F6F6"
-                    }`,
-                  }}
-                >
-                  <Avatar
-                    variant="square"
-                    src={rice}
-                    sx={{ cursor: "pointer", transition: "border 1ms linear" }}
-                    onClick={() => setactive(idx)}
-                  />
-                </Grid>
-              ))}
+            {JSON.parse(images)?.map((item, idx) => (
+              <Grid
+                key={idx}
+                item
+                sx={{
+                  p: 0.5,
+                  border: `.3rem solid ${
+                    idx === active ? "#EBC1FF" : "#F6F6F6"
+                  }`,
+                }}
+              >
+                <Avatar
+                  variant="square"
+                  src={item}
+                  sx={{ cursor: "pointer", transition: "border 1ms linear" }}
+                  onClick={() => setactive(idx)}
+                />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Grid>
@@ -68,21 +80,21 @@ const Item = () => {
             label="In stock"
           />
 
-          <Typography variant="h2">Mama Gold 50kg Rice</Typography>
+          <Typography variant="h2">{name}</Typography>
           <Typography variant="h5">
             Brand:
             <Typography variant="span" sx={{ color: "#9C9DA9" }}>
-              Mama Gold
+              {desc}
             </Typography>
           </Typography>
           <Rating
-            name="customized-10"
+            name={name}
             precision={0.5}
             defaultValue={4}
             max={5}
             size="large"
           />
-          <Typography variant="h2">NGN 70,000</Typography>
+          <Typography variant="h2">NGN {price.toLocaleString()}</Typography>
           <Grid item container flexWrap="nowrap" gap={2}>
             <Button
               size="small"

@@ -6,6 +6,7 @@ import { UploadComponent } from "./Files";
 import CheckBox from "./Checkboxs";
 import TextArea from "./Textarea";
 import Radios from "./Radios";
+import Autocompletes from "./AutoComplete";
 
 const FormikControl = ({ control, ...rest }) => {
   switch (control) {
@@ -24,6 +25,8 @@ const FormikControl = ({ control, ...rest }) => {
       return <Radios {...rest} />;
     case "textarea":
       return <TextArea {...rest} />;
+    case "autocomplete":
+      return <Autocompletes {...rest} />;
     default:
       return null;
   }

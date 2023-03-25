@@ -21,7 +21,6 @@ export const Formiks = ({
           {value || defaultValue || placeholder}
         </Typography>
       )}
-      // placeholder={placeholder}
       sx={{
         borderRadius: borderRadius ? borderRadius : "1rem",
         color: "#111b21",
