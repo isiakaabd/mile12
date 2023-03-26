@@ -8,41 +8,63 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { rice } from "assets/images";
-import React from "react";
+import { Categories, Error } from "components";
+import { useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import {
+  useGetCategoriesQuery,
+  useLazyGetProductsQuery,
+} from "redux/slices/productSlice";
+import { CartItemsSkeleton, CategoriesSkeleton } from "./Products";
+import { getDate, getImage } from "helpers";
 
 const History = () => {
-  // const carts = useSelector((state) => state.carts.carts);
-
+  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
+  const [cat, setCat] = useState("tubers");
+  const [getProducts, { data: products, isLoading: load, isError: isErr }] =
+    useLazyGetProductsQuery();
+  useEffect(() => {
+    getProducts({
+      category: cat,
+      date_direction: "newer",
+    });
+    //eslint-disable-next-line
+  }, [cat]);
+  if (isErr || isError) return <Error />;
   return (
-    <Grid item container gap={2} flexWrap={{ md: "nowrap" }}>
-      <Grid item xs={12}>
-        <List
-          sx={{
-            width: "100%",
-          }}
-          dense
-        >
-          {Array(10)
-            .fill({ id: 1 })
-            .map((cart, index) => (
+    <Grid item container gap={2}>
+      {isLoading ? (
+        <CategoriesSkeleton />
+      ) : (
+        <Categories setCat={setCat} categories={categories} />
+      )}
+      {!load ? (
+        <Grid item xs={12}>
+          <List
+            sx={{
+              width: "100%",
+            }}
+            dense
+          >
+            {products?.map((cart, index) => (
               <Order key={index} cart={cart} />
             ))}
-        </List>
-      </Grid>
+          </List>
+        </Grid>
+      ) : (
+        <CartItemsSkeleton />
+      )}
     </Grid>
   );
 };
 
 export default History;
 const Order = ({ cart }) => {
-  const {
-    //  totalPrice, price, name, rating,
-    id,
-  } = cart;
+  const { createdAt, price, images, name, slug } = cart;
+
   // const theme = useTheme();
+  const image = JSON.parse(images);
 
   return (
     <ListItemButton
@@ -50,7 +72,7 @@ const Order = ({ cart }) => {
       disableRipple
       disableTouchRipple
       component={Link}
-      to={`/my-orders/${id}`}
+      to={`/history/${slug}`}
       sx={{ background: "#EFEFEF", borderRadius: ".6rem", mb: 2 }}
     >
       <ListItem
@@ -65,13 +87,14 @@ const Order = ({ cart }) => {
           },
         }}
       >
-        <ListItemAvatar sx={{ height: "100%", mr: 2 }}>
+        <ListItemAvatar sx={{ maxHeight: "100%", height: "7rem", mr: 2 }}>
           <Avatar
-            src={rice}
+            src={getImage(image[0])}
             variant="square"
             sx={{
               minWidth: { md: "9rem", sm: "8rem", xs: "6rem" },
               height: "100%",
+              objectFit: "contain",
             }}
           />
         </ListItemAvatar>
@@ -88,7 +111,7 @@ const Order = ({ cart }) => {
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
               >
-                Mama Gold 50kg Rice
+                {name}
               </Typography>
               <Typography
                 variant="span"
@@ -98,7 +121,7 @@ const Order = ({ cart }) => {
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
               >
-                NGN70,000
+                NGN {price.toLocaleString()}
               </Typography>
             </Grid>
           }
@@ -112,7 +135,7 @@ const Order = ({ cart }) => {
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
               >
-                On 07-02-2023
+                {getDate(createdAt)}
               </Typography>
             </Grid>
           }

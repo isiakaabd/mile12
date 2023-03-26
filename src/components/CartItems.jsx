@@ -7,27 +7,15 @@ import {
   CardMedia,
   Grid,
   Rating,
-  Skeleton,
   Typography,
 } from "@mui/material";
-import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "redux/reducers/cartReducer";
-import { useLazyGetProductsQuery } from "redux/slices/productSlice";
-import Error from "./Error";
 
-const CartItems = ({ cat }) => {
-  const [getProducts, { data: products, isFetching, isLoading, isError }] =
-    useLazyGetProductsQuery();
-  useEffect(() => {
-    getProducts({
-      category: cat,
-    });
-    //eslint-disable-next-line
-  }, [cat]);
-  if (isLoading || isFetching) return <Skeleton />;
-  if (isError) return <Error />;
+import { getImage } from "helpers";
+
+const CartItems = ({ products }) => {
   return (
     <>
       {products?.length > 0 ? (
@@ -39,8 +27,9 @@ const CartItems = ({ cat }) => {
             sm: "repeat(auto-fill, minmax(25rem, 1fr))",
             xs: "repeat(2,1fr)",
           }}
+          gap={2}
         >
-          {products?.map((item, index) => (
+          {products?.map((item) => (
             <CartItem key={item.id} item={item} />
           ))}
         </Grid>
@@ -60,8 +49,10 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { admin } = useSelector((state) => state.auth);
+  const image = JSON.parse(images);
+
   return (
-    <Grid item sx={{ px: 1, py: 2 }}>
+    <Grid item>
       <Card sx={{ width: "100%" }}>
         <CardActionArea component={Link} to={`/products/${slug} `}>
           <CardMedia
@@ -69,13 +60,14 @@ const CartItem = ({ item }) => {
             sx={{ height: "20rem", width: "100%" }}
             // src={rice}
             alt={name}
-            image={images[0]}
+            image={getImage(image[0])}
             title={name}
           />
           <CardContent>
             <Typography color="secondary">{name}</Typography>
             <Rating name={name} precision={0.5} defaultValue={4} max={5} />
             <Typography color="secondary">
+              {" "}
               NGN {price.toLocaleString()}
             </Typography>
           </CardContent>

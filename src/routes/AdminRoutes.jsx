@@ -23,7 +23,7 @@ const AdminRoutes = () => {
         <Route path="product/edit" element={<EditProduct />} />
         <Route path="messages" element={<Messages />} />
         <Route path="history" element={<History />} />
-        <Route path="admin/order/:id" element={<Order />} />
+        <Route path="history/:id" element={<Order />} />
 
         <Route path="admin" index element={<AdminDashboard />} />
       </Route>

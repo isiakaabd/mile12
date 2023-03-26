@@ -16,8 +16,12 @@ export const getAgo = (date) => {
 const token = process.env.REACT_APP_IMAGE_TOKEN;
 export const link = process.env.REACT_APP_IMAGE_URL;
 export const suffix = `?alt=media&token=${token}`;
+
 export const getImage = (url) => {
-  return url ? `${link}${encodeURIComponent(url)}${suffix}` : null;
+  return `https://firebasestorage.googleapis.com/v0/b/mile-12-fdf33.appspot.com/o/${encodeURIComponent(
+    url
+  )}?alt=media&token=ed5ea058-86e6-4377-9c35-0a771cfa75e3`;
+  // url ? `${link}${encodeURIComponent(url)}${suffix}` : null;
 };
 
 export const getTimeMoment = (startDate) => {

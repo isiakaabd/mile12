@@ -12,10 +12,11 @@ import {
   DashboardCustomizeOutlined,
   PersonAddAlt1Outlined,
   HistoryOutlined,
-  MessageOutlined,
+  LogoutOutlined,
 } from "@mui/icons-material";
 import { useLayoutEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 const Drawers = () => {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
@@ -36,14 +37,14 @@ const Drawers = () => {
       icon: PersonAddAlt1Outlined,
     },
 
+    // {
+    //   id: 2,
+    //   name: "Messages",
+    //   link: "/messages",
+    //   icon: MessageOutlined,
+    // },
     {
       id: 2,
-      name: "Messages",
-      link: "/messages",
-      icon: MessageOutlined,
-    },
-    {
-      id: 3,
       name: "History",
       link: "/history",
       icon: HistoryOutlined,
@@ -64,7 +65,11 @@ const Drawers = () => {
 
   const xsDrawerWidth = 60;
   const purple = "AE01FF";
-
+  const handleLogout = () => {
+    localStorage.clear();
+    toast.success("Logout Successful");
+    setTimeout(() => navigate("/auth"), 2000);
+  };
   return (
     <Drawer
       sx={{
@@ -169,6 +174,67 @@ const Drawers = () => {
             </ListItemButton>
           </ListItem>
         ))}
+        <ListItem
+          disablePadding
+          sx={{
+            mt: "auto",
+            mb: 2,
+            "&:hover, & .Mui-selected": {
+              backgroundColor: "#f00",
+              color: "#fff",
+            },
+            display: "block",
+            color: "#f00",
+          }}
+        >
+          <ListItemButton
+            sx={{
+              "& .MuiListItemButton": {
+                color: "inherit",
+                "&:hover": {
+                  color: "#f00",
+                },
+                "& .Mui-selected": {
+                  backgroundColor: "#f00",
+                  color: "#fff",
+                },
+              },
+              // minHeight: 48,
+              // justifyContent: open ? "initial" : "center",
+              px: { xs: 2, sm: 2.5 },
+              "&.Mui-selected": {
+                color: "#fff",
+                backgroundColor: "#f00",
+              },
+            }}
+            onClick={handleLogout}
+          >
+            <ListItemIcon
+              sx={{
+                minWidth: 0,
+                color: "inherit",
+
+                "&:hover": {
+                  color: "#f00",
+                },
+                mr: { xs: 0, sm: 3 },
+                justifyContent: "center",
+              }}
+            >
+              <LogoutOutlined
+                sx={{
+                  fontSize: "2.5rem",
+                  // "&:hover": { color: "#fff" },
+                  color: "inherit",
+                }}
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary="Logout"
+              sx={{ display: { xs: "none", sm: "block" } }}
+            />
+          </ListItemButton>
+        </ListItem>
       </List>
     </Drawer>
   );

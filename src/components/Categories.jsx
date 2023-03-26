@@ -11,7 +11,7 @@ const Categories = ({ categories, setCat }) => {
   const { admin } = useSelector((state) => state.auth);
 
   return (
-    <Grid item container flexDirection="column" gap={1} mt={2}>
+    <Grid item container flexDirection="column" gap={1} my={2}>
       <Typography variant="h3" gutterBottom sx={{ color: "#1E1E1E" }}>
         Categories
       </Typography>
@@ -19,8 +19,10 @@ const Categories = ({ categories, setCat }) => {
         item
         container
         alignItems={"center"}
+        rowGap={2}
         justifyContent={"space-between"}
-        flexWrap={"nowrap"}
+        flexDirection={{ md: "row", xs: "column" }}
+        flexWrap={{ md: "nowrap", xs: "wrap" }}
       >
         <Grid item container gap={1}>
           {categories?.map((item, index) => (
@@ -46,11 +48,13 @@ const Categories = ({ categories, setCat }) => {
           ))}
         </Grid>
         {admin && (
-          <Grid item container justifyContent={"flex-end"}>
+          <Grid item container justifyContent={{ md: "flex-end", xs: "start" }}>
             <Button
               variant="contained"
               component={Link}
               to="/product/add"
+              disableElevation
+              sx={{ px: 2, py: 1 }}
               startIcon={<AddOutlined />}
             >
               Add New Item

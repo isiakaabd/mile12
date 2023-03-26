@@ -8,19 +8,22 @@ import {
   Typography,
 } from "@mui/material";
 import { Error } from "components";
+import { getImage } from "helpers";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useGetProductQuery } from "redux/slices/productSlice";
 
 const Item = () => {
   //   const theme = useTheme();
-  const { id } = useParams();
   const [number] = useState(20); //setnumber
+  const { id } = useParams();
   const [active, setactive] = useState(0);
   const { data: product, isLoading, isError } = useGetProductQuery(id);
+
   if (isLoading) return <Skeleton />;
   if (isError) return <Error />;
-  const { name, images, desc, price } = product;
+  const { name, desc, price, images } = product;
+  const imagesArray = JSON.parse(images);
   return (
     <Grid
       item
@@ -31,9 +34,17 @@ const Item = () => {
     >
       <Grid item flex={1}>
         <Grid item container gap={2} sx={{ p: 2 }}>
-          <Grid item sx={{ border: "1rem solid #F6F6F6" }}>
+          <Grid
+            item
+            sx={{
+              border: "1rem solid #F6F6F6",
+              width: "40rem",
+              height: "30rem",
+            }}
+          >
             <Avatar
-              src={images[0]}
+              src={getImage(imagesArray[active])}
+              variant="square"
               sx={{ width: "100%", height: "100%", maxHeight: "100%" }}
             />
           </Grid>
@@ -46,7 +57,7 @@ const Item = () => {
               xs: "repeat(auto-fill, minmax(5rem, 1fr))",
             }}
           >
-            {JSON.parse(images)?.map((item, idx) => (
+            {imagesArray?.map((item, idx) => (
               <Grid
                 key={idx}
                 item
@@ -59,7 +70,7 @@ const Item = () => {
               >
                 <Avatar
                   variant="square"
-                  src={item}
+                  src={getImage(item)}
                   sx={{ cursor: "pointer", transition: "border 1ms linear" }}
                   onClick={() => setactive(idx)}
                 />

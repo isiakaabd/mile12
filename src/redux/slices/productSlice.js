@@ -4,8 +4,10 @@ import { api } from ".";
 export const productSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
-      query: ({ category }) => ({
-        url: `/product${category ? `?category=${category} ` : ""}`,
+      query: ({ category, date_direction }) => ({
+        url: `/product/?${category ? `&category=${category}` : ""}${
+          date_direction ? `&date_direction=${date_direction}` : ""
+        }`,
       }),
       invalidatesTags: ["product"],
       transformResponse: (response) => response.body.products,

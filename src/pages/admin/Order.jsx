@@ -1,7 +1,16 @@
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Grid, Skeleton, Typography } from "@mui/material";
 import { Backbutton } from "./components";
+import { useParams } from "react-router-dom";
+import { useGetProductQuery } from "redux/slices/productSlice";
+import { Error } from "components";
 
 const Order = () => {
+  const { id } = useParams();
+  const { data: product, isLoading, isError } = useGetProductQuery(id);
+  console.log(product);
+  if (isLoading) return <Skeleton />;
+  if (isError) return <Error />;
+  const { name, category, price } = product;
   return (
     <Grid item container gap={2} flexDirection={"column"}>
       <Grid item>
@@ -34,25 +43,30 @@ const Order = () => {
             <Typography variant="body2" sx={{ color: "#979797" }}>
               Sender
             </Typography>
-            <Typography variant="body2">George Fernandez</Typography>
+            <Typography variant="body2">{name}</Typography>
           </Grid>
           <Grid item container flexDirection={"column"}>
             <Typography variant="body2" sx={{ color: "#979797" }}>
               Category
             </Typography>
-            <Typography variant="body2">Clothing & Wears</Typography>
+            <Typography variant="body2">{category}</Typography>
           </Grid>
           <Grid item container flexDirection={"column"}>
             <Typography variant="body2" sx={{ color: "#979797" }}>
               Delivery Fee
             </Typography>
-            <Typography variant="body2">NGN 2000</Typography>
+            <Typography variant="body2">
+              {" "}
+              NGN {price.toLocaleString()}
+            </Typography>
           </Grid>
           <Grid item container flexDirection={"column"}>
             <Typography variant="body2" sx={{ color: "#979797" }}>
               Item Value
             </Typography>
-            <Typography variant="body2">NGN 70,000</Typography>
+            <Typography variant="body2">
+              NGN {price.toLocaleString()}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>

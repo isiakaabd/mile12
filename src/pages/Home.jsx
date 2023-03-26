@@ -1,17 +1,32 @@
-import { Grid, Skeleton } from "@mui/material";
+import { Grid } from "@mui/material";
 import { CartItems, Categories, Error } from "components";
-import { useState } from "react";
-import { useGetCategoriesQuery } from "redux/slices/productSlice";
+import { useEffect, useState } from "react";
+import {
+  useGetCategoriesQuery,
+  useLazyGetProductsQuery,
+} from "redux/slices/productSlice";
+import { CartItemsSkeleton, CategoriesSkeleton } from "./admin/Products";
 
 const Home = () => {
   const { data: categories, isLoading, isError } = useGetCategoriesQuery();
   const [cat, setCat] = useState("");
-  if (isLoading) return <Skeleton />;
-  if (isError) return <Error />;
+  const [getProducts, { data: products, isLoading: load, isError: isErr }] =
+    useLazyGetProductsQuery();
+  useEffect(() => {
+    getProducts({
+      category: cat,
+    });
+    //eslint-disable-next-line
+  }, [cat]);
+  if (isErr || isError) return <Error />;
   return (
     <Grid item container>
-      <Categories setCat={setCat} categories={categories} />
-      <CartItems cat={cat} />
+      {isLoading ? (
+        <CategoriesSkeleton />
+      ) : (
+        <Categories setCat={setCat} categories={categories} />
+      )}
+      {load ? <CartItemsSkeleton /> : <CartItems products={products} />}
     </Grid>
   );
 };

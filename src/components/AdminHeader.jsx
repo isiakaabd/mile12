@@ -67,7 +67,6 @@ const AdminHeader = () => {
   return (
     <AppBar
       position="fixed"
-      elevation={0.5}
       sx={{
         width: {
           md: `calc(100% - ${mlDrawerWidth}px)`,
