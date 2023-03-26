@@ -42,7 +42,7 @@ const NewProductCategory = ({ isSubmitting, initialValues }) => {
   const newCategory = categories?.map((item) => item.name);
   return (
     <>
-      <Grid item xs={6}>
+      <Grid item xs={12} sm={6}>
         <Grid item container gap={4}>
           <Grid item container>
             <FormikControl
@@ -58,7 +58,7 @@ const NewProductCategory = ({ isSubmitting, initialValues }) => {
           </Grid>
           <Typography variant="h5">Recent Categories</Typography>
           <Grid item container gap={1}>
-            {arr.map((item, index) => (
+            {arr?.map((item, index) => (
               <Chip
                 onClick={() => setState(index)}
                 key={index}

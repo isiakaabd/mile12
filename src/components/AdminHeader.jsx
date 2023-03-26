@@ -61,14 +61,24 @@ const AdminHeader = () => {
       width: "8rem",
     },
   }));
-  const drawerWidth = 260;
+  const mlDrawerWidth = 260;
+  const smDrawerWidth = 200;
+  const xsDrawerWidth = 60;
   return (
     <AppBar
       position="fixed"
-      elevation={0}
+      elevation={0.5}
       sx={{
-        width: `calc(100% - ${drawerWidth}px)`,
-        ml: `${drawerWidth}px`,
+        width: {
+          md: `calc(100% - ${mlDrawerWidth}px)`,
+          sm: `calc(100% - ${smDrawerWidth}px)`,
+          xs: `calc(100% - ${xsDrawerWidth}px)`,
+        },
+        ml: {
+          md: `${mlDrawerWidth}px`,
+          sm: `${smDrawerWidth}px`,
+          xs: `${xsDrawerWidth}px`,
+        },
         background: "#fff",
         borderBottom: "1px solid #DFDFDF",
       }}

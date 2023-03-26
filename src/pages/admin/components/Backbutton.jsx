@@ -7,8 +7,14 @@ const Backbutton = () => {
   return (
     <Button
       color="secondary"
-      sx={{ fontSize: "2rem", textTransform: "capitalize" }}
-      startIcon={<ArrowBackOutlined sx={{ fontSize: "2rem" }} />}
+      sx={{
+        p: 0,
+        fontSize: { sm: "2rem", xs: "1.5rem" },
+        textTransform: "capitalize",
+      }}
+      startIcon={
+        <ArrowBackOutlined sx={{ fontSize: { sm: "2rem", xs: "1.5rem" } }} />
+      }
       onClick={() => navigate(-1)}
     >
       Back

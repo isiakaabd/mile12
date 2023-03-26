@@ -59,17 +59,20 @@ const Drawers = () => {
     //eslint-disable-next-line
   }, [location.pathname]);
 
-  const drawerWidth = 260;
+  const mlDrawerWidth = 260;
+  const smDrawerWidth = 200;
+
+  const xsDrawerWidth = 60;
   const purple = "AE01FF";
 
   return (
     <Drawer
       sx={{
-        width: drawerWidth,
+        width: { md: mlDrawerWidth, sm: smDrawerWidth, xs: xsDrawerWidth },
         flexShrink: 0,
         p: 2,
         "& .MuiDrawer-paper": {
-          width: drawerWidth,
+          width: { md: mlDrawerWidth, sm: smDrawerWidth, xs: xsDrawerWidth },
           background: "#EFEFEF",
           boxSizing: "border-box",
           border: 0,
@@ -82,9 +85,10 @@ const Drawers = () => {
         <Typography
           component={Link}
           variant="h2"
-          // noWrap
+          noWrap
           to="/dashboard"
           sx={{ textDecoration: "none", color: "#000" }}
+          title="MILE 12"
         >
           MILE 12
         </Typography>
@@ -95,7 +99,7 @@ const Drawers = () => {
           display: "flex",
           flexDirection: "column",
           height: "100%",
-          px: "1.6rem",
+          px: { xs: 0, sm: "1.6rem" },
         }}
         dense
       >
@@ -128,7 +132,7 @@ const Drawers = () => {
                 },
                 // minHeight: 48,
                 // justifyContent: open ? "initial" : "center",
-                px: 2.5,
+                px: { xs: 2, sm: 2.5 },
                 "&.Mui-selected": {
                   color: "#fff",
                   backgroundColor: "#AE01FF",
@@ -143,12 +147,14 @@ const Drawers = () => {
                 sx={{
                   minWidth: 0,
                   color: "inherit",
+
                   "&:hover": {
                     color: purple,
                   },
-                  mr: 3,
+                  mr: { xs: 0, sm: 3 },
                   justifyContent: "center",
                 }}
+                title={text.name}
               >
                 <text.icon sx={{ fontSize: "2.5rem", color: "inherit" }} />
               </ListItemIcon>
@@ -158,6 +164,7 @@ const Drawers = () => {
                   fontSize: "1.5rem",
                   fontWeight: 400,
                 }}
+                sx={{ display: { xs: "none", sm: "block" } }}
               />
             </ListItemButton>
           </ListItem>

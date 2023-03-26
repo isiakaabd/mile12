@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { useGetProductQuery } from "redux/slices/productSlice";
 import { Error } from "@mui/icons-material";
 
-const EditProduct = (props) => {
+const EditProduct = () => {
   const [value, setValue] = useState(0);
   const { state } = useLocation();
   const { data: product, isLoading, isError } = useGetProductQuery(state);

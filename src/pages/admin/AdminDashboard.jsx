@@ -25,14 +25,26 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <Grid item container gap={2} flexDirection={"column"} sx={{ p: 3 }}>
-      <Grid item container gap={2} flexWrap={"nowrap"} sx={{ p: 3 }}>
+    <Grid
+      item
+      container
+      gap={2}
+      flexDirection={"column"}
+      sx={
+        {
+          // p: { sm: 3, xs: 1 },
+          //  width: `calc(100% - ${60}px) `
+        }
+      }
+    >
+      <Grid item container gap={2} flexWrap={{ sm: "nowrap", xs: "wrap" }}>
         {arr.map((item, idx) => (
-          <Grid item xs={4}>
+          <Grid item sm={4} xs={12}>
             <BasicCard key={idx} item={item} />
           </Grid>
         ))}
       </Grid>
+
       <BasicTables
         values={[
           {

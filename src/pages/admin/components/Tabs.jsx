@@ -1,8 +1,6 @@
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Tabs, Tab, Box } from "@mui/material";
 import PhoneIcon from "@mui/icons-material/Phone";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import { Box } from "@mui/material";
 import { NewProductUpload, NewProductCategory } from ".";
 import { Form, Formik } from "formik/dist";
 import { useCreatePoductMutation } from "redux/slices/adminSlice";
@@ -20,9 +18,8 @@ const validationSchema = Yup.object({
   // file: Yup.string().required("Required"),
 });
 export default function TabsComponent({ value, setValue, type, product }) {
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const handleChange = (_, newValue) => setValue(newValue);
+
   const [createProduct] = useCreatePoductMutation();
   const [editProduct] = useEditProductMutation();
   const navigate = useNavigate();
@@ -68,7 +65,7 @@ export default function TabsComponent({ value, setValue, type, product }) {
           type === "edit"
             ? {
                 name: product?.name,
-                file: [],
+                file: null,
                 price: product?.price,
                 description: product?.desc,
                 category: product?.category,
@@ -76,7 +73,7 @@ export default function TabsComponent({ value, setValue, type, product }) {
               }
             : {
                 name: "",
-                file: [],
+                file: null,
                 price: "",
                 description: "",
                 category: "",
@@ -85,12 +82,12 @@ export default function TabsComponent({ value, setValue, type, product }) {
         }
         onSubmit={handleSumit}
       >
-        {({ values, isSubmitting, initialValues }) => (
+        {({ values, isSubmitting }) => (
           <Form style={{ width: "100%" }}>
             <Tabs
               value={value}
               onChange={handleChange}
-              aria-label="icon tabs example"
+              aria-label="icon tabs for creating new  product"
             >
               <Tab icon={<PhoneIcon />} aria-label="phone" />
               <Tab icon={<FavoriteIcon />} aria-label="favorite" />
@@ -99,10 +96,7 @@ export default function TabsComponent({ value, setValue, type, product }) {
               <NewProductUpload values={values} setValue={setValue} />
             </TabPanel>
             <TabPanel value={value} index={1}>
-              <NewProductCategory
-                isSubmitting={isSubmitting}
-                initialValues={values}
-              />
+              <NewProductCategory isSubmitting={isSubmitting} />
             </TabPanel>
           </Form>
         )}
@@ -122,7 +116,7 @@ function TabPanel(props) {
       aria-labelledby={`simple-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: { sm: 3, xs: 1 } }}>{children}</Box>}
     </div>
   );
 }

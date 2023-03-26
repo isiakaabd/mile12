@@ -4,7 +4,6 @@ import { Autocomplete, Grid, TextField } from "@mui/material";
 import { TextError } from "./TextError";
 
 const Text = ({ name, placeholder, options, ...rest }) => {
-  console.log(rest);
   return (
     <Autocomplete
       freeSolo
@@ -15,6 +14,7 @@ const Text = ({ name, placeholder, options, ...rest }) => {
       renderInput={(params) => (
         <TextField
           {...params}
+          {...rest}
           label={placeholder}
           InputProps={{
             ...params.InputProps,

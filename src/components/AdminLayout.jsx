@@ -4,6 +4,7 @@ import { Outlet } from "react-router-dom";
 import AdminHeader from "./AdminHeader";
 
 const AdminLayout = () => {
+  const xsDrawerWidth = 60;
   return (
     <Grid item container flexWrap="nowrap">
       <Grid item>
@@ -12,7 +13,12 @@ const AdminLayout = () => {
       <Grid item>
         <AdminHeader />
       </Grid>
-      <Box sx={{ width: "100%", p: 3 }}>
+      <Box
+        sx={{
+          width: { xs: `calc(100% - ${xsDrawerWidth}px) `, md: "100%" },
+          p: { sm: 3, xs: 2 },
+        }}
+      >
         <Toolbar />
         <Outlet />
       </Box>
