@@ -55,18 +55,13 @@ const Order = () => {
             <Typography variant="body2" sx={{ color: "#979797" }}>
               Delivery Fee
             </Typography>
-            <Typography variant="body2">
-              {" "}
-              NGN {price.toLocaleString()}
-            </Typography>
+            <Typography variant="body2"> $ {price.toLocaleString()}</Typography>
           </Grid>
           <Grid item container flexDirection={"column"}>
             <Typography variant="body2" sx={{ color: "#979797" }}>
               Item Value
             </Typography>
-            <Typography variant="body2">
-              NGN {price.toLocaleString()}
-            </Typography>
+            <Typography variant="body2">$ {price.toLocaleString()}</Typography>
           </Grid>
         </Grid>
       </Grid>

@@ -5,20 +5,17 @@ import BusIcon2 from "assets/svg/Bus2";
 import BusIcon3 from "assets/svg/Bus3";
 import BasicTables from "./components/Table";
 import { useGetStatsQuery } from "redux/slices/adminSlice";
-import {
-  useGetOrdersQuery,
-  useLazyGetOrdersQuery,
-} from "redux/slices/orderSlice";
+import { useLazyGetOrdersQuery } from "redux/slices/orderSlice";
 import { useEffect, useState } from "react";
 import { Form, Formik } from "formik/dist";
 import FormikControl from "validation/FormikControl";
 
 const AdminDashboard = () => {
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const [values, setValues] = useState("");
   const { data: stats, isLoading } = useGetStatsQuery();
   const [getOrder, { data: ordersList, isLoading: load }] =
-    useLazyGetOrdersQuery({});
+    useLazyGetOrdersQuery();
   useEffect(() => {
     getOrder({
       offset: page - 1,

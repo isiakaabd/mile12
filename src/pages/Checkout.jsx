@@ -62,7 +62,6 @@ const Checkout = () => {
     };
   });
   const handleCheckOut = async () => {
-    console.log(123);
     const { data, error } = await createOrder({
       address: add?.id,
       items: newArr,
@@ -207,7 +206,7 @@ const Checkout = () => {
                     {`Items ${carts.length})`}
                   </Typography>
                   <Typography variant="h5">
-                    NGN {totalPayout?.toLocaleString()}
+                    $ {totalPayout?.toLocaleString()}
                   </Typography>
                 </Grid>
                 <Grid
@@ -219,7 +218,9 @@ const Checkout = () => {
                   <Typography variant="h5" sx={{ color: "#8F8D8D" }}>
                     Shipping fee:
                   </Typography>
-                  <Typography variant="h5">NGN 2,000</Typography>
+                  <Typography variant="h5">
+                    $ {totalPayout >= 150 ? 0 : 9.99 * carts.length - 1}
+                  </Typography>
                 </Grid>
                 <Divider flexItem />
                 <Typography
@@ -246,20 +247,9 @@ const Checkout = () => {
                 gap={2}
               >
                 <Typography variant="h5">Payment Method</Typography>
-                <Grid item container flexWrap="nowrap" gap={2}>
-                  <Grid item flex={1}>
-                    <Button fullWidth variant="outlined">
-                      paystack
-                    </Button>
-                  </Grid>
-                  <Grid item flex={1}>
-                    <Button fullWidth variant="outlined">
-                      Stripe
-                    </Button>
-                  </Grid>
-                </Grid>
+
                 <Grid item container>
-                  <CustomButton title={"Continue"} />
+                  <CustomButton title={"Pay with Paystack"} />
                 </Grid>
               </Grid>
             </Grid>

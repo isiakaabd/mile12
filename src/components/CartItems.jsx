@@ -14,6 +14,8 @@ import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "redux/reducers/cartReducer";
 
 import { getImage } from "helpers";
+import HoverRating from "./Ratings";
+import { useState } from "react";
 
 const CartItems = ({ products }) => {
   return (
@@ -45,14 +47,14 @@ const CartItems = ({ products }) => {
 export default CartItems;
 
 const CartItem = ({ item }) => {
-  const { name, price, slug, images } = item;
+  const { name, price, slug, images, rating } = item;
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { admin } = useSelector((state) => state.auth);
-  // const { totalPayout } =
-  useSelector((state) => console.log(state));
-  const image = JSON.parse(images);
 
+  const image = JSON.parse(images);
+  console.log(item);
+  const [value, setValue] = useState(rating);
   // const addToCart = () => {};
   return (
     <Grid item>
@@ -68,10 +70,16 @@ const CartItem = ({ item }) => {
           />
           <CardContent>
             <Typography color="secondary">{name}</Typography>
-            <Rating name={name} precision={0.5} defaultValue={4} max={5} />
+            <HoverRating
+              name={name}
+              value={value}
+              readOnly={true}
+              // hover={hover}
+              // setHover={setHover}
+            />
             <Typography color="secondary">
               {" "}
-              NGN {price.toLocaleString()}
+              $ {price.toLocaleString()}
             </Typography>
           </CardContent>
         </CardActionArea>

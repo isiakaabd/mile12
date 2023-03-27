@@ -8,7 +8,7 @@ import {
 
 const Products = () => {
   const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-  const [cat, setCat] = useState("tubers");
+  const [cat, setCat] = useState("");
   const [getProducts, { data: products, isLoading: load, isError: isErr }] =
     useLazyGetProductsQuery();
   useEffect(() => {

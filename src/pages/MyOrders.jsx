@@ -9,16 +9,26 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import { rice } from "assets/images";
-
-import { useSelector } from "react-redux";
+import { Error } from "components";
+import { getDate } from "helpers";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useGetOrdersQuery } from "redux/slices/orderSlice";
 
 const MyOrders = () => {
-  const carts = useSelector((state) => state.carts.carts);
-
+  const [page] = useState(1);
+  const { data, isLoading, error } = useGetOrdersQuery({
+    offset: page - 1,
+    status: "",
+  });
+  if (isLoading) return <Skeleton />;
+  if (error) return <Error />;
+  const { orders } = data;
+  console.log(orders);
   return (
     <Grid item container gap={2} flexDirection={"column"}>
       <Typography color="secondary" variant="h3">
@@ -32,9 +42,16 @@ const MyOrders = () => {
             }}
             dense
           >
-            {carts.map((cart, index) => (
-              <Order key={index} cart={cart} />
-            ))}
+            {orders?.length > 0 ? (
+              orders?.map((cart, index) => <Order key={cart?.id} cart={cart} />)
+            ) : (
+              <Typography
+                sx={{ width: "100%", textAlign: "center" }}
+                variant="h3"
+              >
+                No Order Yet
+              </Typography>
+            )}
           </List>
         </Grid>
       </Grid>
@@ -45,17 +62,17 @@ const MyOrders = () => {
 export default MyOrders;
 
 const Order = ({ cart }) => {
-  const {
-    //  totalPrice, price, name, rating,
-    id,
-  } = cart;
+  const { status, createdAt, cost, id } = cart;
   const theme = useTheme();
 
   return (
+    // <>
+    //   {cart.items?.map((item, index) => (
     <ListItemButton
       dense
       disableRipple
       disableTouchRipple
+      // key={item.item_id}
       component={Link}
       to={`/my-orders/${id}`}
       sx={{ background: "#EFEFEF", borderRadius: ".6rem", mb: 2 }}
@@ -107,7 +124,7 @@ const Order = ({ cart }) => {
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
               >
-                Mama Gold 50kg Rice - NGN70,000
+                $ {cost}
               </Typography>
               <Typography
                 variant="span"
@@ -116,18 +133,22 @@ const Order = ({ cart }) => {
                   color: "#A2A2A2",
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
+                noWrap
               >
-                Order 2322984736
+                {id}
               </Typography>
             </Grid>
           }
           secondary={
             <Grid item container gap={1} flexDirection="column" sx={{ mt: 2 }}>
               <Chip
-                label={"Delivered"}
+                label={status}
                 // color="warnin#g"
                 sx={{
-                  background: theme.palette.warning.main,
+                  background:
+                    status !== "delivered"
+                      ? theme.palette.warning.main
+                      : theme.palette.success.main,
                   color: "#fff",
                   borderRadius: ".4rem",
                   width: "max-content",
@@ -137,14 +158,18 @@ const Order = ({ cart }) => {
                 variant="h3"
                 fontWeight={400}
                 color="secondary"
-                sx={{ fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" } }}
+                sx={{
+                  fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
+                }}
               >
-                On 07-02-2023
+                {getDate(createdAt)}
               </Typography>
             </Grid>
           }
         />
       </ListItem>
     </ListItemButton>
+    //   ))}
+    // </>
   );
 };

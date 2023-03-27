@@ -7,7 +7,7 @@ export const getDates = (date) => {
   return moment(date).format("YYYY-MM-DD");
 };
 export const getTime = (date) => {
-  return moment(date).format("HH:mm");
+  return moment(date).format("h:mm A");
 };
 
 export const getAgo = (date) => {
@@ -18,10 +18,7 @@ export const link = process.env.REACT_APP_IMAGE_URL;
 export const suffix = `?alt=media&token=${token}`;
 
 export const getImage = (url) => {
-  return `https://firebasestorage.googleapis.com/v0/b/mile-12-fdf33.appspot.com/o/${encodeURIComponent(
-    url
-  )}?alt=media&token=ed5ea058-86e6-4377-9c35-0a771cfa75e3`;
-  // url ? `${link}${encodeURIComponent(url)}${suffix}` : null;
+  return url ? `${link}${encodeURIComponent(url)}${suffix}` : null;
 };
 
 export const getTimeMoment = (startDate) => {
@@ -43,4 +40,12 @@ export const getTimeMoment = (startDate) => {
     return durationObj.asSeconds().toFixed(0) + "s ";
   }
   return "now";
+};
+export const getConfig = ({ email, reference, amount }) => {
+  return {
+    reference,
+    email,
+    amount: amount * 100,
+    publicKey: process.env.REACT_APP_PAYSTACK_PUBLIC_KEY,
+  };
 };

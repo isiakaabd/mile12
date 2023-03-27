@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const Categories = ({ categories, setCat }) => {
   const theme = useTheme();
-  const [state, setState] = useState(1);
+  const [state, setState] = useState(0);
   const { admin } = useSelector((state) => state.auth);
 
   return (
@@ -25,6 +25,24 @@ const Categories = ({ categories, setCat }) => {
         flexWrap={{ md: "nowrap", xs: "wrap" }}
       >
         <Grid item container gap={1}>
+          <Chip
+            onClick={() => {
+              setCat("");
+              setState(0);
+            }}
+            label={"All"}
+            sx={{
+              backgroundColor:
+                state === 0 ? theme.palette.primary.main : "#E4E4E4",
+              fontSize: { md: "1.6rem", xs: "1.2rem", sm: "1.4rem" },
+              borderRadius: ".4rem",
+              color: "#000",
+              "&:hover": {
+                backgroundColor:
+                  state === 0 ? theme.palette.primary.main : "#E4E4E4",
+              },
+            }}
+          />
           {categories?.map((item, index) => (
             <Chip
               onClick={() => {

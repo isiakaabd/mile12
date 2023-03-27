@@ -8,29 +8,37 @@ import {
   Typography,
 } from "@mui/material";
 import { Error } from "components";
+import HoverRating from "components/Ratings";
 import { getImage } from "helpers";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
-import { addToCart } from "redux/reducers/cartReducer";
+import { addToCart, getCartItem } from "redux/reducers/cartReducer";
 import { useGetProductQuery } from "redux/slices/productSlice";
 
 const Item = () => {
-  //   const theme = useTheme();
-  const [number] = useState(20); //setnumber
   const { id } = useParams();
   const [active, setactive] = useState(0);
   const { data: product, isLoading, isError } = useGetProductQuery(id);
+  const cart = useSelector((state) => state.carts.cart);
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //  dispatch(addToCart(item));
+  useEffect(() => {
+    dispatch(getCartItem(id));
+    //eslint-disable-next-line
+  }, [id]);
+  const [value, setValue] = useState(product?.rating);
   if (isLoading) return <Skeleton />;
   if (isError) return <Error />;
-  const { name, desc, price, images } = product;
+  const { name, desc, price, id: ids, images, rating } = product;
+  console.log(product);
   const buyNow = (item) => {
     dispatch(addToCart(item));
     navigate("/carts");
   };
+
   const imagesArray = JSON.parse(images);
   return (
     <Grid
@@ -106,15 +114,9 @@ const Item = () => {
               {desc}
             </Typography>
           </Typography>
-          <Rating
-            name={name}
-            precision={0.5}
-            defaultValue={4}
-            max={5}
-            size="large"
-          />
-          <Typography variant="h2">NGN {price.toLocaleString()}</Typography>
-          <Grid item container alignItems={"center"} flexWrap="nowrap" gap={2}>
+          <HoverRating name={name} value={value} setValue={setValue} id={ids} />
+          <Typography variant="h2">$ {price.toLocaleString()}</Typography>
+          {/* <Grid item container alignItems={"center"} flexWrap="nowrap" gap={2}>
             <Button
               size="small"
               disableElevation
@@ -155,13 +157,25 @@ const Item = () => {
             >
               +
             </Button>
-          </Grid>
+          </Grid> */}
           <Grid item container gap={2} flexWrap={"nowrap"}>
             <Button variant="outlined" onClick={() => buyNow(product)}>
               BUY NOW
             </Button>
-            <Button variant="contained" disableElevation>
-              ADD TO CART
+
+            <Button
+              variant="contained"
+              disableElevation
+              onClick={() =>
+                !cart?.addedToCart
+                  ? () => {
+                      dispatch(addToCart(product));
+                      dispatch(getCartItem(id));
+                    }
+                  : navigate("/carts")
+              }
+            >
+              {!cart?.addedToCart ? "ADD TO CART" : "GO TO CART"}
             </Button>
           </Grid>
         </Grid>

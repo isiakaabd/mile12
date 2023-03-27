@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Stepper, Grid, StepLabel, Step } from "@mui/material";
 import StepConnector, {
   stepConnectorClasses,
@@ -10,7 +10,7 @@ const steps = [
     description: `04/10/22`,
   },
   {
-    label: "Pending Confirmation",
+    label: "Payment  Confirmed",
     description: "04/10/22",
   },
   {
@@ -27,9 +27,11 @@ const steps = [
   },
 ];
 
-export default function MobileStepper() {
-  const [activeStep] = useState(4);
-
+export default function MobileStepper({ status }) {
+  const [activeStep, setActiveSTep] = useState(1);
+  useEffect(() => {
+    setActiveSTep(status);
+  }, [status]);
   return (
     <Grid item container>
       <Stepper

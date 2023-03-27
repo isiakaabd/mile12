@@ -21,7 +21,17 @@ export const productSlice = api.injectEndpoints({
       }),
       invalidatesTags: ["product"],
       transformResponse: (response) => response.message,
-      transformErrorResponse: (error) => error.data,
+      transformErrorResponse: (error) => error.message,
+    }),
+    rateProduct: builder.mutation({
+      query: (body) => ({
+        url: `/product/rate`,
+        body,
+        method: "POST",
+      }),
+      invalidatesTags: ["product"],
+      transformResponse: (response) => response.message,
+      transformErrorResponse: (error) => error.message,
     }),
     getProduct: builder.query({
       query: (id) => ({
@@ -29,7 +39,7 @@ export const productSlice = api.injectEndpoints({
       }),
       providesTags: ["product"],
       transformResponse: (response) => response.body.product,
-      transformErrorResponse: (error) => error.data,
+      transformErrorResponse: (error) => error.message,
     }),
     getCategories: builder.query({
       query: () => ({
@@ -37,7 +47,7 @@ export const productSlice = api.injectEndpoints({
       }),
       providesTags: ["category"],
       transformResponse: (response) => response.body.categories,
-      transformErrorResponse: (error) => error.data,
+      transformErrorResponse: (error) => error.message,
     }),
   }),
 });
@@ -46,6 +56,7 @@ export const {
   useGetProductsQuery,
   useGetProductQuery,
   useLazyGetProductsQuery,
+  useRateProductMutation,
   useGetCategoriesQuery,
   useEditProductMutation,
 } = productSlice;

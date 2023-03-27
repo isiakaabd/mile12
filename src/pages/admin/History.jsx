@@ -123,7 +123,7 @@ const Order = ({ cart }) => {
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
               >
-                NGN {price.toLocaleString()}
+                $ {price.toLocaleString()}
               </Typography>
             </Grid>
           }

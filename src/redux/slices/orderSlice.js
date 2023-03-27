@@ -12,6 +12,14 @@ export const productSlice = api.injectEndpoints({
       transformResponse: (response) => response.body,
       transformErrorResponse: (error) => error.data,
     }),
+    getOrder: builder.query({
+      query: (id) => ({
+        url: `/order/${id}`,
+      }),
+      providesTags: ["order"],
+      transformResponse: (response) => response.body.order,
+      transformErrorResponse: (error) => error.message,
+    }),
     makeOrder: builder.mutation({
       query: (body) => ({
         url: `/order/`,
@@ -20,7 +28,17 @@ export const productSlice = api.injectEndpoints({
       }),
       invalidatesTags: ["order"],
       transformResponse: (response) => response.message,
-      transformErrorResponse: (error) => error.data,
+      transformErrorResponse: (error) => error.message,
+    }),
+    verifyOrder: builder.mutation({
+      query: (body) => ({
+        url: `/order/verify`,
+        body,
+        method: "POST",
+      }),
+      invalidatesTags: ["order"],
+      transformResponse: (response) => response.message,
+      transformErrorResponse: (error) => error.message,
     }),
   }),
 });
@@ -29,4 +47,6 @@ export const {
   useGetOrdersQuery,
   useLazyGetOrdersQuery,
   useMakeOrderMutation,
+  useGetOrderQuery,
+  useVerifyOrderMutation,
 } = productSlice;
