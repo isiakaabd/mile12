@@ -49,8 +49,11 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { admin } = useSelector((state) => state.auth);
+  // const { totalPayout } =
+  useSelector((state) => console.log(state));
   const image = JSON.parse(images);
 
+  // const addToCart = () => {};
   return (
     <Grid item>
       <Card sx={{ width: "100%" }}>
@@ -76,10 +79,13 @@ const CartItem = ({ item }) => {
           <Button
             variant="outlined"
             sx={{ width: "100%" }}
-            onClick={() =>
+            onClick={
               admin
-                ? navigate("/product/edit", { state: slug })
-                : dispatch(addToCart(item))
+                ? () => navigate("/product/edit", { state: slug })
+                : () => {
+                    dispatch(addToCart(item));
+                    // setTimeout(() => navigate("/carts"), 1200);
+                  }
             }
           >
             {admin ? "Edit Product" : "Add to Cart"}

@@ -10,7 +10,9 @@ import {
 import { Error } from "components";
 import { getImage } from "helpers";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { addToCart } from "redux/reducers/cartReducer";
 import { useGetProductQuery } from "redux/slices/productSlice";
 
 const Item = () => {
@@ -19,10 +21,16 @@ const Item = () => {
   const { id } = useParams();
   const [active, setactive] = useState(0);
   const { data: product, isLoading, isError } = useGetProductQuery(id);
-
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  //  dispatch(addToCart(item));
   if (isLoading) return <Skeleton />;
   if (isError) return <Error />;
   const { name, desc, price, images } = product;
+  const buyNow = (item) => {
+    dispatch(addToCart(item));
+    navigate("/carts");
+  };
   const imagesArray = JSON.parse(images);
   return (
     <Grid
@@ -106,7 +114,7 @@ const Item = () => {
             size="large"
           />
           <Typography variant="h2">NGN {price.toLocaleString()}</Typography>
-          <Grid item container flexWrap="nowrap" gap={2}>
+          <Grid item container alignItems={"center"} flexWrap="nowrap" gap={2}>
             <Button
               size="small"
               disableElevation
@@ -149,7 +157,9 @@ const Item = () => {
             </Button>
           </Grid>
           <Grid item container gap={2} flexWrap={"nowrap"}>
-            <Button variant="outlined">BUY NOW</Button>
+            <Button variant="outlined" onClick={() => buyNow(product)}>
+              BUY NOW
+            </Button>
             <Button variant="contained" disableElevation>
               ADD TO CART
             </Button>

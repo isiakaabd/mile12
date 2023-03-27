@@ -8,20 +8,17 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { Categories, Error } from "components";
+import { Error } from "components";
 import { useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  useGetCategoriesQuery,
-  useLazyGetProductsQuery,
-} from "redux/slices/productSlice";
-import { CartItemsSkeleton, CategoriesSkeleton } from "./Products";
+import { useLazyGetProductsQuery } from "redux/slices/productSlice";
+import { CartItemsSkeleton } from "./Products";
 import { getDate, getImage } from "helpers";
 
 const History = () => {
-  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-  const [cat, setCat] = useState("tubers");
+  // const { data: categories, isLoading, isError } = useGetCategoriesQuery();
+  const [cat] = useState("tubers");
   const [getProducts, { data: products, isLoading: load, isError: isErr }] =
     useLazyGetProductsQuery();
   useEffect(() => {
@@ -31,14 +28,19 @@ const History = () => {
     });
     //eslint-disable-next-line
   }, [cat]);
-  if (isErr || isError) return <Error />;
+  if (isErr) return <Error />;
   return (
     <Grid item container gap={2}>
-      {isLoading ? (
+      {/* {isLoading ? (
         <CategoriesSkeleton />
       ) : (
         <Categories setCat={setCat} categories={categories} />
-      )}
+      )} */}
+      <Grid item container>
+        <Typography variant="h3" flex={1}>
+          Recently Listed Items
+        </Typography>
+      </Grid>
       {!load ? (
         <Grid item xs={12}>
           <List

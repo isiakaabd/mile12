@@ -70,7 +70,7 @@ export const CartItemsSkeleton = () => {
       {Array(12)
         .fill(undefined)
         .map((_, idx) => (
-          <Grid item>
+          <Grid item key={idx}>
             <Skeleton variant="rouded" width="100%" height="15rem" key={idx} />
           </Grid>
         ))}

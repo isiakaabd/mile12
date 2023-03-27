@@ -14,12 +14,17 @@ import {
   Typography,
 } from "@mui/material";
 import { CustomButton } from "components";
+import { getImage } from "helpers";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { decreaseCartItem, increaseCartItem } from "redux/reducers/cartReducer";
+import {
+  decreaseCartItem,
+  increaseCartItem,
+  removeCartItem,
+} from "redux/reducers/cartReducer";
 
 const CartsList = () => {
-  const carts = useSelector((state) => state.carts.carts);
+  const { carts, totalPayout } = useSelector((state) => state.carts);
 
   return (
     <Grid item container gap={2} flexDirection={"column"}>
@@ -36,9 +41,17 @@ const CartsList = () => {
             }}
             dense
           >
-            {carts.map((cart, index) => (
-              <ListItems key={index} cart={cart} />
-            ))}
+            {carts.length > 0 ? (
+              carts.map((cart, index) => <ListItems key={index} cart={cart} />)
+            ) : (
+              <Typography
+                gutterBottom
+                sx={{ py: 4, textAlign: "center", width: "100%" }}
+                variant="h3"
+              >
+                No Item in the Cart yet
+              </Typography>
+            )}
           </List>
         </Grid>
         <Grid item md={4} xs={12}>
@@ -64,7 +77,9 @@ const CartsList = () => {
               justifyContent="space-between"
             >
               <Typography variant="h5">Subtotal</Typography>
-              <Typography variant="h5">NGN 140,000</Typography>
+              <Typography variant="h5">
+                NGN {totalPayout?.toLocaleString()}
+              </Typography>
             </Grid>
             <Typography variant="h6" sx={{ color: "#8F8D8D" }}>
               Delivery fees not included yet
@@ -83,16 +98,20 @@ const CartsList = () => {
 };
 export default CartsList;
 const ListItems = ({ cart }) => {
-  const { name, rating, price, totalPrice, number } = cart;
+  const { name, rating, number, price, totalPrice, images } = cart;
   const theme = useTheme();
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const handleReduce = () => {
     dispatch(decreaseCartItem(cart));
+  };
+  const handleRemove = () => {
+    dispatch(removeCartItem(cart));
   };
   const handleAdd = () => {
     dispatch(increaseCartItem(cart));
   };
+  const imagesArray = JSON.parse(images);
   return (
     <ListItemButton dense disableRipple disableTouchRipple>
       <ListItem
@@ -149,13 +168,18 @@ const ListItems = ({ cart }) => {
           </Grid>
         }
       >
-        <ListItemAvatar>
-          <Avatar>H</Avatar>
+        <ListItemAvatar sx={{ height: "8rem", width: "8rem", mr: 2 }}>
+          <Avatar
+            src={getImage(imagesArray[0])}
+            alt={name}
+            variant="square"
+            sx={{ height: "100%", width: "100%", borderRadius: "1rem" }}
+          />
         </ListItemAvatar>
         <ListItemText
           primary={
             <Grid item>
-              <Typography>{name}</Typography>
+              <Typography variant="h4">{name}</Typography>
               <Rating
                 name="customized-10"
                 precision={0.5}
@@ -163,7 +187,11 @@ const ListItems = ({ cart }) => {
                 max={5}
               />
               <Grid item>
-                <Button color="error" startIcon={<DeleteOutlineOutlined />}>
+                <Button
+                  color="error"
+                  startIcon={<DeleteOutlineOutlined />}
+                  onClick={handleRemove}
+                >
                   Remove
                 </Button>
               </Grid>

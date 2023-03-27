@@ -12,7 +12,15 @@ export const adminSlice = api.injectEndpoints({
       transformResponse: (response) => response,
       transformErrorResponse: (error) => error.data,
     }),
+    getStats: builder.query({
+      query: () => ({
+        url: `/admin/order/stats`,
+      }),
+      invalidatesTags: ["admin"],
+      transformResponse: (response) => response.body,
+      transformErrorResponse: (error) => error.data,
+    }),
   }),
 });
 
-export const { useCreatePoductMutation } = adminSlice;
+export const { useCreatePoductMutation, useGetStatsQuery } = adminSlice;

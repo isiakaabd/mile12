@@ -1,13 +1,79 @@
 import { ArrowBack } from "@mui/icons-material";
-import { Button, Divider, Grid, IconButton, Typography } from "@mui/material";
+import {
+  Button,
+  Divider,
+  Grid,
+  IconButton,
+  Skeleton,
+  Typography,
+} from "@mui/material";
 import { CustomButton } from "components";
 import Success from "components/Success";
 import { Formik, Form } from "formik/dist";
 import { useState } from "react";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import {
+  useCreateAddressMutation,
+  useGetAddressQuery,
+} from "redux/slices/addressSlice";
+import { useMakeOrderMutation } from "redux/slices/orderSlice";
 import FormikControl from "validation/FormikControl";
+import * as Yup from "yup";
 
+const validationSchema = Yup.object({
+  street: Yup.string().required("Required"),
+  lastName: Yup.string().required("Required"),
+  firstName: Yup.string().required("Required"),
+  state: Yup.string().required("Required"),
+  phone: Yup.number().typeError("only number").required("Required"),
+  zip: Yup.number().typeError("only number").required("Required"),
+});
 const Checkout = () => {
   const [modal, setModal] = useState(false);
+  const [createAddress, { isLoading }] = useCreateAddressMutation();
+  const { isLoading: load, data: address } = useGetAddressQuery();
+  const [createOrder, { isLoading: loadi }] = useMakeOrderMutation();
+  const { carts, totalPayout } = useSelector((state) => state.carts);
+
+  const handleSubmit = async (value, { resetForm }) => {
+    const { street, lastName, firstName, phone, zip, state } = value;
+
+    const { data, error } = await createAddress({
+      first_name: firstName,
+      last_name: lastName,
+      street_address: street,
+      phone_number: phone,
+      zip_code: zip,
+      state: state,
+    });
+    if (data) {
+      toast.success(data);
+      setTimeout(() => setModal(true), 3000);
+      setTimeout(() => resetForm(), 4000);
+    }
+    if (error) toast.error(error);
+  };
+  const add = address?.at(1);
+  const newArr = carts.map((item) => {
+    return {
+      item_id: item?.id,
+      count: item?.number,
+    };
+  });
+  const handleCheckOut = async () => {
+    console.log(123);
+    const { data, error } = await createOrder({
+      address: add?.id,
+      items: newArr,
+    });
+    if (data) {
+      toast.success(data);
+      setTimeout(() => setModal(true), 3000);
+    }
+    if (error) toast.error(error);
+  };
+
   return (
     <>
       <Grid
@@ -30,7 +96,9 @@ const Checkout = () => {
             <Grid item container>
               <Formik
                 initialValues={{
-                  address: "",
+                  address:
+                    `${add?.zip_code}, ${add?.street_address}, ${add?.state}` ||
+                    "",
                   street: "",
                   lastName: "",
                   firstName: "",
@@ -38,14 +106,26 @@ const Checkout = () => {
                   zip: "",
                   state: "",
                 }}
+                enableReinitialize
+                validationSchema={validationSchema}
+                onSubmit={handleSubmit}
               >
                 <Form style={{ width: "100%" }}>
-                  <Grid item container>
-                    <FormikControl
-                      name="address"
-                      placeholder="Recent Address"
+                  {load ? (
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ height: "4rem", width: "100%" }}
                     />
-                  </Grid>
+                  ) : (
+                    <Grid item container>
+                      <FormikControl
+                        name="address"
+                        placeholder="Recent Address"
+                        disabled
+                      />
+                    </Grid>
+                  )}
+
                   <Grid item container>
                     <Typography variant="h6" my={2}>
                       New Address
@@ -92,14 +172,12 @@ const Checkout = () => {
                             placeholder="Street Address"
                           />
                         </Grid>
-                        {/* <Grid item md={6} xs={12} sx={{ visibility: "hidden" }}>
-                        <FormikControl name="state" placeholder="State" />
-                      </Grid> */}
                       </Grid>
                       <Grid item mt={4}>
                         <CustomButton
+                          isSubmitting={isLoading}
                           title="Use This Address"
-                          onClick={() => setModal(true)}
+                          type="submit"
                         />
                       </Grid>
                     </Grid>
@@ -126,9 +204,11 @@ const Checkout = () => {
                   justifyContent={"space-between"}
                 >
                   <Typography variant="h5" sx={{ color: "#8F8D8D" }}>
-                    Items (2)
+                    {`Items ${carts.length})`}
                   </Typography>
-                  <Typography variant="h5">NGN 140,000</Typography>
+                  <Typography variant="h5">
+                    NGN {totalPayout?.toLocaleString()}
+                  </Typography>
                 </Grid>
                 <Grid
                   item
@@ -150,7 +230,12 @@ const Checkout = () => {
                   & Conditions of Use.{" "}
                 </Typography>
                 <Grid item container>
-                  <CustomButton title={"Continue"} />
+                  <CustomButton
+                    title={"Continue"}
+                    isSubmitting={loadi}
+                    type="button"
+                    onClick={handleCheckOut}
+                  />
                 </Grid>
               </Grid>
               <Grid

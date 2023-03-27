@@ -1,8 +1,9 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, current } from "@reduxjs/toolkit";
 
 const initialState = {
-  carts: [],
+  carts: JSON.parse(localStorage.getItem("carts")) || [],
   cart: {},
+  totalPayout: Number(localStorage.getItem("totalPayout") || 0),
 };
 
 export const cartSlice = createSlice({
@@ -11,7 +12,26 @@ export const cartSlice = createSlice({
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
     addToCart: (state, action) => {
-      state.carts.push(action.payload);
+      const obj = { ...action.payload };
+      const check = current(state.carts).findIndex(
+        (item) => item.id === obj.id
+      );
+
+      if (check >= 0) return;
+      else {
+        obj.number = 1;
+        obj.addedToCart = true;
+        obj.totalPrice = obj.price;
+        const x = [obj, ...state.carts];
+        const price = x.reduce((a, x) => a + x.price, 0);
+        localStorage.setItem("carts", JSON.stringify(x));
+        localStorage.setItem("totalPayout", price);
+        return {
+          ...state,
+          carts: x,
+          totalPayout: price,
+        };
+      }
     },
     increaseCartItem: (state, action) => {
       const id = action.payload.id;
@@ -26,28 +46,38 @@ export const cartSlice = createSlice({
         }
         return cart;
       });
+      let price = updatedCarts.reduce((a, x) => a + x.totalPrice, 0);
 
+      localStorage.setItem("carts", JSON.stringify(updatedCarts));
+      localStorage.setItem("totalPayout", price);
       return {
         ...state,
         carts: updatedCarts,
+        totalPayout: price,
       };
     },
-    removeItem: (state, action) => {},
+    removeCartItem: (state, action) => {
+      const id = action.payload.id;
+      const arr = current(state.carts);
+      const newCart = arr.filter((item) => item.id !== id);
+      let price = newCart.reduce((a, x) => a + x.totalPrice, 0);
+      localStorage.setItem("carts", JSON.stringify(newCart));
+      localStorage.setItem("totalPayout", price);
+      return {
+        ...state,
+        carts: newCart,
+        totalPayout: price,
+      };
+    },
 
     decreaseCartItem: (state, action) => {
       const id = action.payload.id;
 
-      const index = state.carts.findIndex((cart) => cart.id === id);
-      const updatedCarts = state.carts.map((cart) => {
+      const updatedCarts = state.carts.map((cart, index) => {
         if (cart.id === id) {
-          const number = cart.number - 1;
-          if (number === 0) {
-            // const arr = state.carts.splice(index, 1);
-            console.log(index);
-            // return {
-            //   arr,
-            // };
-          } else {
+          let number = cart.number - 1;
+          if (number === 0) number = 1;
+          else {
             return {
               ...cart,
               totalPrice: cart.price * number,
@@ -57,16 +87,20 @@ export const cartSlice = createSlice({
         }
         return cart;
       });
-      console.log(updatedCarts);
+      let price = updatedCarts.reduce((a, x) => a + x.totalPrice, 0);
+
+      localStorage.setItem("carts", JSON.stringify(updatedCarts));
+      localStorage.setItem("totalPayout", price);
       return {
         ...state,
         carts: updatedCarts,
+        totalPayout: price,
       };
     },
   },
 });
 
-export const { addToCart, increaseCartItem, decreaseCartItem } =
+export const { addToCart, increaseCartItem, decreaseCartItem, removeCartItem } =
   cartSlice.actions;
 
 export default cartSlice.reducer;
