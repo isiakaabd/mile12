@@ -15,7 +15,7 @@ import BoxIcon from "assets/svg/BoxIcon";
 import { useTheme } from "@emotion/react";
 import { Link, Outlet } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useLazyGetProductsQuery } from "redux/slices/productSlice";
 import { getProducts } from "redux/reducers/ProductReducers";
 

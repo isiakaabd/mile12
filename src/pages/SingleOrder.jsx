@@ -8,14 +8,12 @@ import {
   ListItemAvatar,
   ListItemButton,
   ListItemText,
-  Rating,
   Skeleton,
   Typography,
 } from "@mui/material";
-import { rice } from "assets/images";
 import { CustomButton, Error } from "components";
 import MobileStepper from "components/Steppers";
-import { getConfig, getDate, getImage, getTime, getTimeMoment } from "helpers";
+import { getConfig, getDate, getImage, getTime } from "helpers";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {

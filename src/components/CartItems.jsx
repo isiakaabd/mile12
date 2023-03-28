@@ -6,7 +6,6 @@ import {
   CardContent,
   CardMedia,
   Grid,
-  Rating,
   Typography,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +14,6 @@ import { addToCart } from "redux/reducers/cartReducer";
 
 import { getImage } from "helpers";
 import HoverRating from "./Ratings";
-import { useState } from "react";
 
 const CartItems = ({ products }) => {
   return (
@@ -53,9 +51,6 @@ const CartItem = ({ item }) => {
   const { admin } = useSelector((state) => state.auth);
 
   const image = JSON.parse(images);
-  console.log(item);
-  const [value, setValue] = useState(rating);
-  // const addToCart = () => {};
   return (
     <Grid item>
       <Card sx={{ width: "100%" }}>
@@ -72,7 +67,7 @@ const CartItem = ({ item }) => {
             <Typography color="secondary">{name}</Typography>
             <HoverRating
               name={name}
-              value={value}
+              value={rating}
               readOnly={true}
               // hover={hover}
               // setHover={setHover}

@@ -3,7 +3,6 @@ import {
   Button,
   Chip,
   Grid,
-  Rating,
   Skeleton,
   Typography,
 } from "@mui/material";
@@ -32,8 +31,7 @@ const Item = () => {
   const [value, setValue] = useState(product?.rating);
   if (isLoading) return <Skeleton />;
   if (isError) return <Error />;
-  const { name, desc, price, id: ids, images, rating } = product;
-  console.log(product);
+  const { name, desc, price, id: ids, images } = product;
   const buyNow = (item) => {
     dispatch(addToCart(item));
     navigate("/carts");

@@ -21,7 +21,7 @@ function getLabelText(value) {
 }
 
 export default function HoverRating({ value, setValue, readOnly, name, id }) {
-  const [rateProduct, { data, isLoading }] = useRateProductMutation();
+  const [rateProduct] = useRateProductMutation();
   const [hover, setHover] = useState(-1);
 
   return (
