@@ -8,6 +8,7 @@ import {
   Order,
   AddProduct,
   EditProduct,
+  AdminSingleOrder,
 } from "pages/admin";
 import { Route, Routes, Navigate } from "react-router-dom";
 
@@ -24,6 +25,7 @@ const AdminRoutes = () => {
         <Route path="messages" element={<Messages />} />
         <Route path="history" element={<History />} />
         <Route path="history/:id" element={<Order />} />
+        <Route path="admin/:id" element={<AdminSingleOrder />} />
 
         <Route path="admin" index element={<AdminDashboard />} />
       </Route>

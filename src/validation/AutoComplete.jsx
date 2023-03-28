@@ -1,9 +1,10 @@
-import { Field, ErrorMessage } from "formik/dist";
+import { Field, ErrorMessage, useFormikContext } from "formik/dist";
 import PropTypes from "prop-types";
 import { Autocomplete, Grid, TextField } from "@mui/material";
 import { TextError } from "./TextError";
 
 const Text = ({ name, placeholder, options, ...rest }) => {
+  const { setFieldValue } = useFormikContext();
   return (
     <Autocomplete
       freeSolo
@@ -11,6 +12,9 @@ const Text = ({ name, placeholder, options, ...rest }) => {
       options={options}
       {...rest}
       name={name}
+      onChange={(event, newValue) => {
+        setFieldValue(name, newValue);
+      }}
       renderInput={(params) => (
         <TextField
           {...params}

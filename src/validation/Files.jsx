@@ -1,7 +1,7 @@
 import { Grid, IconButton } from "@mui/material";
 import UploadIcon from "assets/svg/Upload";
 import { useFormikContext } from "formik/dist";
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 export const UploadComponent = ({ name, multiple, ...rest }) => {
   const { setFieldValue } = useFormikContext();
   const [file, setFile] = useState({
@@ -17,25 +17,15 @@ export const UploadComponent = ({ name, multiple, ...rest }) => {
     //eslint-disable-next-line
   }, [file, name]);
   const handleUpload = (file) => {
-    // if (!file.files) {
-    //   const objectUrl = URL.createObjectURL(file[0]);
-    //   setFile((prevState) => {
-    //     return {
-    //       files: file,
-    //       preview: [objectUrl],
-    //     };
-    //   });
-    // } else {
+    let arr = [];
     for (let i = 0; i <= file.length - 1; i++) {
       const objectUrl = URL.createObjectURL(file[i]);
-
-      setFile((prevState) => {
-        return {
-          files: [...prevState?.files, ...file],
-          preview: [...prevState.preview, objectUrl],
-        };
-      });
+      arr.push(objectUrl);
     }
+    setFile({
+      files: [...file],
+      preview: arr,
+    });
     // }
   };
   //   [preview, setFieldValue, name]

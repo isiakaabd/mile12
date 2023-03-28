@@ -20,7 +20,7 @@ const Item = () => {
   const [active, setactive] = useState(0);
   const { data: product, isLoading, isError } = useGetProductQuery(id);
   const cart = useSelector((state) => state.carts.cart);
-
+  const { admin } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //  dispatch(addToCart(item));
@@ -31,12 +31,12 @@ const Item = () => {
   const [value, setValue] = useState(product?.rating);
   if (isLoading) return <Skeleton />;
   if (isError) return <Error />;
-  const { name, desc, price, id: ids, images } = product;
+  const { name, desc, price, id: ids, stock_count, images } = product;
   const buyNow = (item) => {
     dispatch(addToCart(item));
     navigate("/carts");
   };
-
+  console.log(product);
   const imagesArray = JSON.parse(images);
   return (
     <Grid
@@ -98,11 +98,11 @@ const Item = () => {
           <Chip
             sx={{
               background: "#F3D9FF",
-              color: "#AE01FF",
+              color: stock_count !== 0 ? "#AE01FF" : "#f00",
               borderRadius: ".3rem",
               width: "max-content",
             }}
-            label="In stock"
+            label={stock_count !== 0 ? "In stock" : "Out of stock"}
           />
 
           <Typography variant="h2">{name}</Typography>
@@ -112,7 +112,13 @@ const Item = () => {
               {desc}
             </Typography>
           </Typography>
-          <HoverRating name={name} value={value} setValue={setValue} id={ids} />
+          <HoverRating
+            name={name}
+            value={value}
+            readOnly={admin ? true : false}
+            setValue={setValue}
+            id={ids}
+          />
           <Typography variant="h2">$ {price.toLocaleString()}</Typography>
           {/* <Grid item container alignItems={"center"} flexWrap="nowrap" gap={2}>
             <Button
@@ -156,26 +162,28 @@ const Item = () => {
               +
             </Button>
           </Grid> */}
-          <Grid item container gap={2} flexWrap={"nowrap"}>
-            <Button variant="outlined" onClick={() => buyNow(product)}>
-              BUY NOW
-            </Button>
+          {!admin && (
+            <Grid item container gap={2} flexWrap={"nowrap"}>
+              <Button variant="outlined" onClick={() => buyNow(product)}>
+                BUY NOW
+              </Button>
 
-            <Button
-              variant="contained"
-              disableElevation
-              onClick={
-                !cart?.addedToCart
-                  ? () => {
-                      dispatch(addToCart(product));
-                      dispatch(getCartItem(id));
-                    }
-                  : () => navigate("/carts")
-              }
-            >
-              {!cart?.addedToCart ? "ADD TO CART" : "GO TO CART"}
-            </Button>
-          </Grid>
+              <Button
+                variant="contained"
+                disableElevation
+                onClick={
+                  !cart?.addedToCart
+                    ? () => {
+                        dispatch(addToCart(product));
+                        dispatch(getCartItem(id));
+                      }
+                    : () => navigate("/carts")
+                }
+              >
+                {!cart?.addedToCart ? "ADD TO CART" : "GO TO CART"}
+              </Button>
+            </Grid>
+          )}
         </Grid>
       </Grid>
     </Grid>

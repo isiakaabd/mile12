@@ -69,8 +69,17 @@ const AdminDashboard = () => {
                   placeholder="Filter"
                   options={[
                     {
+                      label: "All",
+                      value: "",
+                    },
+                    {
                       label: "Confirmed",
                       value: "confirmed",
+                    },
+
+                    {
+                      label: "Pending",
+                      value: "pending",
                     },
                     {
                       label: "Order Placed",

@@ -9,6 +9,7 @@ import {
   TableContainer,
   tableCellClasses,
   Grid,
+  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
@@ -44,6 +45,7 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 const BasicTables = ({ values }) => {
+  console.log(values);
   return (
     <Grid item container>
       <TableContainer
@@ -67,7 +69,7 @@ const BasicTables = ({ values }) => {
               values?.map((row) => (
                 <StyledTableRow
                   component={Link}
-                  to={`/admin/order/${row.id}`}
+                  to={`/admin/${row.id}`}
                   key={row.id}
                   sx={
                     {
@@ -75,7 +77,13 @@ const BasicTables = ({ values }) => {
                     }
                   }
                 >
-                  <StyledTableCell align="left">{row.item}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    {row.items.slice(0, 2).map((ite) => (
+                      <Typography key={ite.item_id} noWrap variant="span">
+                        {ite?.product?.name},
+                      </Typography>
+                    ))}
+                  </StyledTableCell>
                   <StyledTableCell align="left">{row.cost}</StyledTableCell>
                   <StyledTableCell align="left">
                     {row.shipping_fee}

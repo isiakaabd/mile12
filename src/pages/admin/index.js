@@ -5,6 +5,7 @@ import AdminDashboard from "./AdminDashboard";
 import Order from "./Order";
 import AddProduct from "./AddProduct";
 import EditProduct from "./EditProduct";
+import AdminSingleOrder from "./AdminSingleOrder";
 
 export {
   Products,
@@ -14,4 +15,5 @@ export {
   Order,
   AdminDashboard,
   EditProduct,
+  AdminSingleOrder,
 };

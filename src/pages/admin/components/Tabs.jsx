@@ -33,9 +33,14 @@ export default function TabsComponent({ value, setValue, type, product }) {
     form.append("category", category.toLowerCase());
     form.append("stock_count", stock_count);
 
-    form.append(`images`, file.file[0]); //[${index}]
-    // file?.file?.forEach((item, index) => {
-    // });
+    if (file.file.length === 1) {
+      form.append("images", file.file[0]);
+    } else {
+      for (let i = 0; i < file.file.length; i++) {
+        form.append("images", file.file[i]);
+      }
+    }
+
     if (type !== "edit") {
       const { data, error } = await createProduct(form);
 

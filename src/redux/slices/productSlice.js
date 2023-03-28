@@ -9,6 +9,22 @@ export const productSlice = api.injectEndpoints({
           search ? `&search=${search}` : ""
         }${date_direction ? `&date_direction=${date_direction}` : ""}`,
       }),
+      // serializeQueryArgs: ({ endpointName }) => {
+      //   return endpointName;
+      // },
+      // // Always merge incoming data to the cache entry
+      // merge: (currentCache, newItems, arg) => {
+      //   console.log(newItems, arg);
+      //   return newItems[0].parentId === arg.parentId
+      //     ? currentCache?.comments?.push(...newItems?.comments)
+      //     : null;
+      // },
+      // Refetch when the page arg changes
+      // forceRefetch({ currentArg, previousArg }) {
+      //   return currentArg !== previousArg;
+      // },
+      // providesTags: (result, error, arg) =>
+
       invalidatesTags: ["product"],
       transformResponse: (response) => response.body.products,
       transformErrorResponse: (error) => error.data,

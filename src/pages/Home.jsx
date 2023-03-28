@@ -26,10 +26,21 @@ const Home = () => {
 
     //eslint-disable-next-line
   }, [cat]);
+  // const hasNextPage = page + 1 < comments?.total_pages;
+
+  // const [sentryRef] = useInfiniteScroll({
+  //   loading: isFetching,
+  //   hasNextPage,
+  //   onLoadMore: () => setPage((page) => page + 1),
+  //   // When there is an error, we stop infinite loading.
+  //   // It can be reactivated by setting "error" state as undefined.
+  //   disabled: !!error,
+  //   rootMargin: "0px 0px 200px 0px",
+  // });
 
   if (isErr || isError) return <Error />;
   return (
-    <Grid item container>
+    <Grid item container pb={4}>
       {isLoading ? (
         <CategoriesSkeleton />
       ) : (
