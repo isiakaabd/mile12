@@ -21,6 +21,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import {
+  clearCarts,
   decreaseCartItem,
   increaseCartItem,
   removeCartItem,
@@ -30,6 +31,7 @@ const CartsList = () => {
   const { carts, totalPayout } = useSelector((state) => state.carts);
   const [modalOpen, setModalOpen] = useState(false);
   const handleClose = () => setModalOpen(false);
+  const dispatch = useDispatch();
   return (
     <>
       <Grid item container gap={2} flexDirection={"column"}>
@@ -147,9 +149,12 @@ const CartsList = () => {
               variant="contained"
               disableElevation
               onClick={() => {
-                localStorage.removeItem("carts");
-                setTimeout(() => handleClose(), 2000);
-                toast.success("carts cleared");
+                dispatch(clearCarts());
+
+                setTimeout(() => {
+                  handleClose();
+                  toast.success("carts cleared");
+                }, 2000);
               }}
               sx={{
                 bgcolor: "#f00",

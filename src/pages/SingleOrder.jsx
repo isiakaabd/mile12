@@ -36,7 +36,7 @@ const SingleOrder = () => {
     amount: order?.cost,
   });
   const initializePayment = usePaystackPayment(config);
-  const [value, setValue] = useState(order?.rating);
+
   useEffect(() => {
     switch (order?.status) {
       case "order_placed":
@@ -63,7 +63,6 @@ const SingleOrder = () => {
   const [verifyOrder, { isLoading: load }] = useVerifyOrderMutation();
   if (isLoading) return <Skeleton />;
   if (error) return <Error />;
-  console.log(order);
   const {
     status,
     payment_completed,
@@ -201,63 +200,9 @@ const SingleOrder = () => {
               flexDirection={{ xs: "column", md: "row" }}
             >
               <List sx={{ width: "100%" }} dense>
-                {items.map((item) => {
-                  const {
-                    count,
-                    product: { images, name, price, slug },
-                  } = item;
-                  const image = JSON.parse(images);
-                  return (
-                    <ListItemButton
-                      disableGutters
-                      LinkComponent={Link}
-                      to={`/products/${slug}`}
-                    >
-                      <ListItem dense alignItems="flex-start">
-                        <ListItemAvatar
-                          sx={{
-                            maxHeight: "100%",
-
-                            height: "7rem",
-                            mr: 2,
-                          }}
-                        >
-                          <Avatar
-                            variant="square"
-                            src={getImage(image[0])}
-                            alt={name}
-                            sx={{
-                              borderRadius: "1rem",
-                              minWidth: { md: "9rem", sm: "8rem", xs: "6rem" },
-                              height: "100%",
-                              objectFit: "contain",
-                            }}
-                          />
-                        </ListItemAvatar>
-                        <ListItemText
-                          secondary={
-                            <Grid
-                              item
-                              mt={2}
-                              container
-                              gap={1}
-                              flexDirection="column"
-                            >
-                              <Typography variant="h4">
-                                QTY:{" "}
-                                <Typography variant="span">{count} </Typography>
-                              </Typography>
-                              <Typography variant="h4">
-                                ${price.toLocaleString()}{" "}
-                              </Typography>
-                            </Grid>
-                          }
-                          primary={<Typography variant="h4">{name}</Typography>}
-                        />
-                      </ListItem>
-                    </ListItemButton>
-                  );
-                })}
+                {items.map((item) => (
+                  <Item item={item} />
+                ))}
               </List>
               {!payment_completed && (
                 <Grid item sx={{ maxWidth: "100%" }}>
@@ -274,11 +219,6 @@ const SingleOrder = () => {
 
             <Grid item container flexDirection="column" gap={2}>
               <Typography variant="h4">Rating:</Typography>
-              <HoverRating
-                name="customized-10"
-                value={value}
-                setValue={setValue}
-              />
             </Grid>
             <Typography variant="h4">
               Payment Method: <Typography variant="span">Paystack</Typography>
@@ -291,3 +231,64 @@ const SingleOrder = () => {
 };
 
 export default SingleOrder;
+const Item = ({ item }) => {
+  const {
+    count,
+    item_id,
+    product: { images, rating, name, price, slug },
+  } = item;
+  const image = JSON.parse(images);
+  const [value, setValue] = useState(rating);
+  return (
+    <ListItemButton
+      disableGutters
+      LinkComponent={Link}
+      to={`/products/${slug}`}
+    >
+      <ListItem
+        dense
+        alignItems="flex-start"
+        secondaryAction={
+          <HoverRating
+            name="customized-10"
+            value={value}
+            setValue={setValue}
+            id={item_id}
+          />
+        }
+      >
+        <ListItemAvatar
+          sx={{
+            maxHeight: "100%",
+
+            height: "7rem",
+            mr: 2,
+          }}
+        >
+          <Avatar
+            variant="square"
+            src={getImage(image[0])}
+            alt={name}
+            sx={{
+              borderRadius: "1rem",
+              minWidth: { md: "9rem", sm: "8rem", xs: "6rem" },
+              height: "100%",
+              objectFit: "contain",
+            }}
+          />
+        </ListItemAvatar>
+        <ListItemText
+          secondary={
+            <Grid item mt={2} container gap={1} flexDirection="column">
+              <Typography variant="h4">
+                QTY: <Typography variant="span">{count} </Typography>
+              </Typography>
+              <Typography variant="h4">${price.toLocaleString()} </Typography>
+            </Grid>
+          }
+          primary={<Typography variant="h4">{name}</Typography>}
+        />
+      </ListItem>
+    </ListItemButton>
+  );
+};

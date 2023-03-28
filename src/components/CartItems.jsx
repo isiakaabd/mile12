@@ -87,13 +87,10 @@ const CartItem = ({ item }) => {
           <Button
             variant="outlined"
             sx={{ width: "100%" }}
-            onClick={
+            onClick={() =>
               admin
-                ? () => navigate("/product/edit", { state: slug })
-                : () => {
-                    dispatch(addToCart(item));
-                    // setTimeout(() => navigate("/carts"), 1200);
-                  }
+                ? navigate("/product/edit", { state: slug })
+                : dispatch(addToCart(item))
             }
           >
             {admin ? "Edit Product" : "Add to Cart"}

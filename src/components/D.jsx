@@ -7,6 +7,10 @@ import {
   IconButton,
   InputBase,
   Typography,
+  Autocomplete,
+  TextField,
+  useAutocomplete,
+  ListItem,
 } from "@mui/material";
 import SearchIcon from "assets/svg/Search";
 import { ShoppingCartOutlined } from "@mui/icons-material";
@@ -14,10 +18,9 @@ import { Button, ButtonBase, Grid } from "@mui/material";
 import BoxIcon from "assets/svg/BoxIcon";
 import { useTheme } from "@emotion/react";
 import { Link, Outlet } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useState } from "react";
-import { useLazyGetProductsQuery } from "redux/slices/productSlice";
-import { getProducts } from "redux/reducers/ProductReducers";
+import { useSelector } from "react-redux";
+import { useGetProductsQuery } from "redux/slices/productSlice";
+import { useState } from "react";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -32,10 +35,10 @@ const Search = styled("div")(({ theme }) => ({
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: "auto",
+  width: "50rem",
   height: "4rem",
   [theme.breakpoints.up("sm")]: {
-    width: "auto",
+    width: "50rem",
   },
 }));
 
@@ -76,17 +79,7 @@ const SearchButton = styled(ButtonBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const theme = useTheme();
-  const [searchProduct] = useLazyGetProductsQuery();
   const carts = useSelector((state) => state.carts.carts);
-  const [value, setValue] = useState("");
-  const dispatch = useDispatch();
-  const handleSearch = async () => {
-    const { data } = await searchProduct({
-      category: "",
-      search: value,
-    });
-    dispatch(getProducts(data));
-  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -124,29 +117,7 @@ export default function PrimarySearchAppBar() {
               </Typography>
             </Grid>
 
-            <Grid
-              item
-              container
-              alignItems={"center"}
-              flexWrap="nowrap"
-              order={{ xs: 3, md: 0 }}
-              sx={{
-                maxWidth: { md: "max-content", xs: "100%" },
-              }}
-            >
-              <Search>
-                <SearchIconWrapper>
-                  <SearchIcon />
-                </SearchIconWrapper>
-                <StyledInputBase
-                  value={value}
-                  onChange={(e) => setValue(e.target.value)}
-                  placeholder="Search…"
-                  inputProps={{ "aria-label": "search" }}
-                />
-              </Search>
-              <SearchButton onClick={handleSearch}>Search</SearchButton>
-            </Grid>
+            <UseAutocomplete />
             <Grid
               item
               sx={{
@@ -198,5 +169,131 @@ export default function PrimarySearchAppBar() {
         <Outlet />
       </Grid>
     </Box>
+  );
+}
+const Auto = () => {
+  const { data: products } = useGetProductsQuery({ category: "" });
+  console.log(products);
+  return (
+    <Autocomplete
+      freeSolo
+      id="free-solo-2-demo"
+      disableClearable
+      options={products.map((option) => option.name)}
+      // getOptionLabel={(option) => {
+      //   console.log(option.name);
+      //   return option.name;
+      // }}
+      renderInput={(params) => (
+        // <>
+        //   <Search>
+        //     <SearchIconWrapper>
+        //       <SearchIcon />
+        //     </SearchIconWrapper>
+        //     <StyledInputBase
+        //       placeholder="Search…"
+        //       inputProps={{ "aria-label": "search" }}
+        //       {...params}
+        //     />
+        //   </Search>
+        // </>
+        <TextField
+          {...params}
+          // label="Search input"
+          InputProps={{
+            ...params.InputProps,
+            type: "search",
+          }}
+        />
+      )}
+      sx={{ width: "500px" }}
+    />
+  );
+};
+function St() {
+  return (
+    <Grid
+      item
+      container
+      alignItems={"center"}
+      flexWrap="nowrap"
+      order={{ xs: 3, md: 0 }}
+      sx={{
+        maxWidth: { md: "max-content", xs: "100%" },
+      }}
+    >
+      <Search>
+        <SearchIconWrapper>
+          <SearchIcon />
+        </SearchIconWrapper>
+        <StyledInputBase />
+      </Search>
+      {/* <SearchButton>Search</SearchButton> */}
+    </Grid>
+  );
+}
+const Listbox = styled("ul")(({ theme }) => ({
+  maxWidth: "100%",
+  [theme.breakpoints.up("md")]: {
+    width: "50rem",
+  },
+  margin: 0,
+  padding: 0,
+  zIndex: 1,
+  position: "absolute",
+  listStyle: "none",
+  backgroundColor: theme.palette.mode === "light" ? "#fff" : "#000",
+  overflow: "auto",
+  maxHeight: 200,
+  border: "1px solid rgba(0,0,0,.25)",
+  "& li.Mui-focused": {
+    backgroundColor: "#4a8df6",
+    color: "white",
+    cursor: "pointer",
+  },
+  "& li:active": {
+    backgroundColor: "#2977f5",
+    color: "white",
+  },
+}));
+function UseAutocomplete() {
+  const { data: products } = useGetProductsQuery({ category: "", search: "" });
+  console.log(products);
+  const {
+    getRootProps,
+    getInputLabelProps,
+    getInputProps,
+    getListboxProps,
+    getOptionProps,
+    groupedOptions,
+  } = useAutocomplete({
+    id: "use-autocomplete-demo",
+    options: products || [],
+    getOptionLabel: (option) => option?.name,
+  });
+  const [state, setState] = useState(getInputProps().value);
+
+  return (
+    <div>
+      <div {...getRootProps()}>
+        <Search>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase {...getInputProps()} placeholder="Search..." />
+        </Search>
+        {/* <Label {...getInputLabelProps()}>useAutocomplete</Label>
+        <Input {...getInputProps()} /> */}
+      </div>
+      {groupedOptions?.length > 0 ? (
+        <Listbox {...getListboxProps()}>
+          {groupedOptions?.map((option, index) => (
+            <ListItem {...getOptionProps({ option, index })}>
+              {option?.name}
+            </ListItem>
+          ))}
+        </Listbox>
+      ) : null}
+    </div>
   );
 }

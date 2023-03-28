@@ -166,13 +166,13 @@ const Item = () => {
             <Button
               variant="contained"
               disableElevation
-              onClick={() =>
+              onClick={
                 !cart?.addedToCart
                   ? () => {
                       dispatch(addToCart(product));
                       dispatch(getCartItem(id));
                     }
-                  : navigate("/carts")
+                  : () => navigate("/carts")
               }
             >
               {!cart?.addedToCart ? "ADD TO CART" : "GO TO CART"}
