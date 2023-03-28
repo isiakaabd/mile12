@@ -1,6 +1,4 @@
 import { api } from ".";
-
-// ${category ? `?search=${category}` : ""}`,
 export const productSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({

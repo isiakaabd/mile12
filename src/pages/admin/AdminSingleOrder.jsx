@@ -1,12 +1,10 @@
-import { Button, Grid, Skeleton, Typography } from "@mui/material";
+import { Grid, Skeleton, Typography } from "@mui/material";
 import { Backbutton } from "./components";
 import { useParams } from "react-router-dom";
-import { useGetProductQuery } from "redux/slices/productSlice";
 import { CustomButton, Error } from "components";
 import { useGetOrderQuery } from "redux/slices/orderSlice";
 import { Formik, Form } from "formik/dist";
 import FormikControl from "validation/FormikControl";
-import { LoadingButton } from "@mui/lab";
 import { useUpdateOrderMutation } from "redux/slices/adminSlice";
 
 const AdminSingleOrder = () => {
@@ -23,7 +21,6 @@ const AdminSingleOrder = () => {
       id,
     });
   };
-  console.log(order);
   return (
     <Grid item container gap={2} flexDirection={"column"}>
       <Grid item>
@@ -73,6 +70,7 @@ const AdminSingleOrder = () => {
                         sx={{ height: "100%" }}
                         fontSize={{ md: "1.4rem", xs: "1rem" }}
                         title={"Update"}
+                        isSubmitting={load}
                       />
 
                       {/* </LoadingButton> */}
