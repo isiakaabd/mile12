@@ -77,7 +77,7 @@ const SearchButton = styled(ButtonBase)(({ theme }) => ({
 
 export default function PrimarySearchAppBar() {
   const theme = useTheme();
-  const [searchProduct] = useLazyGetProductsQuery();
+  const [searchProduct, { isLoading }] = useLazyGetProductsQuery();
   const carts = useSelector((state) => state.carts.carts);
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
@@ -143,7 +143,9 @@ export default function PrimarySearchAppBar() {
                   inputProps={{ "aria-label": "search" }}
                 />
               </Search>
-              <SearchButton onClick={handleSearch}>Search</SearchButton>
+              <SearchButton onClick={handleSearch} disabled={isLoading}>
+                Search
+              </SearchButton>
             </Grid>
             <Grid
               item
