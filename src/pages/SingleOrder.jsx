@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import { CustomButton, Error } from "components";
 import MobileStepper from "components/Steppers";
-import { getConfig, getDate, getImage, getTime } from "helpers";
+import { capitalize, getConfig, getDate, getImage, getTime } from "helpers";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
@@ -34,23 +34,26 @@ const SingleOrder = () => {
     amount: order?.cost,
   });
   const initializePayment = usePaystackPayment(config);
-
+  console.log(order?.status);
   useEffect(() => {
     switch (order?.status) {
-      case "order_placed":
+      case "pending":
         setState(1);
         break;
-      case "confirmed":
+      case "order_placed":
         setState(2);
         break;
-      case "shipped":
+      case "confirmed":
         setState(3);
         break;
-      case "out_for_delivery":
+      case "shipped":
         setState(4);
         break;
-      case "delivered":
+      case "out_for_delivery":
         setState(5);
+        break;
+      case "delivered":
+        setState(6);
         break;
 
       default:
@@ -66,6 +69,7 @@ const SingleOrder = () => {
     payment_completed,
     items,
     id: orderId,
+    shipping_fee,
     cost,
     address,
     createdAt,
@@ -103,22 +107,21 @@ const SingleOrder = () => {
       >
         <Typography
           variant="h4"
-          noWrap
           title={orderId}
           sx={{ color: lighterBlack, maxWidth: "60%" }}
         >
           Order ID:{" "}
-          <Typography variant="span" color="secondary">
-            {orderId}
+          <Typography noWrap variant="span" color="secondary">
+            {orderId.slice(0, 8)}
           </Typography>
         </Typography>
         <Typography variant="h4" sx={{ color: lighterBlack }}>
           Status:{" "}
           <Typography
             variant="span"
-            color={status === "delivered" ? "success" : "secondary"}
+            color={status === "delivered" ? "primary" : "secondary"}
           >
-            {status === "order_placed" ? "Order Placed" : status}
+            {status === "order_placed" ? "Order Placed" : capitalize(status)}
           </Typography>{" "}
         </Typography>
       </Grid>
@@ -134,7 +137,7 @@ const SingleOrder = () => {
             <Typography variant="h4" color="secondary">
               Order Status
             </Typography>
-            <MobileStepper status={state} />
+            <MobileStepper status={state} state={order} />
           </Grid>
         </Grid>
         <Grid item sm={12} sx={{ background: fadedWhite }}>
@@ -152,7 +155,7 @@ const SingleOrder = () => {
                 Total:{" "}
               </Typography>
               <Typography variant="h4" flex={1}>
-                $ {cost.toLocaleString()}
+                $ {(cost + Number(shipping_fee)).toLocaleString()}
               </Typography>
             </Grid>
             <Grid

@@ -1,4 +1,5 @@
 import {
+  Avatar,
   Drawer,
   List,
   ListItem,
@@ -6,7 +7,6 @@ import {
   ListItemIcon,
   ListItemText,
   Toolbar,
-  Typography,
 } from "@mui/material";
 import {
   DashboardCustomizeOutlined,
@@ -17,6 +17,7 @@ import {
 import { useLayoutEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { logo } from "assets/images";
 const Drawers = () => {
   const navigate = useNavigate();
   const [id, setId] = useState(0);
@@ -37,12 +38,6 @@ const Drawers = () => {
       icon: PersonAddAlt1Outlined,
     },
 
-    // {
-    //   id: 2,
-    //   name: "Messages",
-    //   link: "/messages",
-    //   icon: MessageOutlined,
-    // },
     {
       id: 2,
       name: "History",
@@ -87,16 +82,7 @@ const Drawers = () => {
       anchor="left"
     >
       <Toolbar>
-        <Typography
-          component={Link}
-          variant="h2"
-          noWrap
-          to="/dashboard"
-          sx={{ textDecoration: "none", color: "#000" }}
-          title="MILE 12"
-        >
-          MILE 12
-        </Typography>
+        <Avatar component={Link} src={logo} title="MILE 12" />
       </Toolbar>
 
       <List

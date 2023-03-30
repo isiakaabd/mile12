@@ -25,7 +25,7 @@ const CartItems = ({ products }) => {
           display="grid"
           gridTemplateColumns={{
             sm: "repeat(auto-fill, minmax(25rem, 1fr))",
-            xs: "repeat(2,1fr)",
+            xs: "repeat(auto-fill, minmax(18rem, 1fr))",
           }}
           gap={2}
         >
@@ -81,7 +81,11 @@ const CartItem = ({ item }) => {
         <CardActions>
           <Button
             variant="outlined"
-            sx={{ width: "100%" }}
+            sx={{
+              width: "100%",
+              fontWeight: 600,
+              fontSize: { md: "1.5rem", sm: "1.4rem", xs: "1.2rem" },
+            }}
             onClick={() =>
               admin
                 ? navigate("/product/edit", { state: slug })

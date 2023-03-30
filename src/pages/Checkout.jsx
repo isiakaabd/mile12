@@ -73,7 +73,7 @@ const Checkout = () => {
         container
         flexDirection="column"
         gap={2}
-        sx={{ pt: 2, py: 4, px: { md: 5, xs: 2 } }}
+        sx={{ py: 4, pt: { sm: 2, xs: 1 }, px: { md: 5, xs: 1 } }}
       >
         <Grid item>
           <IconButton size="large" edge="start">
@@ -83,8 +83,8 @@ const Checkout = () => {
         <Typography color="secondary" variant="h3">
           Shipping Address
         </Typography>
-        <Grid item container flexWrap={{ md: "nowrap" }}>
-          <Grid item md={8} sx={{ p: 3 }}>
+        <Grid item container rowGap={3} flexWrap={{ md: "nowrap" }}>
+          <Grid item md={8} sm={6} sx={{ p: { sm: 3 } }}>
             <Grid item container>
               <Formik
                 initialValues={{
@@ -178,7 +178,7 @@ const Checkout = () => {
               </Formik>
             </Grid>
           </Grid>
-          <Grid item md={4}>
+          <Grid item md={4} sm={6}>
             <Grid item container gap={4} flexDirection="column">
               <Grid
                 item

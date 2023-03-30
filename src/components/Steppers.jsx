@@ -4,34 +4,43 @@ import StepConnector, {
   stepConnectorClasses,
 } from "@mui/material/StepConnector";
 import { styled } from "@mui/material/styles";
-const steps = [
-  {
-    label: "Order Placed",
-    description: `04/10/22`,
-  },
-  {
-    label: "Payment  Confirmed",
-    description: "04/10/22",
-  },
-  {
-    label: "Shipped",
-    description: `06/10/22`,
-  },
-  {
-    label: "Out for Delivery",
-    description: `06/10/22`,
-  },
-  {
-    label: " Delivery",
-    description: `06/10/22`,
-  },
-];
+import { getDate } from "helpers";
 
-export default function MobileStepper({ status }) {
+export default function MobileStepper({ status, state }) {
   const [activeStep, setActiveSTep] = useState(1);
   useEffect(() => {
     setActiveSTep(status);
   }, [status]);
+  const steps = [
+    {
+      label: "Order Created",
+      description: state?.createdAt ? getDate(state?.createdAt) : "No Date",
+    },
+    {
+      label: "Order Placed",
+      description: state?.order_placed
+        ? getDate(state?.order_placed)
+        : "No Date",
+    },
+    {
+      label: "Payment  Confirmed",
+      description: state?.confirmed ? getDate(state?.confirmed) : "No Date",
+    },
+    {
+      label: "Shipped",
+      description: state?.shipped ? getDate(state?.shipped) : "No Date",
+    },
+    {
+      label: "Out for Delivery",
+      description: state?.out_for_delivery
+        ? getDate(state?.out_for_delivery)
+        : "No Date",
+    },
+    {
+      label: "Delivered",
+      description: getDate(state?.delivered),
+    },
+  ];
   return (
     <Grid item container>
       <Stepper

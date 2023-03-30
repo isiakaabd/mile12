@@ -1,3 +1,4 @@
-import rice from "./rice.png";
+import logo from "./logo.png";
+import g from "./g.png";
 
-export { rice };
+export { logo, g };

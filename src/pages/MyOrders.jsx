@@ -12,9 +12,8 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { rice } from "assets/images";
 import { Error } from "components";
-import { getDate } from "helpers";
+import { getDate, getImage } from "helpers";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetOrdersQuery } from "redux/slices/orderSlice";
@@ -28,14 +27,13 @@ const MyOrders = () => {
   if (isLoading) return <Skeleton />;
   if (error) return <Error />;
   const { orders } = data;
-  console.log(orders);
   return (
     <Grid item container gap={2} flexDirection={"column"}>
       <Typography color="secondary" variant="h3">
         My Orders
       </Typography>
       <Grid item container gap={2} flexWrap={{ md: "nowrap" }}>
-        <Grid item xs={12}>
+        <Grid item container>
           <List
             sx={{
               width: "100%",
@@ -62,9 +60,10 @@ const MyOrders = () => {
 export default MyOrders;
 
 const Order = ({ cart }) => {
-  const { status, createdAt, cost, id } = cart;
+  const { status, createdAt, cost, id, items } = cart;
   const theme = useTheme();
-
+  const product = items[0]?.product;
+  const img = JSON.parse(product?.images)[0];
   return (
     // <>
     //   {cart.items?.map((item, index) => (
@@ -75,10 +74,15 @@ const Order = ({ cart }) => {
       // key={item.item_id}
       component={Link}
       to={`/my-orders/${id}`}
-      sx={{ background: "#EFEFEF", borderRadius: ".6rem", mb: 2 }}
+      sx={{
+        background: "#EFEFEF",
+        width: "100%",
+        borderRadius: ".6rem",
+        mb: 2,
+      }}
     >
       <ListItem
-        // alignItems="flex-start"
+        alignItems="flex-start"
         dense
         disableGutters
         component="div"
@@ -88,7 +92,8 @@ const Order = ({ cart }) => {
             fontWeight={400}
             color="primary"
             sx={{
-              fontSize: { xs: "1.4rem", md: "1.6rem" },
+              display: { xs: "", sm: "block" },
+              fontSize: { xs: "1rem", sm: "1.4rem", md: "1.6rem" },
             }}
           >
             See Details
@@ -101,19 +106,31 @@ const Order = ({ cart }) => {
           },
         }}
       >
-        <ListItemAvatar sx={{ height: "100%", mr: 2 }}>
+        <ListItemAvatar
+          sx={{
+            // height: "7rem",
+
+            width: { md: "15rem", sm: "13rem", xs: "10rem" },
+            height: { md: "15rem", sm: "13rem", xs: "10rem" },
+            mr: 2,
+          }}
+        >
           <Avatar
-            src={rice}
+            src={getImage(img)}
             variant="square"
             sx={{
-              minWidth: { md: "9rem", sm: "8rem", xs: "6rem" },
+              width: "100%",
               height: "100%",
+              // height: { md: "", sm: "8rem", xs: "12rem" },
+              borderRadius: 2,
+              // : "100%",
             }}
+            alt={product?.name}
           />
         </ListItemAvatar>
         <ListItemText
           primary={
-            <Grid item container gap={1} flexDirection="column">
+            <Grid item container sx gap={1} flexDirection="column">
               <Typography
                 variant="span"
                 fontWeight={400}
@@ -127,10 +144,13 @@ const Order = ({ cart }) => {
                 $ {cost}
               </Typography>
               <Typography
-                variant="span"
+                variant="p"
                 fontWeight={300}
+                title={id}
                 sx={{
                   color: "#A2A2A2",
+                  // display: "none",
+                  width: { md: "80%", xs: "10rem" },
                   fontSize: { md: "2rem", xs: "1.4rem", sm: "1.6rem" },
                 }}
                 noWrap

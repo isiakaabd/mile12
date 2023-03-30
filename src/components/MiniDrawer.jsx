@@ -6,7 +6,7 @@ import {
   Badge,
   IconButton,
   InputBase,
-  Typography,
+  Avatar,
 } from "@mui/material";
 import SearchIcon from "assets/svg/Search";
 import { ShoppingCartOutlined } from "@mui/icons-material";
@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 import { useLazyGetProductsQuery } from "redux/slices/productSlice";
 import { getProducts } from "redux/reducers/ProductReducers";
+import { logo } from "assets/images";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -112,16 +113,13 @@ export default function PrimarySearchAppBar() {
             }}
           >
             <Grid item sx={{ mr: { xs: "auto", md: 3 } }}>
-              <Typography
+              <Avatar
                 component={Link}
-                variant="h2"
-                color="secondary"
-                // noWrap
-                to="/dashboard"
-                sx={{ textDecoration: "none" }}
-              >
-                MILE 12
-              </Typography>
+                to={"/dashboard"}
+                src={logo}
+                alt="MILE 12"
+                title="MILE 12"
+              />
             </Grid>
 
             <Grid
