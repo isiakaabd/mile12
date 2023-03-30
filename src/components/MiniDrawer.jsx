@@ -92,7 +92,7 @@ export default function PrimarySearchAppBar() {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <AppBar
-        position="static"
+        position="fixed"
         elevation={0}
         sx={{
           background: "#fff",
@@ -127,9 +127,9 @@ export default function PrimarySearchAppBar() {
               container
               alignItems={"center"}
               flexWrap="nowrap"
-              order={{ xs: 3, md: 0 }}
+              order={{ xs: 3, sm: 0, md: 0 }}
               sx={{
-                maxWidth: { md: "max-content", xs: "100%" },
+                maxWidth: { sm: "max-content", xs: "100%" },
               }}
             >
               <Search>
@@ -192,7 +192,11 @@ export default function PrimarySearchAppBar() {
           </Grid>
         </Toolbar>
       </AppBar>
-      <Grid item container sx={{ pt: 2, px: { md: 5, xs: 2 } }}>
+      <Grid
+        item
+        container
+        sx={{ pt: { md: "9rem", xs: "12rem" }, px: { md: 5, xs: 2 } }}
+      >
         <Outlet />
       </Grid>
     </Box>
