@@ -51,5 +51,5 @@ export const getConfig = ({ email, reference, amount }) => {
 };
 
 export const capitalize = (str) => {
-  return str.charAt(0).toUpperCase() + str.slice(1);
+  return str ? str?.charAt(0)?.toUpperCase() + str?.slice(1) : null;
 };

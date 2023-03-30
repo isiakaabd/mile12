@@ -82,7 +82,12 @@ const Drawers = () => {
       anchor="left"
     >
       <Toolbar>
-        <Avatar component={Link} src={logo} title="MILE 12" />
+        <Avatar
+          component={Link}
+          src={logo}
+          title="MILE 12"
+          sx={{ width: { xs: "3rem" } }}
+        />
       </Toolbar>
 
       <List

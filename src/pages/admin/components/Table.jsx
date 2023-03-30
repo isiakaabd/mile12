@@ -5,6 +5,7 @@ import {
   TableBody,
   TableRow,
   TableHead,
+  Chip,
   TableCell,
   TableContainer,
   tableCellClasses,
@@ -14,7 +15,7 @@ import {
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
 import NoData from "./NoData";
-import { getDate } from "helpers";
+import { getDate, capitalize } from "helpers";
 const shortText = (text) => {
   let word = text.slice(0, 8);
   return `${word}...`;
@@ -45,7 +46,6 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 const BasicTables = ({ values }) => {
-  console.log(values);
   return (
     <Grid item container>
       <TableContainer
@@ -94,7 +94,17 @@ const BasicTables = ({ values }) => {
                   <StyledTableCell align="left" sx={{ color: "#AE01FF" }}>
                     {shortText(row.id)} <ArrowOutwardOutlined />
                   </StyledTableCell>
-                  <StyledTableCell align="left">{row.status}</StyledTableCell>
+                  <StyledTableCell align="left">
+                    <Chip
+                      sx={{
+                        fontSize: { md: "1.2rem", xs: "1rem" },
+                        background:
+                          row.status === "delivered" ? "#42936C" : "#FCF2CC",
+                        color: row.status === "delivered" ? "#fff" : "#CD7B2E",
+                      }}
+                      label={capitalize(row?.status)}
+                    />
+                  </StyledTableCell>
                 </StyledTableRow>
               ))
             ) : (

@@ -15,6 +15,8 @@ import { Link } from "react-router-dom";
 import { useLazyGetProductsQuery } from "redux/slices/productSlice";
 import { CartItemsSkeleton } from "./Products";
 import { getDate, getImage } from "helpers";
+import { Formik, Form } from "formik/dist";
+import FormikControl from "validation/FormikControl";
 
 const History = () => {
   // const { data: categories, isLoading, isError } = useGetCategoriesQuery();
@@ -25,6 +27,7 @@ const History = () => {
     getProducts({
       category: cat,
       date_direction: "newer",
+      date_from: "",
     });
     //eslint-disable-next-line
   }, [cat]);
@@ -40,6 +43,23 @@ const History = () => {
         <Typography variant="h3" flex={1}>
           Recently Listed Items
         </Typography>
+        <Formik initialValues={{ filter: "" }}>
+          <Form>
+            <Grid item>
+              <FormikControl
+                control={"select"}
+                name="filter"
+                placeholder="Filter"
+                options={[
+                  {
+                    label: "daily",
+                    value: "daily",
+                  },
+                ]}
+              />
+            </Grid>
+          </Form>
+        </Formik>
       </Grid>
       {!load ? (
         <Grid item xs={12}>
