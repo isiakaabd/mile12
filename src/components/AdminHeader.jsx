@@ -56,6 +56,8 @@ const AdminHeader = () => {
     "&.MuiButtonBase-root": {
       borderRadius: ".6rem",
       height: "4rem",
+      fontSize: "1.6rem",
+      fontWeight: 500,
       backgroundColor: theme.palette.primary.main,
       transition: theme.transitions.create("width"),
       width: "8rem",

@@ -40,6 +40,15 @@ export const productSlice = api.injectEndpoints({
       transformResponse: (response) => response.message,
       transformErrorResponse: (error) => error.message,
     }),
+    createContact: builder.mutation({
+      query: (body) => ({
+        url: `/contact`,
+        body,
+        method: "POST",
+      }),
+      transformResponse: (response) => response.message,
+      transformErrorResponse: (error) => error.message,
+    }),
   }),
 });
 
@@ -47,6 +56,7 @@ export const {
   useGetOrdersQuery,
   useLazyGetOrdersQuery,
   useMakeOrderMutation,
+  useCreateContactMutation,
   useGetOrderQuery,
   useVerifyOrderMutation,
 } = productSlice;

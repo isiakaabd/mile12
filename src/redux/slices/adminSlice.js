@@ -18,7 +18,15 @@ export const adminSlice = api.injectEndpoints({
       }),
       invalidatesTags: ["admin"],
       transformResponse: (response) => response.body,
-      transformErrorResponse: (error) => error.data,
+      transformErrorResponse: (error) => error.message,
+    }),
+    getContacts: builder.query({
+      query: ({ offset }) => ({
+        url: `/contact?limit=10&offset=${offset ? offset : 0}`,
+      }),
+      invalidatesTags: ["admin"],
+      transformResponse: (response) => response.body,
+      transformErrorResponse: (error) => error.message,
     }),
     updateOrder: builder.mutation({
       query: (body) => ({
@@ -28,7 +36,7 @@ export const adminSlice = api.injectEndpoints({
       }),
       invalidatesTags: ["admin"],
       transformResponse: (response) => response.body,
-      transformErrorResponse: (error) => error.data,
+      transformErrorResponse: (error) => error.message,
     }),
   }),
 });
@@ -37,4 +45,5 @@ export const {
   useCreatePoductMutation,
   useUpdateOrderMutation,
   useGetStatsQuery,
+  useGetContactsQuery,
 } = adminSlice;

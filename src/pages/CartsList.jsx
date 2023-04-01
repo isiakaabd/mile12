@@ -32,9 +32,10 @@ const CartsList = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const handleClose = () => setModalOpen(false);
   const dispatch = useDispatch();
+  const { token } = useSelector((state) => state.auth);
   return (
     <>
-      <Grid item container gap={2} flexDirection={"column"}>
+      <Grid item container gap={2} flexDirection={"column"} pb={3}>
         <Typography color="secondary" variant="h3">
           {`Carts (${carts?.length})`}
         </Typography>
@@ -95,10 +96,10 @@ const CartsList = () => {
               </Typography>
               <Divider flexItem />
               <CustomButton
-                title={"Proceed to Checkout"}
+                title={token ? "Proceed to Checkout" : "Login to Checkout"}
                 component={Link}
                 disabled={totalPayout === 0}
-                to="/checkout"
+                to={token ? "/checkout" : "/auth/login"}
               />
               <Grid item ml="auto">
                 <Button

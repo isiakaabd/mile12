@@ -13,6 +13,7 @@ import {
   PersonAddAlt1Outlined,
   HistoryOutlined,
   LogoutOutlined,
+  ContactPageOutlined,
 } from "@mui/icons-material";
 import { useLayoutEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -27,7 +28,7 @@ const Drawers = () => {
     {
       id: 0,
       name: "Dashboard",
-      link: "/admin",
+      link: "/dashboard",
       icon: DashboardCustomizeOutlined,
     },
 
@@ -43,6 +44,12 @@ const Drawers = () => {
       name: "History",
       link: "/history",
       icon: HistoryOutlined,
+    },
+    {
+      id: 3,
+      name: "Contact-Us",
+      link: "/contact-us",
+      icon: ContactPageOutlined,
     },
   ];
   useLayoutEffect(() => {
@@ -61,9 +68,11 @@ const Drawers = () => {
   const xsDrawerWidth = 60;
   const purple = "AE01FF";
   const handleLogout = () => {
-    localStorage.clear();
-    toast.success("Logout Successful");
-    setTimeout(() => navigate("/auth"), 2000);
+    localStorage.removeItem("access_token");
+    localStorage.removeItem("refresh_token");
+    localStorage.removeItem("admin");
+    setTimeout(() => navigate("/auth/login"), 3000);
+    setTimeout(() => toast.success("Logout Successful"), 2000);
   };
   return (
     <Drawer

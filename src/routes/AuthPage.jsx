@@ -30,6 +30,7 @@ const AuthLayout = () => {
                 title="MILE 12"
               />
             </Grid>
+
             <Outlet />
           </Grid>
         </Grid>

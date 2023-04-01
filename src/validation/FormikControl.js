@@ -7,6 +7,7 @@ import CheckBox from "./Checkboxs";
 import TextArea from "./Textarea";
 import Radios from "./Radios";
 import Autocompletes from "./AutoComplete";
+import DateTimePicker from "./DateTimePicker";
 
 const FormikControl = ({ control, ...rest }) => {
   switch (control) {
@@ -23,6 +24,8 @@ const FormikControl = ({ control, ...rest }) => {
       return <CheckBox {...rest} />;
     case "radio":
       return <Radios {...rest} />;
+    case "date":
+      return <DateTimePicker {...rest} />;
     case "textarea":
       return <TextArea {...rest} />;
     case "autocomplete":

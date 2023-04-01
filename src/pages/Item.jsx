@@ -20,7 +20,7 @@ const Item = () => {
   const [active, setactive] = useState(0);
   const { data: product, isLoading, isError } = useGetProductQuery(id);
   const cart = useSelector((state) => state.carts.cart);
-  const { admin } = useSelector((state) => state.auth);
+  const { admin, token } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   //  dispatch(addToCart(item));
@@ -36,7 +36,6 @@ const Item = () => {
     dispatch(addToCart(item));
     navigate("/carts");
   };
-  console.log(product);
   const imagesArray = JSON.parse(images);
   return (
     <Grid
@@ -52,7 +51,7 @@ const Item = () => {
             item
             sx={{
               border: "1rem solid #F6F6F6",
-              width: "40rem",
+              width: { md: "40rem", xs: "100%" },
               height: "30rem",
             }}
           >
@@ -115,7 +114,7 @@ const Item = () => {
           <HoverRating
             name={name}
             value={value}
-            readOnly={admin ? true : false}
+            readOnly={!token || admin ? true : false}
             setValue={setValue}
             id={ids}
           />

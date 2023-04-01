@@ -2,10 +2,10 @@ import { ThemeProvider } from "@emotion/react";
 import App from "App";
 import { muiTheme } from "muiTheme";
 import { useSelector } from "react-redux";
-import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 import AdminRoutes from "./AdminRoutes";
-import { AuthPage } from "./AuthPage";
+import UnRegisterRoute from "./UnRegisterRoute";
 
 const AppRoutes = () => {
   const { admin, token } = useSelector((state) => state.auth);
@@ -18,20 +18,21 @@ const AppRoutes = () => {
             <Route element={<App />}>
               {token && !admin ? (
                 <>
-                  <Route path="/*" element={<PrivateRoutes />} />
-                  <Route index element={<Navigate to="/dashboard" />} />
+                  <Route path="/*" index element={<PrivateRoutes />} />
+                  {/* <Route index element={<Navigate to="/dashboard" />} /> */}
                 </>
               ) : token && admin ? (
                 <>
-                  <Route path="/*" element={<AdminRoutes />} />
-                  <Route index element={<Navigate to="/admin" />} />
+                  <Route path="/*" index element={<AdminRoutes />} />
+                  {/* <Route  element={<AdminDashboard />} /> */}
                 </>
               ) : (
                 <>
-                  <Route path="auth/*" element={<AuthPage />} />
-                  <Route path="*" element={<Navigate to="/auth" />} />
+                  <Route path="/*" index element={<UnRegisterRoute />} />
+                  {/* <Route path="*" element={<Unknown />} /> */}
                 </>
               )}
+              {/* <Route path="*" element={<Unknown />} /> */}
             </Route>
           </Routes>
         </div>

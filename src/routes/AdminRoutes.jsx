@@ -9,26 +9,30 @@ import {
   AddProduct,
   EditProduct,
   AdminSingleOrder,
+  Contact,
 } from "pages/admin";
-import { Route, Routes, Navigate } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
+import UnRegisterRoute from "./UnRegisterRoute";
+import { AuthPage } from "./AuthPage";
 
 const AdminRoutes = () => {
   return (
     <Routes>
       <Route element={<AdminLayout />}>
-        <Route path="auth/*" element={<Navigate to="/admin" />} />
-
         <Route path="products" element={<Products />} />
         <Route path="products/:id" element={<Item />} />
         <Route path="product/add" element={<AddProduct />} />
         <Route path="product/edit" element={<EditProduct />} />
         <Route path="messages" element={<Messages />} />
         <Route path="history" element={<History />} />
+        <Route path="contact-us" element={<Contact />} />
         <Route path="history/:id" element={<Order />} />
-        <Route path="admin/:id" element={<AdminSingleOrder />} />
+        <Route path="dashboard/:id" element={<AdminSingleOrder />} />
 
-        <Route path="admin" index element={<AdminDashboard />} />
+        <Route path="/dashboard" index element={<AdminDashboard />} />
       </Route>
+      <Route path="/*" element={<UnRegisterRoute />} />
+      <Route path="auth/*" element={<AuthPage />} />
     </Routes>
   );
 };

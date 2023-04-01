@@ -3,12 +3,12 @@ import PropTypes from "prop-types";
 import { Grid, TextField } from "@mui/material";
 import { TextError } from "./TextError";
 
-const Text = ({ name, placeholder, ...rest }) => (
+const Text = ({ name, placeholder, minRows, ...rest }) => (
   <TextField
     id="outlined-textarea"
     label={placeholder}
     placeholder={placeholder}
-    minRows={10}
+    minRows={minRows ? minRows : 10}
     name={name}
     multiline
     {...rest}

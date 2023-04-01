@@ -15,23 +15,38 @@ import { Link } from "react-router-dom";
 import { useLazyGetProductsQuery } from "redux/slices/productSlice";
 import { CartItemsSkeleton } from "./Products";
 import { getDate, getImage } from "helpers";
-import { Formik, Form } from "formik/dist";
-import FormikControl from "validation/FormikControl";
-
+// import { Formik, Form } from "formik/dist";
+// import FormikControl from "validation/FormikControl";
+// import moment from "moment";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DatePicker } from "@mui/x-date-pickers";
+// import dayjs from "dayjs";
 const History = () => {
   // const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-  const [cat] = useState("tubers");
+  const [cat] = useState("");
+  // const today = new Date();
+
+  const [dateFrom, setDateFrom] = useState("");
+  // console.log(dateFrom);
+
   const [getProducts, { data: products, isLoading: load, isError: isErr }] =
     useLazyGetProductsQuery();
   useEffect(() => {
     getProducts({
-      category: cat,
+      category: false,
       date_direction: "newer",
-      date_from: "",
+      date_from: "2011-03-03",
     });
     //eslint-disable-next-line
-  }, [cat]);
+  }, [cat, dateFrom]);
   if (isErr) return <Error />;
+  // const handleChange = (values) => {
+  //   setDateFrom(getDate(new Date(values)));
+  // };
+  const handleChange = (e) => {
+    setDateFrom(e);
+  };
   return (
     <Grid item container gap={2}>
       {/* {isLoading ? (
@@ -43,23 +58,28 @@ const History = () => {
         <Typography variant="h3" flex={1}>
           Recently Listed Items
         </Typography>
-        <Formik initialValues={{ filter: "" }}>
-          <Form>
-            <Grid item>
-              <FormikControl
-                control={"select"}
-                name="filter"
-                placeholder="Filter"
-                options={[
-                  {
-                    label: "daily",
-                    value: "daily",
-                  },
-                ]}
-              />
-            </Grid>
-          </Form>
-        </Formik>
+        <LocalizationProvider dateAdapter={AdapterDayjs}>
+          <DatePicker
+            value={dateFrom}
+            onChange={(newValue) => handleChange(newValue)}
+          />
+        </LocalizationProvider>
+        {/* <Formik initialValues={{ filter: "" }}>
+          {({ values }) => {
+            // console.log(getDate(new Date(values.filter)));
+            return (
+              <Form>
+                <Grid item>
+                  <FormikControl
+                    control={"date"}
+                    name="filter"
+                    onChange={handleChange}
+                  />
+                </Grid>
+              </Form>
+            );
+          }}
+        </Formik> */}
       </Grid>
       {!load ? (
         <Grid item xs={12}>

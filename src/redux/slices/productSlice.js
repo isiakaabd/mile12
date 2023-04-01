@@ -3,8 +3,8 @@ export const productSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     getProducts: builder.query({
       query: ({ category, search, date_direction, date_from }) => ({
-        url: `/product/?${category ? `&category=${category}` : ""}${
-          date_from ? `&date_from=${date_from}` : ""
+        url: `/product/?${category ? `category=${category}&` : ""}${
+          date_from ? `date_from=${date_from}` : ""
         }${search ? `&search=${search}` : ""}${
           date_direction ? `&date_direction=${date_direction}` : ""
         }`,

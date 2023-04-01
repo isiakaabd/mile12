@@ -12,7 +12,7 @@ import { Form, Formik } from "formik/dist";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { checkAdmin, loginAction } from "redux/reducers/authReducer";
 import { useLoginMutation } from "redux/slices/authSlice";
@@ -43,10 +43,12 @@ const Login = () => {
     if (error) toast.error(error);
     //eslint-disable-next-line
   }, [error, data]);
+  const navigate = useNavigate();
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleSubmit = async (values) => {
     const { em, psd } = values;
     await loginUser({ email: em, password: psd });
+    setTimeout(() => navigate("/dashboard"), 2000);
   };
   return (
     <>

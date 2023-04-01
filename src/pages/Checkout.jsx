@@ -196,7 +196,7 @@ const Checkout = () => {
                   justifyContent={"space-between"}
                 >
                   <Typography variant="h5" sx={{ color: "#8F8D8D" }}>
-                    {`Items ${carts.length})`}
+                    {`Items (${carts.length})`}
                   </Typography>
                   <Typography variant="h5">
                     $ {totalPayout?.toLocaleString()}

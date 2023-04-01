@@ -9,7 +9,10 @@ export const getDates = (date) => {
 export const getTime = (date) => {
   return moment(date).format("h:mm A");
 };
-
+export const shortText = (text) => {
+  let word = text.slice(0, 8);
+  return `${word}...`;
+};
 export const getAgo = (date) => {
   return moment(date).fromNow(true);
 };

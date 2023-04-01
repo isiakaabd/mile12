@@ -49,7 +49,6 @@ const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { admin } = useSelector((state) => state.auth);
-
   const image = JSON.parse(images);
   return (
     <Grid item>
