@@ -13,27 +13,18 @@ import {
 } from "@mui/material";
 import { CustomButton, Error } from "components";
 import MobileStepper from "components/Steppers";
-import { capitalize, getConfig, getDate, getImage, getTime } from "helpers";
+import { capitalize, getDate, getImage, getTime } from "helpers";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import {
-  useGetOrderQuery,
-  useVerifyOrderMutation,
-} from "redux/slices/orderSlice";
-import { usePaystackPayment } from "react-paystack";
-import { toast } from "react-toastify";
+import { useGetOrderQuery } from "redux/slices/orderSlice";
+
 import HoverRating from "components/Ratings";
 const SingleOrder = () => {
   const { id } = useParams();
   const theme = useTheme();
   const [state, setState] = useState(1);
   const { data: order, isLoading, error } = useGetOrderQuery(id);
-  const config = getConfig({
-    email: order?.user?.email,
-    reference: order?.id,
-    amount: order?.cost,
-  });
-  const initializePayment = usePaystackPayment(config);
+
   console.log(order?.status);
   useEffect(() => {
     switch (order?.status) {
@@ -61,7 +52,6 @@ const SingleOrder = () => {
         break;
     }
   }, [order?.status]);
-  const [verifyOrder, { isLoading: load }] = useVerifyOrderMutation();
   if (isLoading) return <Skeleton />;
   if (error) return <Error />;
   const {
@@ -76,21 +66,6 @@ const SingleOrder = () => {
   } = order;
   const fadedWhite = theme.palette.common.fadedWhite;
   const lighterBlack = theme.palette.common.lighterBlack;
-
-  const onSuccess = () => {
-    // Implementation for whatever you want to do with reference and after success call.
-    const { data, error } = verifyOrder({
-      id: orderId,
-    });
-    if (data) toast.success(data);
-    if (error) toast.error(error);
-  };
-
-  // you can call this function anything
-  const onClose = () => {
-    // implementation for  whatever you want to do when the Paystack dialog closed.
-    console.log("closed");
-  };
 
   return (
     <Grid item container gap={2} flexDirection={"column"}>
@@ -209,10 +184,8 @@ const SingleOrder = () => {
                 <Grid item sx={{ maxWidth: "100%" }}>
                   <CustomButton
                     title={"Buy Now"}
-                    isSubmitting={load}
-                    onClick={() => {
-                      initializePayment(onSuccess, onClose);
-                    }}
+                    LinkComponent={Link}
+                    to={`${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`}
                   />
                 </Grid>
               )}
@@ -222,7 +195,7 @@ const SingleOrder = () => {
               <Typography variant="h4">Rating:</Typography>
             </Grid>
             <Typography variant="h4">
-              Payment Method: <Typography variant="span">Paystack</Typography>
+              Payment Method: <Typography variant="span">Stripe</Typography>
             </Typography>
           </Grid>
         </Grid>

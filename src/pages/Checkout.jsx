@@ -232,7 +232,7 @@ const Checkout = () => {
                   />
                 </Grid>
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 sx={{ p: 2, bgcolor: "#EFEFEF", borderRadius: ".6rem" }}
                 flexDirection={"column"}
@@ -242,9 +242,9 @@ const Checkout = () => {
                 <Typography variant="h5">Payment Method</Typography>
 
                 <Grid item container>
-                  <CustomButton title={"Pay with Paystack"} />
+                  <CustomButton title={"Pay with Stripe"} />
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Grid>
