@@ -5,6 +5,7 @@ import CartItems from "./CartItems";
 import AdminLayout from "./AdminLayout";
 import Error from "./Error";
 import Modals from "./Modal";
+import Paginations from "./Paginations";
 
 export {
   CustomButton,
@@ -14,4 +15,5 @@ export {
   MiniDrawer,
   Categories,
   Modals,
+  Paginations,
 };

@@ -21,13 +21,13 @@ const PrivateRoutes = () => {
         <Route path="my-orders" element={<MyOrders />} />
         <Route path="my-orders/:id" element={<SingleOrder />} />
         <Route path="checkout" element={<Checkout />} />
-        <Route path="order/checkout" element={<>ddd</>} />
         <Route path="order/verify" element={<Status />} />
         {/* <Route path="admin" element={<AdminDashboard />} /> */}
         <Route index element={<Home />} />
         {/* <Route path="*" element={<Navigate to="/error/404" />} /> */}
       </Route>
       <Route path="auth/*" element={<AuthPage />} />
+      <Route path="*" element={<Home />} />
     </Routes>
   );
 };

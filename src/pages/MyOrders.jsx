@@ -12,21 +12,22 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import { Error } from "components";
+import { Error, Paginations } from "components";
 import { getDate, getImage } from "helpers";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetOrdersQuery } from "redux/slices/orderSlice";
 
 const MyOrders = () => {
-  const [page] = useState(1);
+  const [page, setPage] = useState(1);
   const { data, isLoading, error } = useGetOrdersQuery({
     offset: page - 1,
     status: "",
   });
   if (isLoading) return <Skeleton />;
   if (error) return <Error />;
-  const { orders } = data;
+
+  const { orders, total_pages } = data;
   return (
     <Grid item container gap={2} flexDirection={"column"}>
       <Typography color="secondary" variant="h3">
@@ -53,6 +54,11 @@ const MyOrders = () => {
           </List>
         </Grid>
       </Grid>
+      {total_pages > 1 && (
+        <Grid item container justifyContent={"center"}>
+          <Paginations page={page} setPage={setPage} count={total_pages} />
+        </Grid>
+      )}
     </Grid>
   );
 };
