@@ -47,7 +47,7 @@ const Home = () => {
   //   disabled: !!error,
   //   rootMargin: "0px 0px 200px 0px",
   // });
-  console.log(isErr, err);
+  console.log(isErr, error);
   if (isErr) return <Error />;
   if (error) return <Error />;
   return (
