@@ -92,16 +92,16 @@ const validationSchema = Yup.object({
 export default function PrimarySearchAppBar() {
   const theme = useTheme();
   const [sendMessage, { isLoading: load }] = useCreateContactMutation();
-  const [searchProduct, { isLoading }] = useLazyGetProductsQuery();
+  const [searchProduct, { isLoading, data }] = useLazyGetProductsQuery();
   const carts = useSelector((state) => state.carts.carts);
   const [value, setValue] = useState("");
   const dispatch = useDispatch();
   const handleSearch = async () => {
-    const { data } = await searchProduct({
+    await searchProduct({
       category: "",
       search: value,
     });
-    dispatch(getProducts(data));
+    if (data) dispatch(getProducts(data));
   };
   const navigate = useNavigate();
 

@@ -26,8 +26,8 @@ export const productSlice = api.injectEndpoints({
       // providesTags: (result, error, arg) =>
 
       invalidatesTags: ["product"],
-      transformResponse: (response) => response.body.products,
-      transformErrorResponse: (error) => error.data,
+      transformResponse: (response) => response.body,
+      transformErrorResponse: (error) => error.message,
     }),
     editProduct: builder.mutation({
       query: (body) => ({

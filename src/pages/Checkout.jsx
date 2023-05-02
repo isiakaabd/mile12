@@ -48,7 +48,7 @@ const Checkout = () => {
     if (error) toast.error(error);
   };
   const add = address?.at(1);
-  console.log(add);
+
   const newArr = carts.map((item) => {
     return {
       item_id: item?.id,
@@ -103,97 +103,74 @@ const Checkout = () => {
                 validationSchema={validationSchema}
                 onSubmit={handleSubmit}
               >
-                {({ values }) => {
-                  console.log(values);
-                  return (
-                    <Form style={{ width: "100%" }}>
-                      {load ? (
-                        <Skeleton
-                          variant="rounded"
-                          sx={{ height: "4rem", width: "100%" }}
-                        />
-                      ) : (
-                        <Grid item container>
+                <Form style={{ width: "100%" }}>
+                  {load ? (
+                    <Skeleton
+                      variant="rounded"
+                      sx={{ height: "4rem", width: "100%" }}
+                    />
+                  ) : (
+                    <Grid item container>
+                      <FormikControl
+                        name="address"
+                        placeholder="Recent Address"
+                        disabled={add ? true : false}
+                      />
+                    </Grid>
+                  )}
+
+                  <Grid item container>
+                    <Typography variant="h6" my={2}>
+                      New Address
+                    </Typography>
+                    <Grid item container gap={2}>
+                      <Grid item container gap={2} flexWrap={{ md: "nowrap" }}>
+                        <Grid item md={6} xs={12}>
                           <FormikControl
-                            name="address"
-                            placeholder="Recent Address"
-                            disabled={add ? true : false}
+                            name="firstName"
+                            placeholder="First Name"
                           />
                         </Grid>
-                      )}
-
-                      <Grid item container>
-                        <Typography variant="h6" my={2}>
-                          New Address
-                        </Typography>
-                        <Grid item container gap={2}>
-                          <Grid
-                            item
-                            container
-                            gap={2}
-                            flexWrap={{ md: "nowrap" }}
-                          >
-                            <Grid item md={6} xs={12}>
-                              <FormikControl
-                                name="firstName"
-                                placeholder="First Name"
-                              />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                              <FormikControl
-                                name="lastName"
-                                placeholder="Last Name"
-                              />
-                            </Grid>
-                          </Grid>
-
-                          <Grid
-                            item
-                            container
-                            gap={2}
-                            flexWrap={{ md: "nowrap" }}
-                          >
-                            <Grid item md={6} xs={12}>
-                              <FormikControl
-                                name="phone"
-                                placeholder="Phone Number"
-                              />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                              <FormikControl
-                                name="zip"
-                                placeholder="Zip Code"
-                              />
-                            </Grid>
-                          </Grid>
-                          <Grid
-                            item
-                            container
-                            gap={2}
-                            flexWrap={{ md: "nowrap" }}
-                          >
-                            <Grid item md={6} xs={12}>
-                              <FormikControl name="state" placeholder="State" />
-                            </Grid>
-                            <Grid item md={6} xs={12}>
-                              <FormikControl
-                                name="street"
-                                placeholder="Street Address"
-                              />
-                            </Grid>
-                          </Grid>
-                          <Grid item mt={4}>
-                            <CustomButton
-                              isSubmitting={isLoading}
-                              title="Use This Address"
-                              type="submit"
-                            />
-                          </Grid>
+                        <Grid item md={6} xs={12}>
+                          <FormikControl
+                            name="lastName"
+                            placeholder="Last Name"
+                          />
                         </Grid>
                       </Grid>
-                    </Form>
-                  );
-                }}
+
+                      <Grid item container gap={2} flexWrap={{ md: "nowrap" }}>
+                        <Grid item md={6} xs={12}>
+                          <FormikControl
+                            name="phone"
+                            placeholder="Phone Number"
+                          />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <FormikControl name="zip" placeholder="Zip Code" />
+                        </Grid>
+                      </Grid>
+                      <Grid item container gap={2} flexWrap={{ md: "nowrap" }}>
+                        <Grid item md={6} xs={12}>
+                          <FormikControl name="state" placeholder="State" />
+                        </Grid>
+                        <Grid item md={6} xs={12}>
+                          <FormikControl
+                            name="street"
+                            placeholder="Street Address"
+                          />
+                        </Grid>
+                      </Grid>
+                      <Grid item mt={4}>
+                        <CustomButton
+                          isSubmitting={isLoading}
+                          title="Use This Address"
+                          type="submit"
+                        />
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Form>
               </Formik>
             </Grid>
           </Grid>

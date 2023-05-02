@@ -25,7 +25,6 @@ const SingleOrder = () => {
   const [state, setState] = useState(1);
   const { data: order, isLoading, error } = useGetOrderQuery(id);
 
-  console.log(order?.status);
   useEffect(() => {
     switch (order?.status) {
       case "pending":

@@ -14,31 +14,39 @@ import { addToCart } from "redux/reducers/cartReducer";
 
 import { getImage } from "helpers";
 import HoverRating from "./Ratings";
+import Paginations from "./Paginations";
 
-const CartItems = ({ products }) => {
-  console.log(products);
+const CartItems = ({ products: data, page, setPage }) => {
+  const { products, total_pages } = data;
   return (
     <>
-      {products?.length > 0 ? (
-        <Grid
-          item
-          container
-          display="grid"
-          gridTemplateColumns={{
-            sm: "repeat(auto-fill, minmax(25rem, 1fr))",
-            xs: "repeat(auto-fill, minmax(18rem, 1fr))",
-          }}
-          gap={2}
-        >
-          {products?.map((item) => (
-            <CartItem key={item.id} item={item} />
-          ))}
-        </Grid>
-      ) : (
-        <Typography mt={4} gutterBottom variant="h2">
-          No Data Yet
-        </Typography>
-      )}
+      <Grid item container flexDirection={"column"} gap={3}>
+        {products?.length > 0 ? (
+          <Grid
+            item
+            container
+            display="grid"
+            gridTemplateColumns={{
+              sm: "repeat(auto-fill, minmax(25rem, 1fr))",
+              xs: "repeat(auto-fill, minmax(18rem, 1fr))",
+            }}
+            gap={2}
+          >
+            {products?.map((item) => (
+              <CartItem key={item.id} item={item} />
+            ))}
+          </Grid>
+        ) : (
+          <Typography mt={4} gutterBottom variant="h2">
+            No Data Yet
+          </Typography>
+        )}
+        {total_pages > 1 && (
+          <Grid item container justifyContent={"center"}>
+            <Paginations page={page} setPage={setPage} count={total_pages} />
+          </Grid>
+        )}
+      </Grid>
     </>
   );
 };

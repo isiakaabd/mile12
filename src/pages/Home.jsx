@@ -11,18 +11,21 @@ import { getProducts } from "redux/reducers/ProductReducers";
 
 const Home = () => {
   const { data: categories, isLoading, error } = useGetCategoriesQuery();
-  const productss = useSelector((state) => state.products?.products);
+  const productss = useSelector((state) => state.products);
 
+  const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const [cat, setCat] = useState("");
-  const [getProduct, { isLoading: load, error: isErr, data }] =
+  const [getProduct, { isLoading: load, error: isErr }] =
     useLazyGetProductsQuery();
   useEffect(() => {
     async function fetchData() {
       try {
-        await getProduct({
+        const { data } = await getProduct({
           category: cat,
+          offset: page - 1,
         });
+
         if (data) {
           dispatch(getProducts(data));
         }
@@ -35,7 +38,7 @@ const Home = () => {
     //     });
     fetchData();
     //eslint-disable-next-line
-  }, [cat, data]);
+  }, [cat]);
   // const hasNextPage = page + 1 < comments?.total_pages;
 
   // const [sentryRef] = useInfiniteScroll({
@@ -62,7 +65,7 @@ const Home = () => {
       ) : isErr ? (
         <Error />
       ) : (
-        <CartItems products={productss} />
+        <CartItems products={productss} setPage={setPage} page={page} />
       )}
     </Grid>
   );
