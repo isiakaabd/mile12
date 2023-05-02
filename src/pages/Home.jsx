@@ -18,12 +18,20 @@ const Home = () => {
   const [getProduct, { isLoading: load, isError: isErr }] =
     useLazyGetProductsQuery();
   useEffect(() => {
-    getProduct({
-      category: cat,
-    }).then((product) => {
-      dispatch(getProducts(product?.data));
-    });
-
+    async function fetchData() {
+      try {
+        const tt = await getProduct({
+          category: cat,
+        });
+        dispatch(getProducts(tt?.data));
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    // .then((product) => {
+    //       dispatch(getProducts(product?.data));
+    //     });
+    fetchData();
     //eslint-disable-next-line
   }, [cat]);
   // const hasNextPage = page + 1 < comments?.total_pages;
