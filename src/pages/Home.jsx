@@ -15,7 +15,7 @@ const Home = () => {
 
   const dispatch = useDispatch();
   const [cat, setCat] = useState("");
-  const [getProduct, { isLoading: load, isError: isErr, data }] =
+  const [getProduct, { isLoading: load, error: isErr, data }] =
     useLazyGetProductsQuery();
   useEffect(() => {
     async function fetchData() {
@@ -47,7 +47,7 @@ const Home = () => {
   //   disabled: !!error,
   //   rootMargin: "0px 0px 200px 0px",
   // });
-
+  console.log(isErr, err);
   if (isErr) return <Error />;
   if (error) return <Error />;
   return (
