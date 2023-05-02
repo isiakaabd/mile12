@@ -20,18 +20,19 @@ const Socials = () => {
       };
 
       dispatch(loginActionSocial(x));
-      setTimeout(() => navigate("/"), 3000);
+      setTimeout(() => navigate("/"), 2000);
     }
     //eslint-disable-next-line
   }, [accessToken, refreshToken]);
 
-  return (
-    <>
-      <Grid item container justifyContent={"center"}>
-        <Typography variant="h2">Welcome!!</Typography>
-      </Grid>
-    </>
-  );
+  return null;
+  //  (
+  //   <>
+  //     <Grid item container justifyContent={"center"}>
+  //       <Typography variant="h2">Welcome!!</Typography>
+  //     </Grid>
+  //   </>
+  // );
 };
 
 export default Socials;

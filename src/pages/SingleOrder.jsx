@@ -185,11 +185,7 @@ const SingleOrder = () => {
                   <CustomButton
                     title={"Buy Now"}
                     LinkComponent={Link}
-                    to={`${
-                      process.env.NODE_ENV !== "production"
-                        ? process.env.REACT_APP_BASE_URL
-                        : process.env.REACT_APP_BASE_URL_PRODUCTION
-                    }/order/checkout?order_id=${orderId}`}
+                    to={`${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`}
                   />
                 </Grid>
               )}

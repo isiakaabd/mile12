@@ -123,7 +123,7 @@ const Login = () => {
               <Grid item container>
                 <Button
                   variant="outlined"
-                  href={`${url}/google`}
+                  href={`${process.env.REACT_APP_BASE_URL}/auth/social/google`}
                   sx={{
                     width: "100%",
                     padding: ".5em 2em",
