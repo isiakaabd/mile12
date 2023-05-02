@@ -24,10 +24,6 @@ const loginValidation = Yup.object({
   psd: Yup.string().required("Enter your password"),
 });
 const Login = () => {
-  const url =
-    process.env.NODE_ENV === "development"
-      ? process.env.REACT_APP_SOCIAL_LOGIN_DEV
-      : process.env.REACT_APP_SOCIAL_LOGIN_LIVE;
   const theme = useTheme();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);

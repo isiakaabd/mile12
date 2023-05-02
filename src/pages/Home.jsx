@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "redux/reducers/ProductReducers";
 
 const Home = () => {
-  const { data: categories, isLoading } = useGetCategoriesQuery();
+  const { data: categories, isLoading, error } = useGetCategoriesQuery();
   const productss = useSelector((state) => state.products?.products);
 
   const dispatch = useDispatch();
@@ -24,7 +24,7 @@ const Home = () => {
           category: cat,
         });
         if (data) {
-          dispatch(getProducts(data?.data));
+          dispatch(getProducts(data));
         }
       } catch (e) {
         console.log(e);
@@ -35,7 +35,7 @@ const Home = () => {
     //     });
     fetchData();
     //eslint-disable-next-line
-  }, [cat]);
+  }, [cat, data]);
   // const hasNextPage = page + 1 < comments?.total_pages;
 
   // const [sentryRef] = useInfiniteScroll({
@@ -47,17 +47,23 @@ const Home = () => {
   //   disabled: !!error,
   //   rootMargin: "0px 0px 200px 0px",
   // });
-  console.log(isErr, categories);
-  if (isErr) return <Error />;
-  // if (error) return <Error />;
+
   return (
     <Grid item container pb={4}>
       {isLoading ? (
         <CategoriesSkeleton />
+      ) : error ? (
+        <Error />
       ) : (
         <Categories setCat={setCat} categories={categories} />
       )}
-      {load ? <CartItemsSkeleton /> : <CartItems products={productss} />}
+      {load ? (
+        <CartItemsSkeleton />
+      ) : isErr ? (
+        <Error />
+      ) : (
+        <CartItems products={productss} />
+      )}
     </Grid>
   );
 };
