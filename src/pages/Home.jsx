@@ -11,19 +11,21 @@ import { getProducts } from "redux/reducers/ProductReducers";
 
 const Home = () => {
   const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-  const productss = useSelector((state) => state.products.products);
+  const productss = useSelector((state) => state.products?.products);
 
   const dispatch = useDispatch();
   const [cat, setCat] = useState("");
-  const [getProduct, { isLoading: load, isError: isErr }] =
+  const [getProduct, { isLoading: load, isError: isErr, data }] =
     useLazyGetProductsQuery();
   useEffect(() => {
     async function fetchData() {
       try {
-        const tt = await getProduct({
+        await getProduct({
           category: cat,
         });
-        dispatch(getProducts(tt?.data));
+        if (data) {
+          dispatch(getProducts(data?.data));
+        }
       } catch (e) {
         console.log(e);
       }
