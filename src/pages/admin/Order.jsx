@@ -7,7 +7,7 @@ import { Error } from "components";
 const Order = () => {
   const { id } = useParams();
   const { data: product, isLoading, isError } = useGetProductQuery(id);
-  console.log(id);
+
   if (isLoading) return <Skeleton />;
   if (isError) return <Error />;
   const { name, category, price } = product;

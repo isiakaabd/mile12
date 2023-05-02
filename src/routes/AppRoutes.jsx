@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PrivateRoutes from "./PrivateRoutes";
 import AdminRoutes from "./AdminRoutes";
 import UnRegisterRoute from "./UnRegisterRoute";
+import { Socials } from "pages";
 
 const AppRoutes = () => {
   const { admin, token } = useSelector((state) => state.auth);
@@ -32,7 +33,7 @@ const AppRoutes = () => {
                   {/* <Route path="*" element={<Unknown />} /> */}
                 </>
               )}
-              {/* <Route path="*" element={<Unknown />} /> */}
+              <Route path="/auth/social" element={<Socials />} />
             </Route>
           </Routes>
         </div>

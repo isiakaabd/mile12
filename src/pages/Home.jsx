@@ -21,7 +21,7 @@ const Home = () => {
     getProduct({
       category: cat,
     }).then((product) => {
-      dispatch(getProducts(product.data));
+      dispatch(getProducts(product?.data));
     });
 
     //eslint-disable-next-line

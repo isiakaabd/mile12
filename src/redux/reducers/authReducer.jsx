@@ -25,6 +25,14 @@ export const authSlice = createSlice({
       localStorage.setItem("admin", action.payload);
       state.admin = action.payload;
     },
+    loginActionSocial: (state, action) => {
+      state.auth = true;
+      localStorage.setItem("access_token", action.payload.accessToken);
+      localStorage.setItem("refresh_token", action.payload.refreshToken);
+
+      state.user = action.payload;
+      state.token = action.payload.accessToken;
+    },
     logoutAction: (state, action) => {
       localStorage.clear();
       state.token = null;
@@ -43,6 +51,7 @@ export const {
   checkAdmin,
   getToken,
   getUserDetails,
+  loginActionSocial,
 } = actions;
 export const loginState = (state) => state.auth;
 export const registerState = (state) => state.register;

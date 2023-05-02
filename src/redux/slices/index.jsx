@@ -2,7 +2,10 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { getUserDetails, logoutAction } from "redux/reducers/authReducer";
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: process.env.REACT_APP_BASE_URL,
+  baseUrl:
+    process.env.NODE_ENV !== "production"
+      ? process.env.REACT_APP_BASE_URL
+      : process.env.REACT_APP_BASE_URL_PRODUCTION,
   prepareHeaders: (headers, { getState, endpoint }) => {
     const token = getState().auth.token;
 

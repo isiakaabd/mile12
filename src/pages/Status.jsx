@@ -17,7 +17,6 @@ const Status = () => {
   const status = searchParams.get("status");
   const message = searchParams.get("message");
 
-  console.log(status);
   return (
     <Modals isOpen={open} handleClose={handleClose}>
       <Grid

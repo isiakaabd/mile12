@@ -24,6 +24,10 @@ const loginValidation = Yup.object({
   psd: Yup.string().required("Enter your password"),
 });
 const Login = () => {
+  const url =
+    process.env.NODE_ENV === "development"
+      ? process.env.REACT_APP_SOCIAL_LOGIN_DEV
+      : process.env.REACT_APP_SOCIAL_LOGIN_LIVE;
   const theme = useTheme();
   const dispatch = useDispatch();
   const [showPassword, setShowPassword] = useState(false);
@@ -119,6 +123,7 @@ const Login = () => {
               <Grid item container>
                 <Button
                   variant="outlined"
+                  href={`${url}/google`}
                   sx={{
                     width: "100%",
                     padding: ".5em 2em",

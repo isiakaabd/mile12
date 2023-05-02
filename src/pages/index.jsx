@@ -9,6 +9,7 @@ import SingleOrder from "./SingleOrder";
 import Checkout from "./Checkout";
 import Item from "./Item";
 import Status from "./Status";
+import Socials from "./Socials";
 
 export {
   Home,
@@ -22,4 +23,5 @@ export {
   Registration,
   MyOrders,
   SingleOrder,
+  Socials,
 };
