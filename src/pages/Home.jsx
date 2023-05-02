@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from "redux/reducers/ProductReducers";
 
 const Home = () => {
-  const { data: categories, isLoading, isError } = useGetCategoriesQuery();
+  const { data: categories, isLoading, error } = useGetCategoriesQuery();
   const productss = useSelector((state) => state.products?.products);
 
   const dispatch = useDispatch();
@@ -48,7 +48,8 @@ const Home = () => {
   //   rootMargin: "0px 0px 200px 0px",
   // });
 
-  if (isErr || isError) return <Error />;
+  if (isErr) return <Error />;
+  if (error) return <Error />;
   return (
     <Grid item container pb={4}>
       {isLoading ? (
