@@ -1,4 +1,4 @@
-import { ArrowBack } from "@mui/icons-material";
+import { ArrowBack, DataObject } from "@mui/icons-material";
 import { Divider, Grid, IconButton, Skeleton, Typography } from "@mui/material";
 import { CustomButton } from "components";
 import Success from "components/Success";
@@ -47,9 +47,9 @@ const Checkout = () => {
     }
     if (error) toast.error(error);
   };
-  const add = address?.at(1);
+  const add = address?.at(0);
 
-  const newArr = carts.map((item) => {
+  const newArr = carts?.map((item) => {
     return {
       item_id: item?.id,
       count: item?.number,
@@ -114,7 +114,7 @@ const Checkout = () => {
                       <FormikControl
                         name="address"
                         placeholder="Recent Address"
-                        disabled={add ? true : false}
+                        disabled
                       />
                     </Grid>
                   )}

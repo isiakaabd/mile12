@@ -99,6 +99,7 @@ const Registration = () => {
               </Grid>
               <Grid item container>
                 <Button
+                  href={`${process.env.REACT_APP_BASE_URL}/auth/social/google`}
                   variant="outlined"
                   sx={{
                     width: "100%",
