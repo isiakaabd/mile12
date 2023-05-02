@@ -16,6 +16,7 @@ import { getImage } from "helpers";
 import HoverRating from "./Ratings";
 
 const CartItems = ({ products }) => {
+  console.log(products);
   return (
     <>
       {products?.length > 0 ? (
