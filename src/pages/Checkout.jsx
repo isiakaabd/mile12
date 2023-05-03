@@ -1,10 +1,10 @@
-import { ArrowBack, DataObject } from "@mui/icons-material";
+import { ArrowBack } from "@mui/icons-material";
 import { Divider, Grid, IconButton, Skeleton, Typography } from "@mui/material";
 import { CustomButton } from "components";
 import Success from "components/Success";
 import { Formik, Form } from "formik/dist";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import {
   useCreateAddressMutation,
@@ -13,6 +13,9 @@ import {
 import { useMakeOrderMutation } from "redux/slices/orderSlice";
 import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
+import { clearCarts } from "redux/reducers/cartReducer";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   street: Yup.string().required("Required"),
@@ -26,7 +29,8 @@ const Checkout = () => {
   const [modal, setModal] = useState(false);
   const [createAddress, { isLoading }] = useCreateAddressMutation();
   const { isLoading: load, data: address } = useGetAddressQuery();
-  const [createOrder, { isLoading: loadi }] = useMakeOrderMutation();
+  const [createOrder, { isLoading: loadi, data, error }] =
+    useMakeOrderMutation();
   const { carts, totalPayout } = useSelector((state) => state.carts);
 
   const handleSubmit = async (value, { resetForm }) => {
@@ -48,6 +52,18 @@ const Checkout = () => {
     if (error) toast.error(error);
   };
   const add = address?.at(0);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (data) {
+      toast.success(data);
+
+      setTimeout(() => setModal(true), 3000);
+      setTimeout(() => dispatch(clearCarts()), 5000);
+      setTimeout(() => navigate("/carts"), 5000);
+    }
+    if (error) toast.error(error);
+  }, [data, error, dispatch, navigate]);
 
   const newArr = carts?.map((item) => {
     return {
@@ -56,15 +72,10 @@ const Checkout = () => {
     };
   });
   const handleCheckOut = async () => {
-    const { data, error } = await createOrder({
+    await createOrder({
       address: add?.id,
       items: newArr,
     });
-    if (data) {
-      toast.success(data);
-      setTimeout(() => setModal(true), 3000);
-    }
-    if (error) toast.error(error);
   };
 
   return (

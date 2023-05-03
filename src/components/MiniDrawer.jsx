@@ -27,6 +27,7 @@ import CustomButton from "./CustomButton";
 import * as Yup from "yup";
 import { useCreateContactMutation } from "redux/slices/orderSlice";
 import { toast } from "react-toastify";
+import { LoadingButton } from "@mui/lab";
 
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
@@ -72,11 +73,12 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     },
   },
 }));
-const SearchButton = styled(ButtonBase)(({ theme }) => ({
+const SearchButton = styled(LoadingButton)(({ theme }) => ({
   color: "secondary",
-  "&.MuiButtonBase-root": {
+  "&.MuiLoadingButton-root": {
     borderRadius: ".6rem",
     height: "4rem",
+    color: "#000",
     fontSize: "1.6rem",
     fontWeight: 500,
     backgroundColor: theme.palette.primary.main,
@@ -92,16 +94,20 @@ const validationSchema = Yup.object({
 export default function PrimarySearchAppBar() {
   const theme = useTheme();
   const [sendMessage, { isLoading: load }] = useCreateContactMutation();
-  const [searchProduct, { isLoading, data }] = useLazyGetProductsQuery();
   const carts = useSelector((state) => state.carts.carts);
   const [value, setValue] = useState("");
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const handleSearch = async () => {
-    await searchProduct({
-      category: "",
-      search: value,
-    });
-    if (data) dispatch(getProducts(data));
+    setLoading(true);
+    dispatch(
+      getProducts({
+        category: "",
+        search: value,
+      })
+    );
+    setLoading(false);
+    setTimeout(() => setValue(""), 400);
   };
   const navigate = useNavigate();
 
@@ -123,7 +129,7 @@ export default function PrimarySearchAppBar() {
       toast.success(data);
       setTimeout(() => setState(false), 3000);
     }
-    if (error) toast.success(error);
+    if (error) toast.error(error);
   };
   return (
     <>
@@ -180,7 +186,7 @@ export default function PrimarySearchAppBar() {
                     inputProps={{ "aria-label": "search" }}
                   />
                 </Search>
-                <SearchButton onClick={handleSearch} disabled={isLoading}>
+                <SearchButton onClick={handleSearch} isLoading={loading}>
                   Search
                 </SearchButton>
               </Grid>

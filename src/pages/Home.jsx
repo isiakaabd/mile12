@@ -7,36 +7,33 @@ import {
 } from "redux/slices/productSlice";
 import { CartItemsSkeleton, CategoriesSkeleton } from "./admin/Products";
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from "redux/reducers/ProductReducers";
+import { getAllProducts, getProducts } from "redux/reducers/ProductReducers";
 
 const Home = () => {
-  const { data: categories, isLoading, error } = useGetCategoriesQuery();
-  const productss = useSelector((state) => state.products);
+  const {
+    data: categories,
+    isLoading,
+    error: isError,
+  } = useGetCategoriesQuery();
 
   const [page, setPage] = useState(1);
   const dispatch = useDispatch();
   const [cat, setCat] = useState("");
-  const [getProduct, { isLoading: load, error: isErr }] =
-    useLazyGetProductsQuery();
+  const {
+    products,
+    status: load,
+    total_pages,
+    error,
+  } = useSelector(getAllProducts);
   useEffect(() => {
-    async function fetchData() {
-      try {
-        const { data } = await getProduct({
-          category: cat,
-          offset: page - 1,
-        });
-
-        if (data) {
-          dispatch(getProducts(data));
-        }
-      } catch (e) {
-        console.log(e);
-      }
-    }
-
-    fetchData();
-    //eslint-disable-next-line
-  }, [cat, page]);
+    dispatch(
+      getProducts({
+        category: cat,
+        offset: page - 1,
+      })
+    );
+  }, [cat, page, dispatch]);
+  if (error || isError) return <Error />;
   // const hasNextPage = page + 1 < comments?.total_pages;
 
   // const [sentryRef] = useInfiniteScroll({
@@ -53,17 +50,22 @@ const Home = () => {
     <Grid item container pb={4}>
       {isLoading ? (
         <CategoriesSkeleton />
-      ) : error ? (
+      ) : isError ? (
         <Error />
       ) : (
         <Categories setCat={setCat} categories={categories} />
       )}
       {load ? (
         <CartItemsSkeleton />
-      ) : isErr ? (
+      ) : error ? (
         <Error />
       ) : (
-        <CartItems products={productss} setPage={setPage} page={page} />
+        <CartItems
+          products={products}
+          setPage={setPage}
+          page={page}
+          total_pages={total_pages}
+        />
       )}
     </Grid>
   );

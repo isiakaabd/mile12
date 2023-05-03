@@ -22,13 +22,13 @@ export const productSlice = api.injectEndpoints({
     }),
     makeOrder: builder.mutation({
       query: (body) => ({
-        url: `/order/`,
+        url: `/order`,
         body,
         method: "POST",
       }),
       invalidatesTags: ["order"],
       transformResponse: (response) => response.message,
-      transformErrorResponse: (error) => error.message,
+      transformErrorResponse: (error) => error.data.message,
     }),
     verifyOrder: builder.mutation({
       query: (body) => ({
