@@ -1,7 +1,9 @@
+import dayjs from "dayjs";
 import moment from "moment";
 
 export const getDate = (date) => {
-  return moment(date).format("DD-MM-YYYY");
+  return dayjs(date).format("MM-DD-YYYY");
+  // return moment(date).format("DD-MM-YYYY");
 };
 export const getDates = (date) => {
   return moment(date).format("YYYY-MM-DD");

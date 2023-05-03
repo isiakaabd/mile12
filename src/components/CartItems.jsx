@@ -16,8 +16,8 @@ import { getImage } from "helpers";
 import HoverRating from "./Ratings";
 import Paginations from "./Paginations";
 
-const CartItems = ({ products: data, page, setPage }) => {
-  const { products, total_pages } = data;
+const CartItems = ({ products, page, total_pages, setPage }) => {
+  // const { products, total_pages } = data;
   return (
     <>
       <Grid item container flexDirection={"column"} gap={3}>

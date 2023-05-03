@@ -1,23 +1,32 @@
 import { Grid, Skeleton } from "@mui/material";
 import { CartItems, Categories, Error } from "components";
 import { useEffect, useState } from "react";
-import {
-  useGetCategoriesQuery,
-  useLazyGetProductsQuery,
-} from "redux/slices/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts, getProducts } from "redux/reducers/ProductReducers";
+import { useGetCategoriesQuery } from "redux/slices/productSlice";
 
 const Products = () => {
   const { data: categories, isLoading, isError } = useGetCategoriesQuery();
   const [cat, setCat] = useState("");
-  const [getProducts, { data: products, isLoading: load, isError: isErr }] =
-    useLazyGetProductsQuery();
+  const dispatch = useDispatch();
+
+  const {
+    products,
+    status: load,
+    total_pages,
+    error,
+  } = useSelector(getAllProducts);
+
+  const [page, setPage] = useState(1);
   useEffect(() => {
-    getProducts({
-      category: cat,
-    });
-    //eslint-disable-next-line
-  }, [cat]);
-  if (isErr || isError) return <Error />;
+    dispatch(
+      getProducts({
+        category: cat,
+        offset: page - 1,
+      })
+    );
+  }, [cat, page, dispatch]);
+  if (error || isError) return <Error />;
   return (
     <Grid item container>
       {isLoading ? (
@@ -25,7 +34,16 @@ const Products = () => {
       ) : (
         <Categories setCat={setCat} categories={categories} />
       )}
-      {load ? <CartItemsSkeleton /> : <CartItems products={products} />}
+      {load ? (
+        <CartItemsSkeleton />
+      ) : (
+        <CartItems
+          products={products}
+          setPage={setPage}
+          page={page}
+          total_pages={total_pages}
+        />
+      )}
     </Grid>
   );
 };

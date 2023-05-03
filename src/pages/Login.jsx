@@ -36,6 +36,7 @@ const Login = () => {
     if (data) {
       toast.success(data.message);
       dispatch(loginAction(data?.body));
+      setTimeout(() => navigate("/dashboard"), 2000);
     }
     if (data?.body?.user?.role === "admin") {
       dispatch(checkAdmin(data?.body?.user?.role));
@@ -47,8 +48,8 @@ const Login = () => {
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleSubmit = async (values) => {
     const { em, psd } = values;
+
     await loginUser({ email: em, password: psd });
-    setTimeout(() => navigate("/dashboard"), 2000);
   };
   return (
     <>

@@ -8,11 +8,10 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { Error } from "components";
+import { Error, Paginations } from "components";
 import { useEffect, useState } from "react";
 // import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useLazyGetProductsQuery } from "redux/slices/productSlice";
 import { CartItemsSkeleton } from "./Products";
 import { getDate, getImage } from "helpers";
 // import { Formik, Form } from "formik/dist";
@@ -21,32 +20,35 @@ import { getDate, getImage } from "helpers";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DatePicker } from "@mui/x-date-pickers";
+import { useDispatch, useSelector } from "react-redux";
+import { getAllProducts, getProducts } from "redux/reducers/ProductReducers";
+import dayjs from "dayjs";
 // import dayjs from "dayjs";
 const History = () => {
-  // const { data: categories, isLoading, isError } = useGetCategoriesQuery();
-  const [cat] = useState("");
-  // const today = new Date();
+  const dispatch = useDispatch();
 
-  const [dateFrom, setDateFrom] = useState("");
-  // console.log(dateFrom);
+  const [value, setValue] = useState(dayjs("2022-04-17T15:30"));
 
-  const [getProducts, { data: products, isLoading: load, isError: isErr }] =
-    useLazyGetProductsQuery();
+  const [page, setPage] = useState(1);
+  const {
+    products,
+    status: load,
+    total_pages,
+    error,
+  } = useSelector(getAllProducts);
   useEffect(() => {
-    getProducts({
-      category: false,
-      date_direction: "newer",
-      date_from: "2011-03-03",
-    });
-    //eslint-disable-next-line
-  }, [cat, dateFrom]);
-  if (isErr) return <Error />;
-  // const handleChange = (values) => {
-  //   setDateFrom(getDate(new Date(values)));
-  // };
-  const handleChange = (e) => {
-    setDateFrom(e);
-  };
+    dispatch(
+      getProducts({
+        category: false,
+        offset: page - 1,
+        date_from: getDate(value),
+      })
+    );
+  }, [page, dispatch, value]);
+
+  if (error) return <Error />;
+
+  // const { total_pages } = data;
   return (
     <Grid item container gap={2}>
       {/* {isLoading ? (
@@ -60,8 +62,8 @@ const History = () => {
         </Typography>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <DatePicker
-            value={dateFrom}
-            onChange={(newValue) => handleChange(newValue)}
+            value={value}
+            onChange={(newValue) => setValue(newValue)}
           />
         </LocalizationProvider>
         {/* <Formik initialValues={{ filter: "" }}>
@@ -93,6 +95,11 @@ const History = () => {
               <Order key={index} cart={cart} />
             ))}
           </List>
+          {total_pages > 1 && (
+            <Grid item container justifyContent={"center"}>
+              <Paginations page={page} setPage={setPage} count={total_pages} />
+            </Grid>
+          )}
         </Grid>
       ) : (
         <CartItemsSkeleton />

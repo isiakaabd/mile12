@@ -33,12 +33,10 @@ const Home = () => {
         console.log(e);
       }
     }
-    // .then((product) => {
-    //       dispatch(getProducts(product?.data));
-    //     });
+
     fetchData();
     //eslint-disable-next-line
-  }, [cat]);
+  }, [cat, page]);
   // const hasNextPage = page + 1 < comments?.total_pages;
 
   // const [sentryRef] = useInfiniteScroll({
