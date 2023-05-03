@@ -15,7 +15,7 @@ import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
 import { clearCarts } from "redux/reducers/cartReducer";
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const validationSchema = Yup.object({
   street: Yup.string().required("Required"),
@@ -71,20 +71,14 @@ const Checkout = () => {
       count: item?.number,
     };
   });
+  const [orderId, setOrderId] = useState(null);
   const handleCheckOut = async () => {
     const { data } = await createOrder({
       address: add?.id,
       items: newArr,
     });
-    console.log(data);
-    const orderId = data?.body?.order?.id;
-    setTimeout(
-      () =>
-        navigate(
-          `${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`
-        ),
-      3000
-    );
+
+    setOrderId(data?.body?.order?.id);
   };
 
   return (
@@ -263,7 +257,12 @@ const Checkout = () => {
                 <Typography variant="h5">Payment Method</Typography>
 
                 <Grid item container>
-                  <CustomButton title={"Pay with Stripe"} />
+                  <CustomButton
+                    title={"Pay with Stripe"}
+                    disabled={orderId ? false : true}
+                    LinkComponent={Link}
+                    to={`${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`}
+                  />
                   {/* navigate( `${process.env.REACT_APP_BASE_URL}
                   /order/checkout?order_id=${orderId}` ); */}
                 </Grid>
