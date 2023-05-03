@@ -12,14 +12,14 @@ const baseUrl = process.env.REACT_APP_BASE_URL;
 
 export const getProducts = createAsyncThunk(
   "products/fetchProduct",
-  async ({ category, date_from, search, date_direction }) => {
+  async ({ category, date_from, offset, search, date_direction }) => {
     try {
       const response = await axios.get(
-        `${baseUrl}/product/?${category ? `category=${category}&` : ""}${
-          date_from ? `date_from=${date_from}` : ""
-        }${search ? `&search=${search}` : ""}${
-          date_direction ? `&date_direction=${date_direction}` : ""
-        }`
+        `${baseUrl}/product/?${`offset=${offset ? offset : 0}&`}${
+          category ? `category=${category}&` : ""
+        }${date_from ? `date_from=${date_from}` : ""}${
+          search ? `&search=${search}` : ""
+        }${date_direction ? `&date_direction=${date_direction}` : ""}`
       );
       return response.data.body;
     } catch (error) {

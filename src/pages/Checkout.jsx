@@ -15,7 +15,7 @@ import FormikControl from "validation/FormikControl";
 import * as Yup from "yup";
 import { clearCarts } from "redux/reducers/cartReducer";
 import { useEffect } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const validationSchema = Yup.object({
   street: Yup.string().required("Required"),
