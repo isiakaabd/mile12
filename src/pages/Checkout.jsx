@@ -71,14 +71,16 @@ const Checkout = () => {
       count: item?.number,
     };
   });
-  const [orderId, setOrderId] = useState(null);
+
   const handleCheckOut = async () => {
     const { data } = await createOrder({
       address: add?.id,
       items: newArr,
     });
-
-    setOrderId(data?.body?.order?.id);
+    const orderId = data?.body?.order?.id;
+    if (data) {
+      document.location = `${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`;
+    }
   };
 
   return (
@@ -243,11 +245,12 @@ const Checkout = () => {
                     title={"Continue"}
                     isSubmitting={loadi}
                     type="button"
+                    disabled={carts.length === 0}
                     onClick={handleCheckOut}
                   />
                 </Grid>
               </Grid>
-              <Grid
+              {/* <Grid
                 item
                 sx={{ p: 2, bgcolor: "#EFEFEF", borderRadius: ".6rem" }}
                 flexDirection={"column"}
@@ -263,10 +266,9 @@ const Checkout = () => {
                     LinkComponent={Link}
                     to={`${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`}
                   />
-                  {/* navigate( `${process.env.REACT_APP_BASE_URL}
-                  /order/checkout?order_id=${orderId}` ); */}
+             
                 </Grid>
-              </Grid>
+              </Grid> */}
             </Grid>
           </Grid>
         </Grid>
