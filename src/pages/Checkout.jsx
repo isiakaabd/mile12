@@ -56,11 +56,11 @@ const Checkout = () => {
   const navigate = useNavigate();
   useEffect(() => {
     if (data) {
-      toast.success(data);
+      toast.success(data.message);
+      console.log(data);
 
       setTimeout(() => setModal(true), 3000);
       setTimeout(() => dispatch(clearCarts()), 5000);
-      setTimeout(() => navigate("/carts"), 5000);
     }
     if (error) toast.error(error);
   }, [data, error, dispatch, navigate]);
@@ -72,10 +72,19 @@ const Checkout = () => {
     };
   });
   const handleCheckOut = async () => {
-    await createOrder({
+    const { data } = await createOrder({
       address: add?.id,
       items: newArr,
     });
+    console.log(data);
+    const orderId = data?.body?.order?.id;
+    setTimeout(
+      () =>
+        navigate(
+          `${process.env.REACT_APP_BASE_URL}/order/checkout?order_id=${orderId}`
+        ),
+      3000
+    );
   };
 
   return (
@@ -219,7 +228,12 @@ const Checkout = () => {
                     Shipping fee:
                   </Typography>
                   <Typography variant="h5">
-                    $ {totalPayout >= 150 ? 0 : 9.99 * carts.length - 1}
+                    ${" "}
+                    {carts.length === 0
+                      ? 0
+                      : totalPayout >= 150
+                      ? 0
+                      : 9.99 * carts.length - 1}
                   </Typography>
                 </Grid>
                 <Divider flexItem />
@@ -239,7 +253,7 @@ const Checkout = () => {
                   />
                 </Grid>
               </Grid>
-              {/* <Grid
+              <Grid
                 item
                 sx={{ p: 2, bgcolor: "#EFEFEF", borderRadius: ".6rem" }}
                 flexDirection={"column"}
@@ -250,8 +264,10 @@ const Checkout = () => {
 
                 <Grid item container>
                   <CustomButton title={"Pay with Stripe"} />
+                  {/* navigate( `${process.env.REACT_APP_BASE_URL}
+                  /order/checkout?order_id=${orderId}` ); */}
                 </Grid>
-              </Grid> */}
+              </Grid>
             </Grid>
           </Grid>
         </Grid>
