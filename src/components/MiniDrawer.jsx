@@ -11,13 +11,12 @@ import {
 } from "@mui/material";
 import SearchIcon from "assets/svg/Search";
 import { MessageOutlined, ShoppingCartOutlined } from "@mui/icons-material";
-import { Button, ButtonBase, Grid } from "@mui/material";
+import { Button, Grid } from "@mui/material";
 import BoxIcon from "assets/svg/BoxIcon";
 import { useTheme } from "@emotion/react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
-import { useLazyGetProductsQuery } from "redux/slices/productSlice";
 import { getProducts } from "redux/reducers/ProductReducers";
 import { logo } from "assets/images";
 import Modals from "./Modal";

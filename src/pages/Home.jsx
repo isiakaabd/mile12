@@ -1,10 +1,7 @@
 import { Grid } from "@mui/material";
 import { CartItems, Categories, Error } from "components";
 import { useEffect, useState } from "react";
-import {
-  useGetCategoriesQuery,
-  useLazyGetProductsQuery,
-} from "redux/slices/productSlice";
+import { useGetCategoriesQuery } from "redux/slices/productSlice";
 import { CartItemsSkeleton, CategoriesSkeleton } from "./admin/Products";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts, getProducts } from "redux/reducers/ProductReducers";
