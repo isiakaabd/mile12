@@ -46,7 +46,7 @@ const Checkout = () => {
     });
     if (data) {
       toast.success(data);
-      setTimeout(() => setModal(true), 3000);
+      // setTimeout(() => setModal(true), 3000);
       setTimeout(() => resetForm(), 4000);
     }
     if (error) toast.error(error);
