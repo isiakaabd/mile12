@@ -57,12 +57,15 @@ const CartItem = ({ item }) => {
   const { name, price, slug, images, rating } = item;
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { admin } = useSelector((state) => state.auth);
+  const { admin, token } = useSelector((state) => state.auth);
   const image = JSON.parse(images);
   return (
     <Grid item>
       <Card sx={{ width: "100%" }}>
-        <CardActionArea component={Link} to={`/products/${slug} `}>
+        <CardActionArea
+          component={Link}
+          to={token ? `/products/${slug} ` : `/home/products/${slug}`}
+        >
           <CardMedia
             component={"img"}
             sx={{ height: "20rem", width: "100%" }}

@@ -10,12 +10,14 @@ import Checkout from "./Checkout";
 import Item from "./Item";
 import Status from "./Status";
 import Socials from "./Socials";
+import Page404 from "./404";
 
 export {
   Home,
   Status,
   Item,
   ResetPassword,
+  Page404,
   CartsList,
   Checkout,
   ForgottenPassword,

@@ -1,6 +1,6 @@
-import { api } from ".";
+import apiSlice from ".";
 
-export const adminSlice = api.injectEndpoints({
+export const adminSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     createAddress: builder.mutation({
       query: (body) => ({

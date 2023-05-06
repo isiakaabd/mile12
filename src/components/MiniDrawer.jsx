@@ -225,7 +225,7 @@ export default function PrimarySearchAppBar() {
                     aria-label={`show ${carts?.length} cart item`}
                     color="inherit"
                     component={Link}
-                    to="/carts"
+                    to={token ? "/carts" : "/home/carts"}
                   >
                     <Badge badgeContent={carts?.length} color="error">
                       <ShoppingCartOutlined

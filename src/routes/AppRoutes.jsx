@@ -2,14 +2,14 @@ import { ThemeProvider } from "@emotion/react";
 import App from "App";
 import { muiTheme } from "muiTheme";
 import { useSelector } from "react-redux";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PrivateRoutes from "./PrivateRoutes";
-import AdminRoutes from "./AdminRoutes";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+
 import UnRegisterRoute from "./UnRegisterRoute";
-import { Socials } from "pages";
+import H from "./H";
+import { AuthPage } from "./AuthPage";
 
 const AppRoutes = () => {
-  const { admin, token } = useSelector((state) => state.auth);
+  const { token } = useSelector((state) => state.auth);
 
   return (
     <ThemeProvider theme={muiTheme}>
@@ -17,23 +17,18 @@ const AppRoutes = () => {
         <div className="container">
           <Routes>
             <Route element={<App />}>
-              {token && !admin ? (
+              {token ? (
                 <>
-                  <Route path="/*" index element={<PrivateRoutes />} />
-                  {/* <Route index element={<Navigate to="/dashboard" />} /> */}
-                </>
-              ) : token && admin ? (
-                <>
-                  <Route path="/*" index element={<AdminRoutes />} />
-                  {/* <Route  element={<AdminDashboard />} /> */}
+                  <Route index path="/*" element={<H />} />
+                  <Route path="*" element={<Navigate to="/dashboard" />} />
                 </>
               ) : (
                 <>
-                  <Route path="/*" index element={<UnRegisterRoute />} />
-                  {/* <Route path="*" element={<Unknown />} /> */}
+                  <Route path="/home/*" index element={<UnRegisterRoute />} />
+                  <Route path="*" element={<Navigate to="/home" />} />
                 </>
               )}
-              <Route path="/auth/social" element={<Socials />} />
+              <Route path="auth/*" element={<AuthPage />} />
             </Route>
           </Routes>
         </div>

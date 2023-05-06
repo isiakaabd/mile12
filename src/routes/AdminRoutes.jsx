@@ -12,7 +12,6 @@ import {
   Contact,
 } from "pages/admin";
 import { Route, Routes } from "react-router-dom";
-import UnRegisterRoute from "./UnRegisterRoute";
 import { AuthPage } from "./AuthPage";
 
 const AdminRoutes = () => {
@@ -29,9 +28,10 @@ const AdminRoutes = () => {
         <Route path="history/:id" element={<Order />} />
         <Route path="dashboard/:id" element={<AdminSingleOrder />} />
 
-        <Route path="/dashboard" index element={<AdminDashboard />} />
+        <Route path="dashboard" index element={<AdminDashboard />} />
       </Route>
-      <Route path="/*" element={<UnRegisterRoute />} />
+      <Route path="dashboard" index element={<AdminDashboard />} />
+      {/* <Route path="/*" element={<UnRegisterRoute />} /> */}
       <Route path="auth/*" element={<AuthPage />} />
     </Routes>
   );

@@ -22,26 +22,37 @@ const baseQuery = fetchBaseQuery({
 
 const baseQuerywithAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  const refreshToken = localStorage.getItem("refresh_token");
-
+  console.log(api);
+  console.log(result, "result");
+  console.log(extraOptions, "extraOptions");
+  const newExtraOptions = {
+    ...extraOptions,
+    headers: {
+      ...extraOptions?.headers,
+      Authorization: `Bearer 123`,
+    },
+  };
   if (result?.error?.status === 403) {
+    console.log(123, "result");
+    // api.dispatch("refreshToken");
     const refreshResult = await baseQuery(
-      {
-        url: "/auth/refresh",
-        method: "POST",
-        headers: (header) => {
-          header.set("authorization", `bearer ${refreshToken}`);
-        },
-      },
+      "/auth/refresh-token",
+      // {
+      //   url:
+      //   method: "POST",
+      //   headers: "bearer 123",
+      //   body: JSON.stringify("!22"),
+      // },
       api,
-      extraOptions
+      newExtraOptions
     );
     const token = refreshResult?.data?.accessToken;
+    console.log(refreshResult);
     if (token) {
       api.dispatch(getUserDetails(token));
-      result = await baseQuery(args, api, extraOptions);
+      result = await baseQuery(args, api, newExtraOptions);
     } else {
-      await baseQuery("/logout", api, extraOptions);
+      await baseQuery("/logout", api, newExtraOptions);
       api.dispatch(logoutAction());
     }
   }
@@ -49,9 +60,10 @@ const baseQuerywithAuth = async (args, api, extraOptions) => {
   return result;
 };
 
-export const api = createApi({
+const api = createApi({
   // reducerPath: "api",
   baseQuery: baseQuerywithAuth,
   tagTypes: ["admin", "product", "category", "order", "address"],
   endpoints: () => ({}),
 });
+export default api;

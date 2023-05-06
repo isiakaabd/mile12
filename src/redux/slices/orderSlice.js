@@ -1,6 +1,6 @@
-import { api } from ".";
+import apiSlice from ".";
 
-export const productSlice = api.injectEndpoints({
+export const productSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     getOrders: builder.query({
       query: ({ offset, status }) => ({

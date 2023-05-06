@@ -19,6 +19,7 @@ import { Link, useParams } from "react-router-dom";
 import { useGetOrderQuery } from "redux/slices/orderSlice";
 
 import HoverRating from "components/Ratings";
+import { useSelector } from "react-redux";
 const SingleOrder = () => {
   const { id } = useParams();
   const theme = useTheme();
@@ -211,12 +212,13 @@ const Item = ({ item }) => {
     product: { images, rating, name, price, slug },
   } = item;
   const image = JSON.parse(images);
+  const { token } = useSelector((state) => state.auth);
   const [value, setValue] = useState(rating);
   return (
     <ListItemButton
       disableGutters
       LinkComponent={Link}
-      to={`/products/${slug}`}
+      to={token ? `/products/${slug} ` : `/home/products/${slug}`}
     >
       <ListItem
         dense

@@ -1,6 +1,6 @@
-import { api } from ".";
+import apiSlice from ".";
 
-export const authSlice = api.injectEndpoints({
+export const authSlice = apiSlice.injectEndpoints({
   endpoints: (builder) => ({
     register: builder.mutation({
       query: (body) => ({
@@ -46,7 +46,23 @@ export const authSlice = api.injectEndpoints({
       transformResponse: (response) => response.message,
       transformErrorResponse: (error) => error.data.message,
     }),
-
+    refreshToken: builder.mutation({
+      query: () => ({
+        url: "/auth/refresh-token",
+        method: "POST",
+      }),
+      extraOptions: (_, { getState }) => {
+        // get the new access token from the state
+        const newAccessToken = getState().auth.refreshToken;
+        console.log(newAccessToken);
+        console.log(getState());
+        console.log(_);
+        // pass the new token as an extra option ${newAccessToken}
+        return { headers: { Authorization: `Bearer 123` } };
+      },
+      // transformResponse: (response) => response.message,
+      transformErrorResponse: (error) => error.data.message,
+    }),
     changePassword: builder.mutation({
       query: (body) => ({
         url: `/user/change-password `,
@@ -75,6 +91,7 @@ export const {
   useLoginMutation,
   useForgotPasswordMutation,
   useLogoutMutation,
+  useRefreshTokenMutation,
   useResetPasswordMutation,
   useRecoverTokenMutation,
 } = authSlice;

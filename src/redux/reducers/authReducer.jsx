@@ -6,6 +6,7 @@ const initialState = {
   auth: localStorage.getItem("access_token") ? true : false,
   admin: localStorage.getItem("admin") || null,
   token: localStorage.getItem("access_token") || null,
+  refreshToken: localStorage.getItem("refresh_token") || null,
 };
 
 export const authSlice = createSlice({
@@ -33,8 +34,9 @@ export const authSlice = createSlice({
       state.user = action.payload;
       state.token = action.payload.accessToken;
     },
-    logoutAction: (state, action) => {
-      localStorage.clear();
+    logoutAction: (state) => {
+      localStorage.removeItem("access_token");
+      // localStorage.removeItem("refresh_token");
       state.token = null;
       state.user = {};
       state.auth = false;
