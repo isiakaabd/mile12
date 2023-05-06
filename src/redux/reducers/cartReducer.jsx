@@ -107,7 +107,7 @@ export const cartSlice = createSlice({
         cart: item[0],
       };
     },
-    clearCarts: (state, action) => {
+    clearCarts: () => {
       localStorage.removeItem("carts");
       localStorage.removeItem("totalPayout");
       return {
