@@ -224,12 +224,7 @@ const Checkout = () => {
                     Shipping fee:
                   </Typography>
                   <Typography variant="h5">
-                    ${" "}
-                    {carts.length === 0
-                      ? 0
-                      : totalPayout >= 150
-                      ? 0
-                      : 9.99 * carts.length - 1}
+                    $ {carts.length === 0 ? 0 : totalPayout >= 150 ? 0 : 5}
                   </Typography>
                 </Grid>
                 <Divider flexItem />
