@@ -96,6 +96,7 @@ export default function PrimarySearchAppBar() {
   const carts = useSelector((state) => state.carts.carts);
   const [value, setValue] = useState("");
   const [loading, setLoading] = useState(false);
+  const [page] = useState(1);
   const dispatch = useDispatch();
   const handleSearch = async () => {
     setLoading(true);
@@ -103,6 +104,7 @@ export default function PrimarySearchAppBar() {
       getProducts({
         category: "",
         search: value,
+        offset: page - 1,
       })
     );
     setLoading(false);

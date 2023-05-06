@@ -12,8 +12,8 @@ const Home = () => {
     isLoading,
     error: isError,
   } = useGetCategoriesQuery();
-
   const [page, setPage] = useState(1);
+  console.log(page);
   const dispatch = useDispatch();
   const [cat, setCat] = useState("");
   const {
@@ -33,16 +33,6 @@ const Home = () => {
   if (error || isError) return <Error />;
   // const hasNextPage = page + 1 < comments?.total_pages;
 
-  // const [sentryRef] = useInfiniteScroll({
-  //   loading: isFetching,
-  //   hasNextPage,
-  //   onLoadMore: () => setPage((page) => page + 1),
-  //   // When there is an error, we stop infinite loading.
-  //   // It can be reactivated by setting "error" state as undefined.
-  //   disabled: !!error,
-  //   rootMargin: "0px 0px 200px 0px",
-  // });
-
   return (
     <Grid item container pb={4}>
       {isLoading ? (
@@ -52,7 +42,7 @@ const Home = () => {
       ) : (
         <Categories setCat={setCat} categories={categories} />
       )}
-      {load ? (
+      {false ? (
         <CartItemsSkeleton />
       ) : error ? (
         <Error />

@@ -8,6 +8,9 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import CircularProgress, {
+  circularProgressClasses,
+} from "@mui/material/CircularProgress";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addToCart } from "redux/reducers/cartReducer";
@@ -15,12 +18,24 @@ import { addToCart } from "redux/reducers/cartReducer";
 import { getImage } from "helpers";
 import HoverRating from "./Ratings";
 import Paginations from "./Paginations";
+import useInfiniteScroll from "react-infinite-scroll-hook";
+import { getAllProducts } from "redux/reducers/ProductReducers";
 
 const CartItems = ({ products, page, total_pages, setPage }) => {
-  // const { products, total_pages } = data;
+  const { status: loading, error } = useSelector(getAllProducts);
+  const hasNextPage = total_pages > page;
+  const [sentryRef] = useInfiniteScroll({
+    loading,
+    hasNextPage,
+    onLoadMore: () => setPage((page) => page + 1),
+    // When there is an error, we stop infinite loading.
+    // It can be reactivated by setting "error" state as undefined.
+    disabled: !!error,
+    rootMargin: "0px 0px 50px 0px",
+  });
   return (
-    <>
-      <Grid item container flexDirection={"column"} gap={3}>
+    <Grid item container alignItems={"center"} flexDirection={"column"} gap={3}>
+      <>
         {products?.length > 0 ? (
           <Grid
             item
@@ -41,13 +56,44 @@ const CartItems = ({ products, page, total_pages, setPage }) => {
             No Data Yet
           </Typography>
         )}
-        {total_pages > 1 && (
+        {!loading && hasNextPage && (
+          <div
+            ref={sentryRef}
+            style={{
+              justifyContent: "center",
+              width: "100%",
+              display: "flex",
+            }}
+          >
+            <CircularProgress
+              variant="indeterminate"
+              disableShrink
+              color="primary"
+              sx={{
+                animationDuration: "550ms",
+
+                [`& .${circularProgressClasses.circle}`]: {
+                  strokeLinecap: "round",
+                },
+              }}
+              size={20}
+              thickness={3}
+            />
+          </div>
+        )}
+        {!loading && !hasNextPage && (
+          <Grid item container justifyContent={"center"}>
+            <Typography variant="h4">No More Product</Typography>
+          </Grid>
+        )}
+      </>
+
+      {/* {total_pages > 1 && (
           <Grid item container justifyContent={"center"}>
             <Paginations page={page} setPage={setPage} count={total_pages} />
           </Grid>
-        )}
-      </Grid>
-    </>
+        )} */}
+    </Grid>
   );
 };
 

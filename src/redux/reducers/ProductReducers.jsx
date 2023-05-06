@@ -15,11 +15,13 @@ export const getProducts = createAsyncThunk(
   async ({ category, date_from, offset, search, date_direction }) => {
     try {
       const response = await axios.get(
-        `${baseUrl}/product/?${`offset=${offset ? offset : 0}&`}${
-          category ? `category=${category}&` : ""
-        }${date_from ? `date_from=${date_from}` : ""}${
-          search ? `&search=${search}` : ""
-        }${date_direction ? `&date_direction=${date_direction}` : ""}`
+        `${baseUrl}/product/?${`limit=${
+          offset > 0 ? (offset + 1) * 10 : 10
+        }&`}${category ? `category=${category}&` : ""}${
+          date_from ? `date_from=${date_from}` : ""
+        }${search ? `&search=${search}` : ""}${
+          date_direction ? `&date_direction=${date_direction}` : ""
+        }`
       );
       return response.data.body;
     } catch (error) {
@@ -34,12 +36,18 @@ export const productSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(getProducts.pending, (state) => {
-        state.status = true;
+      .addCase(getProducts.pending, (state, action) => {
+        if (action?.payload?.offset > 1) {
+          state.status = false;
+        } else state.status = true;
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.status = false;
-        state.products = [...action.payload.products];
+        if (action.payload.offset > state.offset) {
+          state.products = [...state.products, ...action.payload.products];
+        } else {
+          state.products = [...action.payload.products];
+        }
         state.offset = action.payload.offset;
         state.total_pages = action.payload.total_pages;
       })
