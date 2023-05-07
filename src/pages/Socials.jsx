@@ -19,7 +19,7 @@ const Socials = () => {
       };
 
       dispatch(loginActionSocial(x));
-      setTimeout(() => navigate("/"), 2000);
+      setTimeout(() => navigate("/dashboard"), 2000);
     }
     //eslint-disable-next-line
   }, [accessToken, refreshToken]);

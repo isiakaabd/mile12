@@ -26,7 +26,7 @@ const AppRoutes = () => {
               ) : (
                 <>
                   <Route path="/home/*" index element={<UnRegisterRoute />} />
-                  <Route path="*" element={<Navigate to="/home" />} />
+                  <Route path="/*" element={<Navigate to="/home" />} />
                 </>
               )}
               <Route path="/auth/social" element={<Socials />} />

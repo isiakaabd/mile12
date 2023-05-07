@@ -13,15 +13,10 @@ const Home = () => {
     error: isError,
   } = useGetCategoriesQuery();
   const [page, setPage] = useState(1);
-  console.log(page);
+
   const dispatch = useDispatch();
   const [cat, setCat] = useState("");
-  const {
-    products,
-    status: load,
-    total_pages,
-    error,
-  } = useSelector(getAllProducts);
+  const { products, total_pages, error } = useSelector(getAllProducts);
   useEffect(() => {
     dispatch(
       getProducts({
