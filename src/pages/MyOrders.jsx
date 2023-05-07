@@ -68,8 +68,20 @@ export default MyOrders;
 const Order = ({ cart }) => {
   const { status, createdAt, cost, id, items } = cart;
   const theme = useTheme();
-  const product = items[0]?.product;
-  const img = JSON.parse(product?.images)[0];
+  const prod = items[0]?.product;
+  // console.log(items[]);
+  function isJsonString(str) {
+    try {
+      JSON.parse(str);
+    } catch (e) {
+      return false;
+    }
+    return true;
+  }
+  // console.log(isJsonString(prod?.images));
+  let imgs = isJsonString(prod?.images) ? JSON.parse(prod?.images) : [];
+  //  const img = JSON.parse(imgs[0]);
+  // console.log(imgs[0]);
   return (
     // <>
     //   {cart.items?.map((item, index) => (
@@ -122,7 +134,7 @@ const Order = ({ cart }) => {
           }}
         >
           <Avatar
-            src={getImage(img)}
+            src={getImage(imgs[0])}
             variant="square"
             sx={{
               width: "100%",
@@ -131,7 +143,7 @@ const Order = ({ cart }) => {
               borderRadius: 2,
               // : "100%",
             }}
-            alt={product?.name}
+            alt={prod?.name}
           />
         </ListItemAvatar>
         <ListItemText

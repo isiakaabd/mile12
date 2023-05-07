@@ -159,7 +159,7 @@ export default function PrimarySearchAppBar() {
               <Grid item sx={{ mr: { xs: "auto", md: 3 } }}>
                 <Avatar
                   component={Link}
-                  to={"/"}
+                  to={token ? "/dashboard" : "/"}
                   src={logo}
                   alt="MILE 12"
                   title="MILE 12"
