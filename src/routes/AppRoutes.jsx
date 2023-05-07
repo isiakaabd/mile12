@@ -7,6 +7,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import UnRegisterRoute from "./UnRegisterRoute";
 import H from "./H";
 import { AuthPage } from "./AuthPage";
+import { Socials } from "pages";
 
 const AppRoutes = () => {
   const { token } = useSelector((state) => state.auth);
@@ -28,6 +29,7 @@ const AppRoutes = () => {
                   <Route path="*" element={<Navigate to="/home" />} />
                 </>
               )}
+              <Route path="/auth/social" element={<Socials />} />
               <Route path="auth/*" element={<AuthPage />} />
             </Route>
           </Routes>

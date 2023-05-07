@@ -101,15 +101,17 @@ const CartsList = () => {
                 disabled={totalPayout === 0}
                 to={token ? "/checkout" : "/auth/login"}
               />
-              <Grid item ml="auto">
-                <Button
-                  sx={{ color: "red" }}
-                  startIcon={<DeleteOutlineOutlined />}
-                  onClick={() => setModalOpen(true)}
-                >
-                  Delete Cart
-                </Button>
-              </Grid>
+              {carts.length > 0 && (
+                <Grid item ml="auto">
+                  <Button
+                    sx={{ color: "red" }}
+                    startIcon={<DeleteOutlineOutlined />}
+                    onClick={() => setModalOpen(true)}
+                  >
+                    Delete Cart
+                  </Button>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>

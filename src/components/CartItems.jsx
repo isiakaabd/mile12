@@ -17,7 +17,6 @@ import { addToCart } from "redux/reducers/cartReducer";
 
 import { getImage } from "helpers";
 import HoverRating from "./Ratings";
-import Paginations from "./Paginations";
 import useInfiniteScroll from "react-infinite-scroll-hook";
 import { getAllProducts } from "redux/reducers/ProductReducers";
 
@@ -107,7 +106,7 @@ const CartItem = ({ item }) => {
   const image = JSON.parse(images);
   return (
     <Grid item>
-      <Card sx={{ width: "100%" }}>
+      <Card sx={{ width: "100%", height: "100%" }}>
         <CardActionArea
           component={Link}
           to={token ? `/products/${slug} ` : `/home/products/${slug}`}
