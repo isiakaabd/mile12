@@ -12,7 +12,11 @@ const Status = () => {
   const [searchParams] = useSearchParams();
   const handleClose = () => setOpen(false);
   useEffect(() => {
-    setTimeout(() => setOpen(true), 400);
+    setTimeout(() => {
+      localStorage.removeItem("carts");
+      localStorage.removeItem("totalPayout");
+      setOpen(true);
+    }, 400);
   }, []);
   const status = searchParams.get("status");
   const message = searchParams.get("message");
