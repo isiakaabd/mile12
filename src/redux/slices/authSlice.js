@@ -51,15 +51,13 @@ export const authSlice = apiSlice.injectEndpoints({
         url: "/auth/refresh-token",
         method: "POST",
       }),
-      extraOptions: (_, { getState }) => {
-        // get the new access token from the state
-        const newAccessToken = getState().auth.refreshToken;
-        console.log(newAccessToken);
-        console.log(getState());
-        console.log(_);
-        // pass the new token as an extra option ${newAccessToken}
-        return { headers: { Authorization: `Bearer 123` } };
-      },
+      // extraOptions: (_, { getState }) => {
+      // get the new access token from the state
+      // const newAccessToken = getState().auth.refreshToken;
+
+      // pass the new token as an extra option ${newAccessToken}
+      // return { headers: { Authorization: `Bearer 123` } };
+      // },
       // transformResponse: (response) => response.message,
       transformErrorResponse: (error) => error.data.message,
     }),

@@ -22,9 +22,7 @@ const baseQuery = fetchBaseQuery({
 
 const baseQuerywithAuth = async (args, api, extraOptions) => {
   let result = await baseQuery(args, api, extraOptions);
-  console.log(api);
-  console.log(result, "result");
-  console.log(extraOptions, "extraOptions");
+
   const newExtraOptions = {
     ...extraOptions,
     headers: {
@@ -33,8 +31,6 @@ const baseQuerywithAuth = async (args, api, extraOptions) => {
     },
   };
   if (result?.error?.status === 403) {
-    console.log(123, "result");
-    // api.dispatch("refreshToken");
     const refreshResult = await baseQuery(
       "/auth/refresh-token",
       // {
@@ -47,7 +43,7 @@ const baseQuerywithAuth = async (args, api, extraOptions) => {
       newExtraOptions
     );
     const token = refreshResult?.data?.accessToken;
-    console.log(refreshResult);
+    // console.log(refreshResult);
     if (token) {
       api.dispatch(getUserDetails(token));
       result = await baseQuery(args, api, newExtraOptions);
