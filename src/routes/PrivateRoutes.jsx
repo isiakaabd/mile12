@@ -16,6 +16,7 @@ const PrivateRoutes = () => {
   return (
     <Routes>
       <Route element={<MiniDrawer />}>
+        <Route path="/" index element={<Home />} />
         <Route path="dashboard" index element={<Home />} />
         <Route path="my-orders" element={<MyOrders />} />
         <Route path="my-orders/:id" element={<SingleOrder />} />
